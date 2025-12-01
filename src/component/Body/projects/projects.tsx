@@ -5,11 +5,7 @@ import { mogangProject } from "./data/mogangData";
 import { ProjectModal } from "./ProjectModal";
 import { varyRecycleProjects } from "./data/varyRecycle";
 
-const projects = [
-  ssangsangProjects,
-  mogangProject,
-  varyRecycleProjects,
-];
+const projects = [ssangsangProjects, mogangProject, varyRecycleProjects];
 
 const sectionHeaderBase =
   "flex flex-col gap-3 md:flex-row md:items-baseline md:justify-between mb-8";
@@ -32,7 +28,7 @@ const ProjectsSection: React.FC = () => {
     null
   );
 
-  const activeProject = projects.find((p: any) => p.id === activeId) || null;
+  const activeProject = projects.find((p) => p.id === activeId) || null;
 
   // 카드 → 모달로 확대되는 느낌을 위한 open 함수
   const openModal = (id: string, cardEl: HTMLElement) => {
@@ -106,7 +102,7 @@ const ProjectsSection: React.FC = () => {
         <div className="relative flex flex-col items-center">
           {/* --- 카드 수납장 영역 --- */}
           <div className="relative w-full max-w-3xl h-[260px] flex items-center justify-center mb-10">
-            {projects.map((project: any, idx: number) => {
+            {projects.map((project, idx: number) => {
               const offset = idx - focusedIndex;
               const absOffset = Math.abs(offset);
               const depth = projects.length;
@@ -169,7 +165,7 @@ const ProjectsSection: React.FC = () => {
                       ))}
                     </div>
                     <div className="flex gap-3 text-[11px] mt-1">
-                      {project.links.map((link: any) => (
+                      {project.links.map((link) => (
                         <a
                           key={link.label}
                           href={link.href}
@@ -196,7 +192,7 @@ const ProjectsSection: React.FC = () => {
 
             {/* 포인트들 */}
             <div className="absolute inset-x-0 -top-2 flex justify-between">
-              {projects.map((project: any, idx: number) => {
+              {projects.map((project, idx: number) => {
                 const isActive = idx === focusedIndex;
                 return (
                   <button
