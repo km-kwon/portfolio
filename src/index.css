@@ -1,0 +1,36 @@
+/* 예: src/styles/globals.css */
+
+/* active 카드에 걸릴 border + glow pulse */
+@keyframes borderPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.9);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.45);
+  }
+}
+
+/* 다크/라이트 모드 색감 보정은 Tailwind 변수에 맞춰서 조금씩 바꿔도 됨 */
+.animate-border-pulse {
+  animation: borderPulse 1.1s ease-out infinite;
+}
+
+/* 수납장에서 뽑힌 카드 & 나머지 카드 느낌 추가로 줄 수 있는 클래스들 */
+.stack-card-active {
+  /* hover 시 위로 튕기는 느낌 조금 더 강조 */
+  transition-property: transform, box-shadow, border-color, opacity, filter;
+}
+
+.stack-card-active:hover {
+  transform: translateY(-6px) scale(1.02);
+}
+
+.stack-card-muted {
+  /* 필요하면 살짝 desaturate 하는 필터 등 추가 가능 */
+}
