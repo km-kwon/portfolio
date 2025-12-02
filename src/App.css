@@ -57,6 +57,7 @@ body {
   background: var(--bg);
   color: var(--fg);
   min-height: 100vh;
+  min-width: 300px;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.3s ease, color 0.3s ease;
 }

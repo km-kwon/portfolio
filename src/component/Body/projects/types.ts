@@ -2,6 +2,7 @@
 export interface Project {
   id: string;
   title: string;
+  subTitle: string;
   subtitle?: string;
   summary: string;
   tags: string[];
@@ -9,6 +10,7 @@ export interface Project {
   period: string;
   team: string; // 예: "Frontend 2명, Backend 1명"
   overview: string;
+
 
   // 상세 섹션 데이터
   why?: { title: string; desc: string }[];

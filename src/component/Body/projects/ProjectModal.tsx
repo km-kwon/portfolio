@@ -17,7 +17,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
   return (
     <div
       className={
-        "fixed inset-0 z-40 flex items-center justify-center px-4 transition-opacity duration-200 " +
+        "fixed inset-0 z-[9999] flex items-center justify-center px-4 transition-opacity duration-200 " +
         (isVisible ? "opacity-100" : "opacity-0 pointer-events-none")
       }
     >

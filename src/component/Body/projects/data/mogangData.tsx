@@ -2,7 +2,8 @@ import type { Project } from "../types";
 
 export const mogangProject: Project = {
   id: "mogang",
-  title: "모강",
+  title: "모강(SW 강의용 다나와 서비스)",
+  subTitle: "모강",
   subtitle: "SW 강의용 다나와 서비스 (강의 비교 플랫폼)",
   summary:
     "수강하고 싶은 SW 강의를 선택하기 어려운 소비자들을 위해 1000+개의 강의 데이터를 수집·비교하는 플랫폼입니다. 2024학년도 후배들을 대상으로 배포하여 50+명의 긍정적인 반응을 얻었습니다.",

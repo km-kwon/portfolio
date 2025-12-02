@@ -3,6 +3,7 @@ import type { Project } from "../types";
 export const ssangsangProjects: Project = {
   id: "ssangsang",
   title: "쌍상 (봉사 매칭 서비스)",
+  subTitle: "쌍상",
   subtitle: "자원봉사자-수요자 매칭 크로스 플랫폼 웹앱",
   summary:
     "100+명의 동아리 회원이 사용하는 봉사 매칭 서비스. React 웹앱으로 개발하여 접근성을 높이고, 애자일 프로세스로 운영 중입니다.",

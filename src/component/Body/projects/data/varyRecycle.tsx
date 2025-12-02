@@ -3,6 +3,7 @@ import type { Project } from "../types";
 export const varyRecycleProjects: Project = {
   id: "vary-recycle",
   title: "Vary Recycle (분리수거 리워드 서비스)",
+  subTitle: "Vary Recycle",
   subtitle:
     "Google 기술 기반, 분리수거 인식 및 리워드 제공 환경 문제 해결 서비스",
   summary:

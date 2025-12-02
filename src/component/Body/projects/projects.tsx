@@ -17,42 +17,45 @@ const sectionSubTitleClass = "text-[13px] text-fg-muted leading-relaxed";
 const pillClass =
   "text-[11px] px-2.5 py-1.5 rounded-full bg-(--bg-soft) border border-(--border-subtle) text-fg-muted";
 
+// ➜ 이제는 baseX/baseY를 안 들고 있고, 랜덤 흔들림만 저장
 type CardLayout = {
-  baseX: number;
-  baseY: number;
+  jitterX: number;
+  jitterY: number;
   baseRotate: number;
 };
 
 const ProjectsSection: React.FC = () => {
-  // 타임라인/hover로 어떤 프로젝트가 선택됐는지
   const [focusedIndex, setFocusedIndex] = useState(0);
 
-  // 모달 전용 상태
   const [activeId, setActiveId] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [fromOffset, setFromOffset] = useState<{ x: number; y: number } | null>(
     null
   );
 
-  // 🎴 카드 레이아웃: “섞여 있는 덱” 느낌 + 좌우로 넓게 퍼지도록
-  const [cardLayouts] = useState<CardLayout[]>(() => {
-    const middle = (projects.length - 1) / 2;
-    
-    const baseSpread = 200; // 카드 간 기본 간격(px) – 좌우로 넓게 하려면 값 크게
+  // 🎴 카드 레이아웃: 랜덤 섞임(한 번만 생성)
+  const [cardLayouts] = useState<CardLayout[]>(() =>
+    projects.map(() => ({
+      jitterX: Math.random() * 20 - 15, // -20 ~ 20
+      jitterY: Math.random() * 30 - 15, // -15 ~ 15
+      baseRotate: Math.random() * 16 - 8, // -8° ~ 8°
+    }))
+  );
 
-    return projects.map((_, idx) => {
-      const centerOffset = (idx - middle) * baseSpread; // 좌우 기본 위치
-      const jitterX = Math.random() * 30 - 30; // -15 ~ 15 (살짝 섞이게)
-      const jitterY = Math.random() * 30 - 15; // -15 ~ 15
-      const baseRotate = Math.random() * 16 - 8; // -8° ~ 8°
+  // 📏 뷰포트 너비를 추적해서, 화면이 줄어들면 spread를 자동으로 줄이기
+  const [viewportWidth, setViewportWidth] = useState<number | null>(null);
 
-      return {
-        baseX: centerOffset + jitterX,
-        baseY: jitterY,
-        baseRotate,
-      };
-    });
-  });
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    handleResize(); // 초기 한 번
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const activeProject = projects.find((p) => p.id === activeId) || null;
 
@@ -110,6 +113,18 @@ const ProjectsSection: React.FC = () => {
     };
   }, [activeProject]);
 
+  // 📐 화면 크기에 따른 baseSpread 계산 (대충 감성 튜닝값)
+  const getBaseSpread = () => {
+    if (!viewportWidth) return 140;
+
+    const base = viewportWidth / (projects.length + 1); // 화면 폭 / 카드 수
+    return Math.min(180, Math.max(70, base * 0.8));
+  };
+
+
+  const baseSpread = getBaseSpread();
+  const middle = (projects.length - 1) / 2;
+
   return (
     <>
       <section id="projects" className="mb-16">
@@ -119,30 +134,34 @@ const ProjectsSection: React.FC = () => {
             <h2 className={sectionTitleClass}>주요 프로젝트</h2>
           </div>
           <p className={sectionSubTitleClass}>
-            아래 포인트를 hover하면 위의 카드 더미에서 해당 프로젝트 카드가
-            살짝 앞으로 튀어나옵니다. 카드를 클릭하면 상세 모달을 볼 수 있어요.
+            아래 포인트나 카드를 클릭하면 상세 모달을 볼 수 있습니다.
           </p>
         </div>
 
         {/* 수납장 + 타임라인 래퍼 */}
         <div className="relative flex flex-col items-center">
           {/* 🎴 무작위 섞인 카드 영역 */}
-          <div className="relative w-full max-w-5xl h-[260px] flex items-center justify-center mb-10">
+          <div className="relative w-full max-w-5xl h-[260px] flex items-center justify-center mb-10 overflow-visible">
             {projects.map((project, idx) => {
               const layout = cardLayouts[idx];
               const isActive = idx === focusedIndex;
 
+              // 🧮 화면 폭에 따른 centerOffset + 랜덤 흔들림
+              const centerOffset = (idx - middle) * baseSpread;
+              const baseX = centerOffset + layout.jitterX;
+              const baseY = layout.jitterY;
+
               // 정수 좌표 → 폰트 또렷하게
-              const translateX = Math.round(layout.baseX);
-              const translateY = Math.round(layout.baseY + (isActive ? -10 : 6));
+              const translateX = Math.round(baseX);
+              const translateY = Math.round(baseY + (isActive ? -10 : 6));
 
               // 활성 카드는 회전 없이 / 살짝 확대
               const transform = isActive
                 ? `translateX(${translateX}px) translateY(${translateY}px) scale(1.05)`
                 : `translateX(${translateX}px) translateY(${translateY}px) rotate(${layout.baseRotate}deg) scale(0.96)`;
 
-              // 🎯 z-index: 프로젝트 순서대로 쌓이고, 포커스된 카드만 맨 위
-              const zIndex = isActive ? 999 : 100 + idx; // idx 큰 카드가 더 위
+              // z-index: 프로젝트 순서대로 쌓이고, 포커스된 카드만 맨 위
+              const zIndex = isActive ? 999 : 100 + idx;
 
               const opacity = isActive ? 1 : 0.8;
               const filter = isActive ? "none" : "blur(0.8px)";
@@ -150,8 +169,10 @@ const ProjectsSection: React.FC = () => {
               return (
                 <article
                   key={project.id}
+                  data-project-id={project.id}   // ⬅⬅ 이 줄 추가
                   className={[
-                    "group absolute w-full max-w-[320px]",
+                    "group absolute w-full",
+                    "max-w-[260px] sm:max-w-[300px] lg:max-w-[320px]", // 🔥 폭을 화면 크기에 따라 줄이기
                     "rounded-2xl bg-(--bg-elevated)",
                     "shadow-[0_16px_36px_rgba(0,0,0,0.55)]",
                     "[html[data-theme='light']_&]:shadow-[0_10px_24px_rgba(0,0,0,0.12)]",
@@ -180,7 +201,7 @@ const ProjectsSection: React.FC = () => {
                   }}
                   role="button"
                 >
-                  <div className="p-5 text-[13px] text-fg-muted leading-[1.6] bg-gradient-to-br from-(--bg-elevated) to-(--bg-soft)">
+                  <div className="p-4 text-[13px] text-fg-muted leading-[1.6] bg-gradient-to-br from-(--bg-elevated) to-(--bg-soft)">
                     <h3 className="text-[14px] font-medium text-fg mb-1.5">
                       {project.title}
                     </h3>
@@ -224,13 +245,32 @@ const ProjectsSection: React.FC = () => {
             <div className="absolute inset-x-0 -top-2 flex justify-between">
               {projects.map((project, idx: number) => {
                 const isActive = idx === focusedIndex;
+
+                const handlePointActivate = () => {
+                  setFocusedIndex(idx);
+
+                  const cardEl = document.querySelector<HTMLElement>(
+                    `[data-project-id="${project.id}"]`
+                  );
+                  if (cardEl) {
+                    openModal(project.id, cardEl);
+                  }
+                };
+
                 return (
                   <button
                     key={project.id}
                     type="button"
-                    className="relative flex flex-col items-center outline-none"
+                    className="relative flex flex-col cursor-pointer items-center outline-none"
                     onMouseEnter={() => setFocusedIndex(idx)}
                     onFocus={() => setFocusedIndex(idx)}
+                    onClick={handlePointActivate}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        handlePointActivate();
+                      }
+                    }}
                   >
                     {/* 작은 깜빡이는 segment (선 하이라이트) */}
                     <span
@@ -254,11 +294,12 @@ const ProjectsSection: React.FC = () => {
 
                     {/* 라벨 (축약 title) */}
                     <span className="mt-1 text-[10px] text-fg-muted max-w-[80px] text-center line-clamp-2">
-                      {project.title}
+                      {project.subTitle}
                     </span>
                   </button>
                 );
               })}
+
             </div>
           </div>
         </div>
