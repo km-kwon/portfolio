@@ -17,16 +17,42 @@ const sectionSubTitleClass = "text-[13px] text-fg-muted leading-relaxed";
 const pillClass =
   "text-[11px] px-2.5 py-1.5 rounded-full bg-(--bg-soft) border border-(--border-subtle) text-fg-muted";
 
+type CardLayout = {
+  baseX: number;
+  baseY: number;
+  baseRotate: number;
+};
+
 const ProjectsSection: React.FC = () => {
-  // 아래 포인트에서 어떤 프로젝트가 선택/hover 됐는지
+  // 타임라인/hover로 어떤 프로젝트가 선택됐는지
   const [focusedIndex, setFocusedIndex] = useState(0);
 
-  // 모달 전용 상태 (클릭했을 때만 열림)
+  // 모달 전용 상태
   const [activeId, setActiveId] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [fromOffset, setFromOffset] = useState<{ x: number; y: number } | null>(
     null
   );
+
+  // 🎴 카드 레이아웃: “섞여 있는 덱” 느낌 + 좌우로 넓게 퍼지도록
+  const [cardLayouts] = useState<CardLayout[]>(() => {
+    const middle = (projects.length - 1) / 2;
+    
+    const baseSpread = 200; // 카드 간 기본 간격(px) – 좌우로 넓게 하려면 값 크게
+
+    return projects.map((_, idx) => {
+      const centerOffset = (idx - middle) * baseSpread; // 좌우 기본 위치
+      const jitterX = Math.random() * 30 - 30; // -15 ~ 15 (살짝 섞이게)
+      const jitterY = Math.random() * 30 - 15; // -15 ~ 15
+      const baseRotate = Math.random() * 16 - 8; // -8° ~ 8°
+
+      return {
+        baseX: centerOffset + jitterX,
+        baseY: jitterY,
+        baseRotate,
+      };
+    });
+  });
 
   const activeProject = projects.find((p) => p.id === activeId) || null;
 
@@ -93,48 +119,52 @@ const ProjectsSection: React.FC = () => {
             <h2 className={sectionTitleClass}>주요 프로젝트</h2>
           </div>
           <p className={sectionSubTitleClass}>
-            아래 포인트를 hover하면 위의 “수납장”에서 해당 프로젝트 카드가 뽑혀
-            나옵니다. 카드를 클릭하면 상세 모달을 볼 수 있어요.
+            아래 포인트를 hover하면 위의 카드 더미에서 해당 프로젝트 카드가
+            살짝 앞으로 튀어나옵니다. 카드를 클릭하면 상세 모달을 볼 수 있어요.
           </p>
         </div>
 
         {/* 수납장 + 타임라인 래퍼 */}
         <div className="relative flex flex-col items-center">
-          {/* --- 카드 수납장 영역 --- */}
-          <div className="relative w-full max-w-3xl h-[260px] flex items-center justify-center mb-10">
-            {projects.map((project, idx: number) => {
-              const offset = idx - focusedIndex;
-              const absOffset = Math.abs(offset);
-              const depth = projects.length;
-
-              // 수납장 느낌: 인덱스 차이에 따라 살짝씩 밀고, 아래로 내리고, scale 줄이기
-              const translateX = offset * 18; // 좌우 밀림
-              const translateY =
-                absOffset * 10 + (idx !== focusedIndex ? 14 : 0); // 아래로
-              const scale = 1 - absOffset * 0.04;
-              const opacity = idx === focusedIndex ? 1 : 0.45;
-              const blur = idx === focusedIndex ? "none" : "blur(1px)";
-
+          {/* 🎴 무작위 섞인 카드 영역 */}
+          <div className="relative w-full max-w-5xl h-[260px] flex items-center justify-center mb-10">
+            {projects.map((project, idx) => {
+              const layout = cardLayouts[idx];
               const isActive = idx === focusedIndex;
+
+              // 정수 좌표 → 폰트 또렷하게
+              const translateX = Math.round(layout.baseX);
+              const translateY = Math.round(layout.baseY + (isActive ? -10 : 6));
+
+              // 활성 카드는 회전 없이 / 살짝 확대
+              const transform = isActive
+                ? `translateX(${translateX}px) translateY(${translateY}px) scale(1.05)`
+                : `translateX(${translateX}px) translateY(${translateY}px) rotate(${layout.baseRotate}deg) scale(0.96)`;
+
+              // 🎯 z-index: 프로젝트 순서대로 쌓이고, 포커스된 카드만 맨 위
+              const zIndex = isActive ? 999 : 100 + idx; // idx 큰 카드가 더 위
+
+              const opacity = isActive ? 1 : 0.8;
+              const filter = isActive ? "none" : "blur(0.8px)";
 
               return (
                 <article
                   key={project.id}
                   className={[
-                    "group absolute w-full max-w-[420px]",
-                    "rounded-3xl bg-(--bg-elevated)",
-                    "shadow-[0_18px_40px_rgba(0,0,0,0.55)]",
+                    "group absolute w-full max-w-[320px]",
+                    "rounded-2xl bg-(--bg-elevated)",
+                    "shadow-[0_16px_36px_rgba(0,0,0,0.55)]",
                     "[html[data-theme='light']_&]:shadow-[0_10px_24px_rgba(0,0,0,0.12)]",
                     "border border-(--border-subtle)",
                     "cursor-pointer overflow-hidden",
                     "transition-all duration-250 ease-out",
-                    isActive ? "stack-card-active" : "stack-card-muted",
+                    isActive ? "ring-2 ring-(--accent)" : "ring-0",
                   ].join(" ")}
                   style={{
-                    zIndex: depth - absOffset,
-                    transform: `translateX(${translateX}px) translateY(${translateY}px) scale(${scale})`,
+                    zIndex,
+                    transform,
                     opacity,
-                    filter: blur,
+                    filter,
                   }}
                   onClick={(e) =>
                     openModal(project.id, e.currentTarget as HTMLElement)
@@ -150,7 +180,7 @@ const ProjectsSection: React.FC = () => {
                   }}
                   role="button"
                 >
-                  <div className="p-5 text-[13px] text-fg-muted leading-[1.6]">
+                  <div className="p-5 text-[13px] text-fg-muted leading-[1.6] bg-gradient-to-br from-(--bg-elevated) to-(--bg-soft)">
                     <h3 className="text-[14px] font-medium text-fg mb-1.5">
                       {project.title}
                     </h3>
