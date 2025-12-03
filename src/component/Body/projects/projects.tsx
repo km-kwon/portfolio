@@ -1,12 +1,14 @@
 // src/ProjectsSection.tsx
 import React, { useEffect, useState } from "react";
-import { ssangsangProjects } from "./data/ssang-sangData";
-import { mogangProject } from "./data/mogangData";
 import { ProjectModal } from "./ProjectModal";
-import { varyRecycleProjects } from "./data/varyRecycle";
 
-const projects = [ssangsangProjects, mogangProject, varyRecycleProjects];
 
+const modules = import.meta.glob('./data/*.tsx', { eager: true });
+
+const projects = Object.values(modules).map((m: any) => {
+  // 각 module이 export default 또는 named export일 경우 처리
+  return m.default ?? Object.values(m)[0];
+});
 const sectionHeaderBase =
   "flex flex-col gap-3 md:flex-row md:items-baseline md:justify-between mb-8";
 
@@ -38,7 +40,7 @@ const ProjectsSection: React.FC = () => {
     projects.map(() => ({
       jitterX: Math.random() * 20 - 15, // -20 ~ 20
       jitterY: Math.random() * 30 - 15, // -15 ~ 15
-      baseRotate: Math.random() * 16 - 8, // -8° ~ 8°
+      baseRotate: Math.random() * 16 - 10, // -8° ~ 8°
     }))
   );
 
