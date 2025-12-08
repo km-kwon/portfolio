@@ -1,7 +1,9 @@
 import type { Project } from "../../types";
+import banner from "./banner.png";
 
-export const reviewAnalysisProject: Project = {
-    id: "review-analysis",
+export const llmProject: Project = {
+    id: "llm-lstm-bert",
+    banner,
     title: "리뷰 왓수다 (감성 분석 & 평점 예측)",
     subTitle: '리뷰 왓수다',
     subtitle: "SNS/포털 영화 리뷰 감성 분석 및 평점 예측 AI 서비스",

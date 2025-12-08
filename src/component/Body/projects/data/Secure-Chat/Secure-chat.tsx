@@ -1,7 +1,9 @@
 import type { Project } from "../../types";
+import banner from "./banner.png";
 
 export const secureChatProject: Project = {
     id: "secure-chat",
+    banner,
     title: "Secure Chat (보안 채팅 프로그램)",
     subTitle: 'Secure-Chat',
     subtitle: "Java Socket & RSA/AES 하이브리드 암호화 메신저",

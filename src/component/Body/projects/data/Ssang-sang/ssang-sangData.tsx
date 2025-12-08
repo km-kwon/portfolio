@@ -1,7 +1,9 @@
-import type { Project } from "../types";
+import type { Project } from "../../types";
+import banner from "./banner.png";
 
 export const ssangsangProjects: Project = {
   id: "ssangsang",
+  banner,
   title: "쌍상 (봉사 매칭 서비스)",
   subTitle: "쌍상",
   subtitle: "자원봉사자-수요자 매칭 크로스 플랫폼 웹앱",

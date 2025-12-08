@@ -1,7 +1,9 @@
 import type { Project } from "../../types";
+import banner from "./banner.png";
 
-export const ftpServerProject: Project = {
-    id: "ftp-server",
+export const p2pProject: Project = {
+    id: "p2p-service",
+    banner,
     title: "Multi-Client FTP Server",
     subTitle: 'P2P Service',
     subtitle: "리눅스 시스템 콜 기반의 동시성 파일 전송 서버",

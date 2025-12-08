@@ -1,7 +1,9 @@
 import type { Project } from "../../types";
+import banner from "./banner.png";
 
 export const varyRecycleProjects: Project = {
   id: "vary-recycle",
+  banner,
   title: "Vary Recycle (분리수거 리워드 서비스)",
   subTitle: "Vary Recycle",
   subtitle:

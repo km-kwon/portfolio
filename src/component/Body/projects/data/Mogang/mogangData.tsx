@@ -1,7 +1,9 @@
 import type { Project } from "../../types";
+import banner from "./banner.png";
 
 export const mogangProject: Project = {
   id: "mogang",
+  banner,
   title: "모강(SW 강의용 다나와 서비스)",
   subTitle: "모강",
   subtitle: "SW 강의용 다나와 서비스 (강의 비교 플랫폼)",

@@ -10,6 +10,7 @@ export interface Project {
   period: string;
   team: string; // 예: "Frontend 2명, Backend 1명"
   overview: string;
+  banner?: string;
 
 
   // 상세 섹션 데이터

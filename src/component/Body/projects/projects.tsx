@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { ProjectModal } from "./ProjectModal";
 
 
-const modules = import.meta.glob('./data/*.tsx', { eager: true });
+const modules = import.meta.glob('./data/**/*.tsx', { eager: true });
 
 const projects = Object.values(modules).map((m: any) => {
   // 각 module이 export default 또는 named export일 경우 처리
@@ -181,7 +181,13 @@ const ProjectsSection: React.FC = () => {
                     "border border-(--border-subtle)",
                     "cursor-pointer overflow-hidden",
                     "transition-all duration-250 ease-out",
-                    isActive ? "ring-2 ring-(--accent)" : "ring-0",
+                    isActive
+                      ? [
+                        "ring-2 ring-(--accent)",
+                        "ring-offset-2",
+                        "ring-offset-[color:var(--bg-soft)]", // 🔧 라이트 모드에서 테두리 판
+                      ].join(" ")
+                      : "ring-0",
                   ].join(" ")}
                   style={{
                     zIndex,
@@ -203,13 +209,57 @@ const ProjectsSection: React.FC = () => {
                   }}
                   role="button"
                 >
-                  <div className="p-4 text-[13px] text-fg-muted leading-[1.6] bg-gradient-to-br from-(--bg-elevated) to-(--bg-soft)">
-                    <h3 className="text-[14px] font-medium text-fg mb-1.5">
+                  {project.banner && (
+                    <div
+                      className={[
+                        "absolute inset-0 z-0 pointer-events-none",
+                        "transition-all duration-200",
+                        isActive ? "opacity-20" : "opacity-40", // 🔧 활성일 때 살짝 더 어둡게
+                      ].join(" ")}
+                    >
+                      <img
+                        src={project.banner}
+                        alt=""
+                        className="w-full h-full object-cover grayscale-[30%]"
+                      />
+                      {/* 🔧 활성일 때는 아래쪽 그라디언트를 좀 더 진하게 */}
+                      <div
+                        className={[
+                          "absolute inset-0 bg-gradient-to-t to-transparent transition-colors duration-200",
+                          isActive
+                            ? "from-[color:rgba(0,0,0,0.6)] [html[data-theme='light']_&]:from-[color:rgba(0,0,0,0.52)]"
+                            : "from-[color:rgba(0,0,0,0.35)] [html[data-theme='light']_&]:from-[color:rgba(0,0,0,0.3)]",
+                        ].join(" ")}
+                      />
+                    </div>
+                  )}
+
+                  <div className="relative z-10 p-4 text-[13px] text-fg-muted leading-[1.6]">
+                    <h3
+                      className={[
+                        "mb-1.5",
+                        "text-fg",
+                        "transition-all duration-200",          // 부드럽게 변하도록
+                        isActive
+                          ? "text-[15px] font-semibold tracking-[0.02em]"
+                          : "text-[14px] font-medium tracking-[0.01em]",
+                      ].join(" ")}
+                    >
                       {project.title}
                     </h3>
-                    <p className="text-[12px] mb-2.5 line-clamp-2">
+
+                    <p
+                      className={[
+                        "transition-all duration-200",
+                        "text-[12px] mb-2.5 line-clamp-2",
+                        isActive
+                          ? "text-fg opacity-100"          // 활성: 더 진하게/선명하게
+                          : "text-fg-muted opacity-80",    // 비활성: 살짝 흐리게
+                      ].join(" ")}
+                    >
                       {project.summary}
                     </p>
+
                     <div className="flex flex-wrap gap-1.5 mb-2.5">
                       {project.tags.slice(0, 6).map((t: string) => (
                         <span key={t} className={pillClass}>

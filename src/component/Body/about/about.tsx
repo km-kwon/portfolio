@@ -37,7 +37,7 @@ const AboutSection: React.FC = () => {
         <div className={cardBase}>
           <div className="flex items-center justify-between gap-2 mb-2">
             <h3 className="text-[15px] font-bold">
-              가치관: 안전한 혁신 (Safe Innovation)
+              안전한 혁신 (Safe Innovation)
             </h3>
           </div>
           <div className="text-[13px] text-fg-muted leading-[1.7]">
