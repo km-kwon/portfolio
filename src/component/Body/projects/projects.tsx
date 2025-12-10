@@ -1,6 +1,9 @@
 // src/ProjectsSection.tsx
 import React, { useEffect, useState } from "react";
 import { ProjectModal } from "./ProjectModal";
+import CircularProgress from "../../common/CircularProgress";
+
+const AUTO_SLIDE_DURATION = 3000; // 자동 슬라이드 지속 시간 (ms)
 
 
 const modules = import.meta.glob('./data/**/*.tsx', { eager: true });
@@ -28,12 +31,24 @@ type CardLayout = {
 
 const ProjectsSection: React.FC = () => {
   const [focusedIndex, setFocusedIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false); // 자동 슬라이드 일시정지 여부
 
   const [activeId, setActiveId] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [fromOffset, setFromOffset] = useState<{ x: number; y: number } | null>(
     null
   );
+
+  // 🎠 자동 슬라이드: 3초마다 다음 카드로 이동
+  useEffect(() => {
+    if (isPaused || activeId) return; // 일시정지 중이거나 모달 열려있으면 중지
+
+    const interval = setInterval(() => {
+      setFocusedIndex((prev) => (prev + 1) % projects.length);
+    }, AUTO_SLIDE_DURATION);
+
+    return () => clearInterval(interval);
+  }, [isPaused, activeId]);
 
   // 🎴 카드 레이아웃: 랜덤 섞임(한 번만 생성)
   const [cardLayouts] = useState<CardLayout[]>(() =>
@@ -143,7 +158,11 @@ const ProjectsSection: React.FC = () => {
         {/* 수납장 + 타임라인 래퍼 */}
         <div className="relative flex flex-col items-center">
           {/* 🎴 무작위 섞인 카드 영역 */}
-          <div className="relative w-full max-w-5xl h-[260px] flex items-center justify-center mb-10 overflow-visible">
+          <div
+            className="relative w-full max-w-5xl h-[260px] flex items-center justify-center mb-10 overflow-visible"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
             {projects.map((project, idx) => {
               const layout = cardLayouts[idx];
               const isActive = idx === focusedIndex;
@@ -289,7 +308,11 @@ const ProjectsSection: React.FC = () => {
           </div>
 
           {/* --- 아래 가로선 + 포인트 --- */}
-          <div className="relative w-full max-w-3xl">
+          <div
+            className="relative w-full max-w-3xl"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
             {/* 기본 가로선 */}
             <div className="h-px w-full bg-(--border-subtle) opacity-70" />
 
@@ -333,15 +356,13 @@ const ProjectsSection: React.FC = () => {
                       ].join(" ")}
                     />
 
-                    {/* 점 */}
-                    <span
-                      className={[
-                        "w-3 h-3 rounded-full border",
-                        "transition-all duration-200 ease-out",
-                        isActive
-                          ? "bg-(--accent) border-(--accent) shadow-[0_0_0_4px_rgba(255,255,255,0.18)]"
-                          : "bg-(--bg-elevated) border-(--border-subtle)",
-                      ].join(" ")}
+                    {/* 원형 프로그레스 인디케이터 */}
+                    <CircularProgress
+                      isActive={isActive}
+                      isPaused={isPaused}
+                      duration={AUTO_SLIDE_DURATION}
+                      size={16}
+                      strokeWidth={2}
                     />
 
                     {/* 라벨 (축약 title) */}

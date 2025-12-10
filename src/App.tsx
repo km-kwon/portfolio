@@ -9,6 +9,7 @@ import ExperienceSection from "./component/Body/experience/experience";
 import ContactSection from "./component/Body/contactSection/contactSections";
 import Footer from "./component/Footer/footer";
 import { WorkerLab } from "./component/Body/labs/labs";
+import ActivitySection from "./component/Body/activity/activity";
 
 type Theme = "light" | "dark";
 
@@ -79,11 +80,14 @@ const App: React.FC = () => {
         {/* SKILLS */}
         <SkillsSection />
 
-        {/* LABS */}
-        <WorkerLab />
+        {/* ACTIVITY */}
+        <ActivitySection />
 
         {/* PROJECTS */}
         <ProjectsSection />
+
+        {/* LABS */}
+        <WorkerLab />
 
         {/* EXPERIENCE */}
         <ExperienceSection />
