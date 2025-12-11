@@ -32,6 +32,7 @@ type CardLayout = {
 const ProjectsSection: React.FC = () => {
   const [focusedIndex, setFocusedIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false); // 자동 슬라이드 일시정지 여부
+  const [isMobile, setIsMobile] = useState(false); // 모바일 여부
 
   const [activeId, setActiveId] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -66,7 +67,11 @@ const ProjectsSection: React.FC = () => {
     if (typeof window === "undefined") return;
 
     const handleResize = () => {
-      setViewportWidth(window.innerWidth);
+      const width = window.innerWidth;
+      const mobile = width < 768;
+      console.log('Projects resize:', { width, mobile }); // 디버깅
+      setViewportWidth(width);
+      setIsMobile(mobile);
     };
 
     handleResize(); // 초기 한 번
@@ -155,14 +160,134 @@ const ProjectsSection: React.FC = () => {
           </p>
         </div>
 
-        {/* 수납장 + 타임라인 래퍼 */}
-        <div className="relative flex flex-col items-center">
-          {/* 🎴 무작위 섞인 카드 영역 */}
+        {/* 레이아웃: 모바일 = 가로 슬라이더, 데스크탑 = 수납장 */}
+        {isMobile ? (
+          // ====================== 📱 모바일: 가로 슬라이더 ======================
           <div
-            className="relative w-full max-w-5xl h-[260px] flex items-center justify-center mb-10 overflow-visible"
+            className="flex flex-col gap-6"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
           >
+            {/* 카드 슬라이더 */}
+            <div className="w-full overflow-hidden">
+              <div
+                className="flex w-full transition-transform duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)] will-change-transform"
+                style={{
+                  transform: `translate3d(-${focusedIndex * 100}%, 0, 0)`,
+                }}
+              >
+                {projects.map((project) => (
+                  <div
+                    key={project.id}
+                    className="w-full shrink-0 flex justify-center px-3"
+                  >
+                    <article
+                      data-project-id={project.id}
+                      className="w-full max-w-3xl rounded-2xl bg-(--bg-elevated) shadow-[0_16px_36px_rgba(0,0,0,0.55)] [html[data-theme='light']_&]:shadow-[0_10px_24px_rgba(0,0,0,0.12)] border border-(--border-subtle) cursor-pointer overflow-hidden"
+                      onClick={(e) =>
+                        openModal(project.id, e.currentTarget as HTMLElement)
+                      }
+                    >
+                      {project.banner && (
+                        <div className="relative w-full h-32 overflow-hidden">
+                          <img
+                            src={project.banner}
+                            alt=""
+                            className="w-full h-full object-cover grayscale-[30%]"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-[color:rgba(0,0,0,0.6)] to-transparent" />
+                        </div>
+                      )}
+
+                      <div className="relative z-10 p-4 text-[13px] text-fg-muted leading-[1.6]">
+                        <h3 className="mb-1.5 text-fg text-[15px] font-semibold tracking-[0.02em]">
+                          {project.title}
+                        </h3>
+
+                        <p className="text-[12px] mb-2.5 line-clamp-2 text-fg opacity-100">
+                          {project.summary}
+                        </p>
+
+                        <div className="flex flex-wrap gap-1.5 mb-2.5">
+                          {project.tags.slice(0, 6).map((t: string) => (
+                            <span key={t} className={pillClass}>
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                        <div className="flex gap-3 text-[11px] mt-1">
+                          {project.links.map((link) => (
+                            <a
+                              key={link.label}
+                              href={link.href}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center gap-1 text-fg-muted hover:text-fg hover:-translate-y-px transition-all duration-150 ease-out"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <span>{link.label}</span>
+                              <span>↗</span>
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 아래 가로선 + 포인트 */}
+            <div className="relative mt-2 flex justify-center w-full px-3 overflow-visible min-h-[60px]">
+              <div className="h-px w-full max-w-3xl bg-(--border-subtle) opacity-70" />
+
+              <div className="absolute inset-x-0 -top-2 flex justify-between max-w-3xl mx-auto px-4 sm:px-6">
+                {projects.map((project, idx) => {
+                  const isActive = idx === focusedIndex;
+
+                  return (
+                    <button
+                      key={project.id}
+                      type="button"
+                      className="relative flex flex-col items-center outline-none cursor-pointer shrink-0"
+                      onMouseEnter={() => setFocusedIndex(idx)}
+                      onClick={() => setFocusedIndex(idx)}
+                      aria-label={`${project.title}로 이동`}
+                    >
+                      <span
+                        className={[
+                          "mb-1 h-[3px] w-5 sm:w-7 rounded-full",
+                          "bg-(--border-subtle)",
+                          isActive ? "animate-border-pulse" : "opacity-40",
+                        ].join(" ")}
+                      />
+
+                      <CircularProgress
+                        isActive={isActive}
+                        isPaused={isPaused}
+                        duration={AUTO_SLIDE_DURATION}
+                        size={16}
+                        strokeWidth={2}
+                      />
+
+                      <span className="mt-1 text-[9px] sm:text-[10px] text-fg-muted max-w-[60px] sm:max-w-[80px] text-center line-clamp-2">
+                        {project.subTitle}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        ) : (
+          // ====================== 💻 데스크탑: 수납장 스타일 ======================
+          <div className="relative flex flex-col items-center">
+            {/* 🎴 무작위 섞인 카드 영역 */}
+            <div
+              className="relative w-full max-w-5xl h-[260px] flex items-center justify-center mb-10 overflow-visible"
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+            >
             {projects.map((project, idx) => {
               const layout = cardLayouts[idx];
               const isActive = idx === focusedIndex;
@@ -375,7 +500,8 @@ const ProjectsSection: React.FC = () => {
 
             </div>
           </div>
-        </div>
+          </div>
+        )}
       </section>
 
       {activeProject && (
