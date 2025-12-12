@@ -1,5 +1,6 @@
 // src/Header.tsx
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 
 type Theme = "light" | "dark";
 
@@ -14,6 +15,9 @@ const Header: React.FC<HeaderProps> = ({
   onToggleTheme,
   onNavClick,
 }) => {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+
   const navItems: { id: string; label: string }[] = [
     { id: "about", label: "About" },
     { id: "skills", label: "Skills" },
@@ -37,7 +41,25 @@ const Header: React.FC<HeaderProps> = ({
 
         {/* CENTER NAV */}
         <nav className="hidden md:flex items-center gap-4 text-[13px]">
-          {navItems.map(({ id, label }) => (
+          <Link
+            to="/"
+            className={`px-2.5 py-1.5 rounded-full text-[13px] border border-transparent cursor-pointer
+                       transition-all duration-150 ease-out
+                       hover:text-fg hover:bg-white/5 hover:border-white/10 hover:-translate-y-px
+                       ${isHomePage ? "text-fg" : "text-fg-muted"}`}
+          >
+            Home
+          </Link>
+          <Link
+            to="/blog"
+            className={`px-2.5 py-1.5 rounded-full text-[13px] border border-transparent cursor-pointer
+                       transition-all duration-150 ease-out
+                       hover:text-fg hover:bg-white/5 hover:border-white/10 hover:-translate-y-px
+                       ${location.pathname === "/blog" ? "text-fg" : "text-fg-muted"}`}
+          >
+            Blog
+          </Link>
+          {isHomePage && navItems.map(({ id, label }) => (
             <button
               key={id}
               className="px-2.5 py-1.5 rounded-full text-[13px] text-fg-muted border border-transparent cursor-pointer

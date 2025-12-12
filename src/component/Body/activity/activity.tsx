@@ -232,10 +232,6 @@ const ActivitySection: React.FC = () => {
                           size={18}
                           strokeWidth={2}
                         />
-
-                        {!isActive && (
-                          <div className="w-1.5 h-1.5 rounded-full bg-(--border-subtle) group-hover/point:bg-fg-muted transition-colors" />
-                        )}
                       </div>
 
                       {/* 라벨 */}

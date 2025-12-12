@@ -1,15 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./component/Header/header";
-import HeroSection from "./component/Body/heroSection/heroSection";
-import AboutSection from "./component/Body/about/about";
-import SkillsSection from "./component/Body/skills/skills";
-import ProjectsSection from "./component/Body/projects/projects";
-import ExperienceSection from "./component/Body/experience/experience";
-import ContactSection from "./component/Body/contactSection/contactSections";
 import Footer from "./component/Footer/footer";
-import { WorkerLab } from "./component/Body/labs/labs";
-import ActivitySection from "./component/Body/activity/activity";
+import HomePage from "./pages/HomePage";
+import BlogPage from "./pages/BlogPage";
 
 type Theme = "light" | "dark";
 
@@ -61,7 +56,7 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <BrowserRouter>
       {/* 헤더 */}
       <Header
         theme={theme}
@@ -69,36 +64,15 @@ const App: React.FC = () => {
         onNavClick={handleScrollTo}
       />
 
-      {/* 메인 컨테이너 */}
-      <main className="max-w-[1040px] mx-auto px-5 pt-[calc(var(--header-height)+32px)] pb-16 text-sm text-fg">
-        {/* HERO */}
-        <HeroSection onScrollTo={handleScrollTo} />
-
-        {/* ABOUT */}
-        <AboutSection />
-
-        {/* SKILLS */}
-        <SkillsSection />
-
-        {/* ACTIVITY */}
-        <ActivitySection />
-
-        {/* PROJECTS */}
-        <ProjectsSection />
-
-        {/* LABS */}
-        <WorkerLab />
-
-        {/* EXPERIENCE */}
-        <ExperienceSection />
-
-        {/* CONTACT */}
-        <ContactSection />
-      </main>
+      {/* 라우트 */}
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/blog" element={<BlogPage />} />
+      </Routes>
 
       {/* FOOTER */}
       <Footer />
-    </>
+    </BrowserRouter>
   );
 };
 
