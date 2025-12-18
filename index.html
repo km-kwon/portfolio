@@ -28,6 +28,8 @@
           if (pathname.endsWith('/')) {
             pathname = pathname.slice(0, -1);
           }
+          // Clean up any double slashes in decoded path
+          decoded = decoded.replace(/\/+/g, '/');
           window.history.replaceState(null, null,
               pathname + decoded + l.hash
           );
