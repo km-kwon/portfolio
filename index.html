@@ -7,26 +7,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>portfolio</title>
 
-    <script>
+    <script type="text/javascript">
       (function (l) {
-        // redirected URL looks like: /portfolio/?/blog
-        if (l.search && l.search.length > 1 && l.search[1] === "/") {
-          // "/blog&x=y" -> "/blog?x=y" (and restore "~and~" back to "&")
-          var decoded = l.search
-            .slice(1)
-            .split("&")
-            .map(function (s) {
-              return s.replace(/~and~/g, "&");
-            })
-            .join("?");
+        if (!l.search) return;
 
-          // "/portfolio/" -> "/portfolio"
-          var base = l.pathname.replace(/\/$/, "");
+        var q = {};
+        l.search
+          .slice(1)
+          .split("&")
+          .forEach(function (v) {
+            var a = v.split("=");
+            q[a[0]] = a.slice(1).join("=").replace(/~and~/g, "&");
+          });
 
-          // join and normalize double slashes
-          var next = (base + decoded).replace(/\/{2,}/g, "/");
+        if (q.p !== undefined) {
+          // /portfolio/ 처럼 끝에 /가 여러 개여도 다 제거
+          var base = l.pathname.replace(/\/+$/, "");
+          var p = (q.p || "").replace(/\/{2,}/g, "/"); // p 내부도 정규화
 
-          window.history.replaceState(null, null, next + l.hash);
+          window.history.replaceState(
+            null,
+            null,
+            base + p + (q.q ? "?" + q.q : "") + l.hash
+          );
         }
       })(window.location);
     </script>
