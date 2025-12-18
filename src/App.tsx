@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import "./App.css";
 import Header from "./component/Header/header";
 import Footer from "./component/Footer/footer";
@@ -56,7 +57,7 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={`${import.meta.env.VITE_PUBLIC_URL}`}>
       {/* 헤더 */}
       <Header
         theme={theme}
