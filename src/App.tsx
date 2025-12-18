@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import "./App.css";
 import Header from "./component/Header/header";
@@ -57,20 +57,23 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <HashRouter basename={import.meta.env.VITE_PUBLIC_URL}>
+    <BrowserRouter basename={import.meta.env.MODE === "production" ? "/portfolio" : ""}>
+      {/* 헤더 */}
       <Header
         theme={theme}
         onToggleTheme={toggleTheme}
         onNavClick={handleScrollTo}
       />
 
+      {/* 라우트 */}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/blog" element={<BlogPage />} />
       </Routes>
 
+      {/* FOOTER */}
       <Footer />
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 
