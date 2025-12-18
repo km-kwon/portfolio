@@ -56,8 +56,9 @@ const App: React.FC = () => {
     }
   }, []);
 
+  const basename = import.meta.env.BASE_URL.replace(/\/$/, ""); // "/" or "/portfolio"
   return (
-    <BrowserRouter basename={import.meta.env.MODE === "production" ? "/portfolio" : ""}>
+    <BrowserRouter basename={basename}>
       {/* 헤더 */}
       <Header
         theme={theme}

@@ -1,13 +1,40 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <!-- BASE_URL 붙이는 게 안전 -->
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>portfolio</title>
+
+    <script>
+      (function (l) {
+        // redirected URL looks like: /portfolio/?/blog
+        if (l.search && l.search.length > 1 && l.search[1] === "/") {
+          // "/blog&x=y" -> "/blog?x=y" (and restore "~and~" back to "&")
+          var decoded = l.search
+            .slice(1)
+            .split("&")
+            .map(function (s) {
+              return s.replace(/~and~/g, "&");
+            })
+            .join("?");
+
+          // "/portfolio/" -> "/portfolio"
+          var base = l.pathname.replace(/\/$/, "");
+
+          // join and normalize double slashes
+          var next = (base + decoded).replace(/\/{2,}/g, "/");
+
+          window.history.replaceState(null, null, next + l.hash);
+        }
+      })(window.location);
+    </script>
   </head>
+
   <body>
     <div id="root"></div>
+    <!-- Vite는 build 시 이 script를 자동으로 dist용으로 바꿉니다 -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

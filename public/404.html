@@ -1,23 +1,46 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Portfolio</title>
-    <script type="text/javascript">
-      // GitHub Pages SPA redirect
-      // https://github.com/rafgraph/spa-github-pages
+
+    <!--
+      SPA redirect for GitHub Pages (project pages)
+      Keep this file >= 512 bytes (comments help)
+    -->
+    <script>
+      // 1 = keep "/portfolio" (repo name) for project pages
       var pathSegmentsToKeep = 1;
 
       var l = window.location;
-      l.replace(
-        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-        l.hash
-      );
+
+      // "/portfolio/blog" -> ["", "portfolio", "blog"]
+      var segments = l.pathname.split("/");
+
+      // base = "/portfolio"
+      var base = segments.slice(0, 1 + pathSegmentsToKeep).join("/");
+
+      // rest = "blog" (no leading slash)
+      var rest = segments
+        .slice(1 + pathSegmentsToKeep)
+        .join("/")
+        .replace(/^\/+/, "");
+
+      // querystring (without "?")
+      var search = l.search ? l.search.slice(1) : "";
+      search = search.replace(/&/g, "~and~");
+
+      var redirectPath = (base + "/?/" + rest).replace(/\/{2,}/g, "/");
+      var redirectUrl =
+        l.protocol +
+        "//" +
+        l.host +
+        redirectPath +
+        (search ? "&" + search : "") +
+        l.hash;
+
+      l.replace(redirectUrl);
     </script>
   </head>
-  <body>
-  </body>
+  <body></body>
 </html>
