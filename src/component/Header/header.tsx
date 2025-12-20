@@ -34,9 +34,7 @@ const Header: React.FC<HeaderProps> = ({
           <div className="w-5 h-5 rounded-full border border-(--border-subtle) flex items-center justify-center text-[11px] font-semibold bg-[radial-gradient(circle_at_20%_0%,#ffffff15_0,transparent_50%)]">
             FE
           </div>
-          <span className="text-[13px] text-fg-muted">
-            Frontend · UX
-          </span>
+          <span className="text-[13px] text-fg-muted">Frontend · UX</span>
         </div>
 
         {/* CENTER NAV */}
@@ -50,16 +48,8 @@ const Header: React.FC<HeaderProps> = ({
           >
             Home
           </Link>
-          <Link
-            to="/blog"
-            className={`px-2.5 py-1.5 rounded-full text-[13px] border border-transparent cursor-pointer
-                       transition-all duration-150 ease-out
-                       hover:text-fg hover:bg-white/5 hover:border-white/10 hover:-translate-y-px
-                       ${location.pathname === "/blog" ? "text-fg" : "text-fg-muted"}`}
-          >
-            Blog
-          </Link>
-          {isHomePage && navItems.map(({ id, label }) => (
+
+          {navItems.map(({ id, label }) => (
             <button
               key={id}
               className="px-2.5 py-1.5 rounded-full text-[13px] text-fg-muted border border-transparent cursor-pointer
@@ -70,6 +60,19 @@ const Header: React.FC<HeaderProps> = ({
               {label}
             </button>
           ))}
+          <Link
+            to="/blog"
+            className={`px-2.5 py-1.5 rounded-full text-[13px] border border-transparent cursor-pointer
+                       transition-all duration-150 ease-out
+                       hover:text-fg hover:bg-white/5 hover:border-white/10 hover:-translate-y-px
+                       ${
+                         location.pathname === "/blog"
+                           ? "text-fg"
+                           : "text-fg-muted"
+                       }`}
+          >
+            Blog
+          </Link>
         </nav>
 
         {/* RIGHT */}
