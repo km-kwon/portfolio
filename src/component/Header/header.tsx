@@ -1,6 +1,6 @@
 // src/Header.tsx
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 type Theme = "light" | "dark";
 
@@ -16,6 +16,7 @@ const Header: React.FC<HeaderProps> = ({
   onNavClick,
 }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const isHomePage = location.pathname === "/";
 
   const navItems: { id: string; label: string }[] = [
@@ -25,6 +26,20 @@ const Header: React.FC<HeaderProps> = ({
     { id: "experience", label: "Experience" },
     { id: "contact", label: "Contact" },
   ];
+
+  const handleNavClick = (id: string) => {
+    if (!isHomePage) {
+      // 블로그 페이지나 다른 페이지에서 클릭했을 때
+      navigate("/");
+      // 홈페이지로 이동한 후 스크롤
+      setTimeout(() => {
+        onNavClick(id);
+      }, 100);
+    } else {
+      // 이미 홈페이지에 있을 때
+      onNavClick(id);
+    }
+  };
 
   return (
     <header className="fixed inset-x-0 top-0 h-(--header-height) z-20 border-b border-white/5 backdrop-blur-xl">
@@ -55,7 +70,7 @@ const Header: React.FC<HeaderProps> = ({
               className="px-2.5 py-1.5 rounded-full text-[13px] text-fg-muted border border-transparent cursor-pointer
                          transition-all duration-150 ease-out
                          hover:text-fg hover:bg-white/5 hover:border-white/10 hover:-translate-y-px"
-              onClick={() => onNavClick(id)}
+              onClick={() => handleNavClick(id)}
             >
               {label}
             </button>
@@ -91,7 +106,7 @@ const Header: React.FC<HeaderProps> = ({
             className="hidden sm:inline-flex text-[13px] px-4 py-2 rounded-full border border-(--border-subtle)
                        bg-white/5 hover:bg-white/10 hover:border-white/25 hover:-translate-y-px
                        transition-all duration-150 ease-out"
-            onClick={() => onNavClick("contact")}
+            onClick={() => handleNavClick("contact")}
           >
             Contact
           </button>

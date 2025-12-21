@@ -6,6 +6,7 @@ import Header from "./component/Header/header";
 import Footer from "./component/Footer/footer";
 import HomePage from "./pages/HomePage";
 import BlogPage from "./pages/BlogPage";
+import BlogDetailPage from "./pages/BlogDetailPage";
 
 type Theme = "light" | "dark";
 
@@ -70,6 +71,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/blog" element={<BlogPage />} />
+        <Route path="/blog/:slug" element={<BlogDetailPage />} />
       </Routes>
 
       {/* FOOTER */}

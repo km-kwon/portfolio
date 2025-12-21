@@ -6,91 +6,8 @@ import React, {
   useCallback,
 } from "react";
 import { useNavigate } from "react-router-dom";
-
-type Post = {
-  id: string;
-  slug: string;
-  title: string;
-  excerpt: string;
-  date: string; // "2025년 12월 7일" 같은 형태로 가정
-  tags: string[];
-  cover?: string; // optional image url
-  likes?: number;
-  comments?: number;
-  category?: string; // 상단 탭 같은 분류용(옵션)
-};
-
-/**
- * ✅ 데모용 목데이터 (너는 나중에 API로 교체하면 됨)
- * cover는 실제 이미지 URL로 교체하면 카드 느낌이 스샷처럼 딱 살아남.
- */
-const MOCK_ALL_POSTS: Post[] = [
-  {
-    id: "p1",
-    slug: "ai-ux-principle",
-    title: "AI 회사 가고 싶으면 이 UX 원리는 알아두세요",
-    excerpt:
-      "Claude나 ChatGPT를 쓰다 보면 뭔가 답변을 읽기 편하고, 화면이 넓게 느껴지고, 스크롤도 자연스럽다는 느낌이 듭니다...",
-    date: "2025년 12월 7일",
-    tags: ["AI", "React", "chatbot", "mvpstar", "ux"],
-    cover:
-      "https://images.unsplash.com/photo-1526378722484-bd91ca387e72?auto=format&fit=crop&w=1800&q=80",
-    likes: 83,
-    comments: 4,
-    category: "frontend",
-  },
-  {
-    id: "p2",
-    slug: "frontend-performance-answer",
-    title:
-      "프론트엔드 면접에서 ‘성능 최적화 경험 있으세요?’ 라고 물으면, 이렇게 대답하세요",
-    excerpt:
-      "프론트엔드 개발을 하다 보면 성능 최적화를 피할 수 없는 순간이 옵니다. 특히 애니메이션은 성능 문제가 눈에 바로 보이기 때문에...",
-    date: "2025년 12월 5일",
-    tags: ["Spring", "Web Animation", "compositor", "gpu", "optimization"],
-    cover:
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1800&q=80",
-    likes: 51,
-    comments: 2,
-    category: "frontend",
-  },
-  // 아래는 데모용으로 더 찍어낸 느낌
-  ...Array.from({ length: 50 }).map((_, i) => {
-    const n = i + 3;
-    const tagPool = [
-      "frontend",
-      "React",
-      "web",
-      "프로토타입",
-      "Backend",
-      "opensource",
-      "career",
-      "ux",
-      "performance",
-      "TypeScript",
-    ];
-    const tags = [
-      tagPool[n % tagPool.length],
-      tagPool[(n + 3) % tagPool.length],
-    ];
-    return {
-      id: `p${n}`,
-      slug: `post-${n}`,
-      title: `블로그 포스트 #${n}`,
-      excerpt:
-        "이 글은 리스트 UI/무한스크롤/카드 레이아웃 확인을 위한 더미 글입니다. 나중에 API 연동으로 바꾸면 됩니다.",
-      date: "2025년 12월 1일",
-      tags,
-      cover:
-        n % 3 === 0
-          ? "https://images.unsplash.com/photo-1522252234503-e356532cafd5?auto=format&fit=crop&w=1800&q=80"
-          : undefined,
-      likes: (n * 7) % 120,
-      comments: (n * 3) % 12,
-      category: tags.includes("frontend") ? "frontend" : "etc",
-    } satisfies Post;
-  }),
-];
+import { MOCK_ALL_POSTS } from "../component/Body/Blog/data/postingDatas";
+import type { Post } from "../component/Body/Blog/data/type/postingType";
 
 const FEATURED_ROTATE_MS = 4200;
 const FADE_MS = 260;
@@ -101,6 +18,11 @@ function cx(...cls: Array<string | false | null | undefined>) {
 
 const BlogPage: React.FC = () => {
   const navigate = useNavigate();
+
+  // 페이지 진입 시 스크롤을 맨 위로
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   /** ------------------------------
    *  상단 필터(칩) - 스샷 느낌
@@ -224,7 +146,9 @@ const BlogPage: React.FC = () => {
         {/* 헤더 */}
         <div className="flex items-end justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-[32px] font-bold tracking-[-0.02em]">Blog</h1>
+            <h1 className="text-[32px] font-bold tracking-[-0.02em]">
+              Posting
+            </h1>
             <p className="text-[13px] text-fg-muted mt-2">
               Front-End를 공부하며 배운 알뜰신잡
             </p>
@@ -252,7 +176,7 @@ const BlogPage: React.FC = () => {
             >
               <div className="grid md:grid-cols-[360px_1fr]">
                 {/* 커버 */}
-                <div className="relative h-[220px] md:h-[280px] bg-(--bg-soft)">
+                <div className="relative h-[300px] md:h-[300px] bg-(--bg-soft)">
                   {featured.cover ? (
                     <>
                       <img
@@ -267,15 +191,15 @@ const BlogPage: React.FC = () => {
                     <div className="absolute inset-0 bg-(--bg-soft)" />
                   )}
 
-                  <div className="absolute left-5 bottom-5">
+                  <div className="absolute left-5 top-5">
                     <span className="text-[11px] px-2.5 py-1.5 rounded-full bg-black/45 border border-white/10 text-white/90">
-                      Featured
+                      Today's
                     </span>
                   </div>
                 </div>
 
                 {/* 본문 */}
-                <div className="p-6 md:p-7">
+                <div className="p-6 h-full flex flex-col justify-between">
                   <h2 className="text-[22px] md:text-[24px] font-bold leading-snug tracking-[-0.02em] mb-3">
                     {featured.title}
                   </h2>
@@ -283,28 +207,26 @@ const BlogPage: React.FC = () => {
                   <p className="text-[13px] text-fg-muted leading-relaxed mb-5 line-clamp-3">
                     {featured.excerpt}
                   </p>
-
-                  <div className="flex flex-wrap gap-2 mb-5">
-                    {featured.tags.slice(0, 6).map((t) => (
-                      <span
-                        key={t}
-                        className="text-[11px] px-2.5 py-1.5 rounded-full bg-(--bg-soft) border border-(--border-subtle) text-fg-muted"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center justify-between text-[12px] text-fg-muted">
+                  <div className="flex flex-col text-[12px] text-fg-muted w-full">
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {featured.tags.slice(0, 6).map((t) => (
+                        <span
+                          key={t}
+                          className="text-[11px] px-2.5 py-1.5 rounded-full bg-(--bg-soft) border border-(--border-subtle) text-fg-muted"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
                     <span>{featured.date}</span>
-                    <span className="flex items-center gap-2">
+                    {/*  <span className="flex items-center gap-2">
                       {typeof featured.comments === "number" && (
                         <span>댓글 {featured.comments}</span>
                       )}
                       {typeof featured.likes === "number" && (
                         <span>♥ {featured.likes}</span>
                       )}
-                    </span>
+                    </span> */}
                   </div>
                 </div>
               </div>

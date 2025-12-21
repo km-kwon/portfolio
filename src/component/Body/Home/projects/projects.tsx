@@ -1,7 +1,7 @@
 // src/ProjectsSection.tsx
 import React, { useEffect, useState } from "react";
 import { ProjectModal } from "./ProjectModal";
-import CircularProgress from "../../common/CircularProgress";
+import CircularProgress from "../../../common/CircularProgress";
 
 const AUTO_SLIDE_DURATION = 3000; // 자동 슬라이드 지속 시간 (ms)
 

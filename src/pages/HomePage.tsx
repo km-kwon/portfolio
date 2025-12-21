@@ -1,12 +1,12 @@
 import React, { useCallback } from "react";
-import HeroSection from "../component/Body/heroSection/heroSection";
-import AboutSection from "../component/Body/about/about";
-import SkillsSection from "../component/Body/skills/skills";
-import ProjectsSection from "../component/Body/projects/projects";
-import ExperienceSection from "../component/Body/experience/experience";
-import ContactSection from "../component/Body/contactSection/contactSections";
-import { WorkerLab } from "../component/Body/labs/labs";
-import ActivitySection from "../component/Body/activity/activity";
+import HeroSection from "../component/Body/Home/heroSection/heroSection";
+import AboutSection from "../component/Body/Home/about/about";
+import SkillsSection from "../component/Body/Home/skills/skills";
+import ExperienceSection from "../component/Body/Home/experience/experience";
+import ContactSection from "../component/Body/Home/contactSection/contactSections";
+import { WorkerLab } from "../component/Body/Home/labs/labs";
+import ActivitySection from "../component/Body/Home/activity/activity";
+import ProjectsSection from "../component/Body/Home/projects/projects";
 
 const HomePage: React.FC = () => {
   const handleScrollTo = useCallback((id: string) => {

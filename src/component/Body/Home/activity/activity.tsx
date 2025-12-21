@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import type { Activity } from "./types";
 import ActivityItem from "./ActivityItem";
-import CircularProgress from "../../common/CircularProgress";
+import CircularProgress from "../../../common/CircularProgress";
 
 const AUTO_SLIDE_DURATION = 4000; // 자동 슬라이드 지속 시간 (ms)
 const ACTIVITY_HEIGHT = 500; // 데스크탑 세로 슬라이드 높이(px)
