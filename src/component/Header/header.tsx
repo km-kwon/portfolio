@@ -24,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({
     { id: "skills", label: "Skills" },
     { id: "projects", label: "Projects" },
     { id: "experience", label: "Experience" },
-    { id: "contact", label: "Contact" },
+    // { id: "contact", label: "Contact" },
   ];
 
   const handleNavClick = (id: string) => {
@@ -58,7 +58,7 @@ const Header: React.FC<HeaderProps> = ({
             to="/"
             className={`px-2.5 py-1.5 rounded-full text-[13px] border border-transparent cursor-pointer
                        transition-all duration-150 ease-out
-                       hover:text-fg hover:bg-white/5 hover:border-white/10 hover:-translate-y-px
+                       hover:text-fg hover:bg-(--bg-soft) hover:border-(--border-subtle) hover:-translate-y-px
                        ${isHomePage ? "text-fg" : "text-fg-muted"}`}
           >
             Home
@@ -69,7 +69,7 @@ const Header: React.FC<HeaderProps> = ({
               key={id}
               className="px-2.5 py-1.5 rounded-full text-[13px] text-fg-muted border border-transparent cursor-pointer
                          transition-all duration-150 ease-out
-                         hover:text-fg hover:bg-white/5 hover:border-white/10 hover:-translate-y-px"
+                         hover:text-fg hover:bg-(--bg-soft) hover:border-(--border-subtle) hover:-translate-y-px"
               onClick={() => handleNavClick(id)}
             >
               {label}
@@ -79,7 +79,7 @@ const Header: React.FC<HeaderProps> = ({
             to="/blog"
             className={`px-2.5 py-1.5 rounded-full text-[13px] border border-transparent cursor-pointer
                        transition-all duration-150 ease-out
-                       hover:text-fg hover:bg-white/5 hover:border-white/10 hover:-translate-y-px
+                       hover:text-fg hover:bg-(--bg-soft) hover:border-(--border-subtle) hover:-translate-y-px
                        ${
                          location.pathname === "/blog"
                            ? "text-fg"
@@ -96,7 +96,7 @@ const Header: React.FC<HeaderProps> = ({
             className="w-9 h-9 rounded-full border border-(--border-subtle) bg-(--bg-elevated)
                        flex items-center justify-center cursor-pointer
                        transition-all duration-150 ease-out
-                       hover:-translate-y-px hover:border-white/30"
+                       hover:-translate-y-px hover:bg-(--bg-soft) hover:border-(--accent)/50"
             aria-label="Toggle theme"
             onClick={onToggleTheme}
           >
@@ -104,7 +104,7 @@ const Header: React.FC<HeaderProps> = ({
           </button>
           <button
             className="hidden sm:inline-flex text-[13px] px-4 py-2 rounded-full border border-(--border-subtle)
-                       bg-white/5 hover:bg-white/10 hover:border-white/25 hover:-translate-y-px
+                       bg-(--bg-soft) hover:bg-(--bg-elevated) hover:border-(--accent)/50 hover:-translate-y-px
                        transition-all duration-150 ease-out"
             onClick={() => handleNavClick("contact")}
           >

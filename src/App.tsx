@@ -4,9 +4,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./component/Header/header";
 import Footer from "./component/Footer/footer";
-import HomePage from "./pages/HomePage";
-import BlogPage from "./pages/BlogPage";
-import BlogDetailPage from "./pages/BlogDetailPage";
+import HomePage from "./component/Body/Home/HomePage";
+import BlogPage from "./component/Body/Blog/BlogPage";
+import BlogDetailPage from "./component/Body/Blog/BlogDetailPage";
 
 type Theme = "light" | "dark";
 

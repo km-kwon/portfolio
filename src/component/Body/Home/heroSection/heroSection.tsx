@@ -66,9 +66,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollTo }) => {
                        [html[data-theme='light']_&]:hover:shadow-[0_10px_28px_rgba(0,0,0,0.2)]
                        cursor-pointer
                        "
-            onClick={() => onScrollTo("projects")}
+            onClick={() => onScrollTo("skills")}
           >
-            <strong>작업물 보러가기</strong>
+            <strong>경력 바로가기 </strong>
           </button>
           <button
             className="inline-flex items-center gap-1.5 text-[13px] text-fg-muted

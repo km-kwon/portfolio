@@ -6,8 +6,8 @@ import React, {
   useCallback,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { MOCK_ALL_POSTS } from "../component/Body/Blog/data/postingDatas";
-import type { Post } from "../component/Body/Blog/data/type/postingType";
+import { MOCK_ALL_POSTS } from "./data/postingDatas";
+import type { Post } from "./data/type/postingType";
 
 const FEATURED_ROTATE_MS = 4200;
 const FADE_MS = 260;
@@ -44,9 +44,9 @@ const BlogPage: React.FC = () => {
    *  Featured 로테이션
    *  ------------------------------ */
   const featuredPosts = useMemo(() => {
-    // 태그 필터 상태에서도 featured는 “전체 기준”으로 돌리는게 보통 더 느낌이 좋음.
+    // 태그 필터 상태에서도 featured는 "전체 기준"으로 돌리는게 보통 더 느낌이 좋음.
     // 원하면 여기에도 activeTag 적용하면 됨.
-    return MOCK_ALL_POSTS.slice(0, 6);
+    return MOCK_ALL_POSTS.slice(0, Math.min(3, MOCK_ALL_POSTS.length));
   }, []);
 
   const [featuredIndex, setFeaturedIndex] = useState(0);
@@ -78,11 +78,10 @@ const BlogPage: React.FC = () => {
     return MOCK_ALL_POSTS.filter((p) => p.tags.includes(activeTag));
   }, [activeTag]);
 
-  // featured에 올라간 글은 아래 리스트에서 제외하고 싶으면 여기서 제거
+  // featured에 올라간 글도 리스트에 포함
   const listSource = useMemo(() => {
-    const featuredIds = new Set(featuredPosts.map((p) => p.id));
-    return filteredAllPosts.filter((p) => !featuredIds.has(p.id));
-  }, [filteredAllPosts, featuredPosts]);
+    return filteredAllPosts;
+  }, [filteredAllPosts]);
 
   const PAGE_SIZE = 10;
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
@@ -174,9 +173,9 @@ const BlogPage: React.FC = () => {
               )}
               style={{ transitionDuration: `${FADE_MS}ms` }}
             >
-              <div className="grid md:grid-cols-[360px_1fr]">
+              <div className="grid md:grid-cols-[320px_1fr]">
                 {/* 커버 */}
-                <div className="relative h-[300px] md:h-[300px] bg-(--bg-soft)">
+                <div className="relative h-[250px] md:h-[250px] bg-(--bg-soft)">
                   {featured.cover ? (
                     <>
                       <img
@@ -199,7 +198,7 @@ const BlogPage: React.FC = () => {
                 </div>
 
                 {/* 본문 */}
-                <div className="p-6 h-full flex flex-col justify-between">
+                <div className="p-5 h-full flex flex-col justify-between">
                   <h2 className="text-[22px] md:text-[24px] font-bold leading-snug tracking-[-0.02em] mb-3">
                     {featured.title}
                   </h2>
@@ -219,14 +218,6 @@ const BlogPage: React.FC = () => {
                       ))}
                     </div>
                     <span>{featured.date}</span>
-                    {/*  <span className="flex items-center gap-2">
-                      {typeof featured.comments === "number" && (
-                        <span>댓글 {featured.comments}</span>
-                      )}
-                      {typeof featured.likes === "number" && (
-                        <span>♥ {featured.likes}</span>
-                      )}
-                    </span> */}
                   </div>
                 </div>
               </div>
@@ -283,47 +274,43 @@ const BlogPage: React.FC = () => {
                 "focus:outline-none focus:ring-2 focus:ring-(--accent)/40"
               )}
             >
-              {/* 카드 상단 커버(있을 때만) */}
-              {p.cover && (
-                <div className="relative h-[200px] bg-(--bg-soft)">
-                  <img
-                    src={p.cover}
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent" />
-                </div>
-              )}
+              <div className="grid md:grid-cols-[240px_1fr] md:h-[200px]">
+                {/* 왼쪽 커버(있을 때만) */}
+                {p.cover && (
+                  <div className="relative h-[180px] md:h-[200px] bg-(--bg-soft)">
+                    <img
+                      src={p.cover}
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/55 via-black/15 to-transparent" />
+                  </div>
+                )}
 
-              <div className="p-6">
-                <h3 className="text-[20px] font-semibold leading-snug mb-2">
-                  {p.title}
-                </h3>
+                <div className="p-6 md:overflow-hidden">
+                  <h3 className="text-[20px] font-semibold leading-snug mb-2">
+                    {p.title}
+                  </h3>
 
-                <p className="text-[13px] text-fg-muted leading-relaxed mb-4 line-clamp-2">
-                  {p.excerpt}
-                </p>
+                  <p className="text-[13px] text-fg-muted leading-relaxed mb-4 line-clamp-2">
+                    {p.excerpt}
+                  </p>
 
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {p.tags.slice(0, 8).map((t) => (
-                    <span
-                      key={t}
-                      className="text-[11px] px-2.5 py-1.5 rounded-full bg-(--bg-soft) border border-(--border-subtle) text-fg-muted"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {p.tags.slice(0, 8).map((t) => (
+                      <span
+                        key={t}
+                        className="text-[11px] px-2.5 py-1.5 rounded-full bg-(--bg-soft) border border-(--border-subtle) text-fg-muted"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
 
-                <div className="flex items-center justify-between text-[12px] text-fg-muted">
-                  <span>{p.date}</span>
-                  <span className="flex items-center gap-2">
-                    {typeof p.comments === "number" && (
-                      <span>댓글 {p.comments}</span>
-                    )}
-                    {typeof p.likes === "number" && <span>♥ {p.likes}</span>}
-                  </span>
+                  <div className="flex items-center justify-between text-[12px] text-fg-muted">
+                    <span>{p.date}</span>
+                  </div>
                 </div>
               </div>
             </article>

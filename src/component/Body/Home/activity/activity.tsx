@@ -102,7 +102,7 @@ const ActivitySection: React.FC = () => {
       <div className={sectionHeaderBase}>
         <div>
           <p className={labelClass}>Activity</p>
-          <h2 className={sectionTitleClass}>활동 기록</h2>
+          <h2 className={sectionTitleClass}>대외 활동</h2>
         </div>
       </div>
 

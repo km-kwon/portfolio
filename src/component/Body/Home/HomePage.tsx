@@ -1,12 +1,12 @@
 import React, { useCallback } from "react";
-import HeroSection from "../component/Body/Home/heroSection/heroSection";
-import AboutSection from "../component/Body/Home/about/about";
-import SkillsSection from "../component/Body/Home/skills/skills";
-import ExperienceSection from "../component/Body/Home/experience/experience";
-import ContactSection from "../component/Body/Home/contactSection/contactSections";
-import { WorkerLab } from "../component/Body/Home/labs/labs";
-import ActivitySection from "../component/Body/Home/activity/activity";
-import ProjectsSection from "../component/Body/Home/projects/projects";
+import HeroSection from "./heroSection/heroSection";
+import AboutSection from "./about/about";
+import SkillsSection from "./skills/skills";
+import ExperienceSection from "./experience/experience";
+// import ContactSection from "./contactSection/contactSections";
+import { WorkerLab } from "./labs/labs";
+import ActivitySection from "./activity/activity";
+import ProjectsSection from "./projects/projects";
 
 const HomePage: React.FC = () => {
   const handleScrollTo = useCallback((id: string) => {
@@ -49,7 +49,7 @@ const HomePage: React.FC = () => {
       <ExperienceSection />
 
       {/* CONTACT */}
-      <ContactSection />
+      {/*  <ContactSection /> */}
     </main>
   );
 };
