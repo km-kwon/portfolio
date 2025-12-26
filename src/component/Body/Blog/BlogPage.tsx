@@ -86,6 +86,7 @@ const BlogPage: React.FC = () => {
   const PAGE_SIZE = 10;
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [fading, setFading] = useState(false);
 
   const visiblePosts = useMemo(() => {
     return listSource.slice(0, visibleCount);
@@ -94,9 +95,17 @@ const BlogPage: React.FC = () => {
   const hasMore = visibleCount < listSource.length;
 
   const selectTag = (tag: string) => {
-    setActiveTag(tag);
-    setVisibleCount(PAGE_SIZE);
-    setLoadingMore(false); // 있으면 같이 리셋 권장
+    if (tag === activeTag) return; // 같은 태그 클릭 시 무시
+
+    // fade out
+    setFading(true);
+    setTimeout(() => {
+      setActiveTag(tag);
+      setVisibleCount(PAGE_SIZE);
+      setLoadingMore(false);
+      // fade in
+      setTimeout(() => setFading(false), 20);
+    }, 200);
   };
 
   const loadMore = useCallback(async () => {
@@ -237,14 +246,14 @@ const BlogPage: React.FC = () => {
                 : "bg-(--bg-soft) border-(--border-subtle) text-fg-muted hover:border-(--accent)"
             )}
           >
-            전체보기 ({filteredAllPosts.length})
+            전체보기 ({MOCK_ALL_POSTS.length})
           </button>
 
           {allTagsWithCount.map(([t, count]) => (
             <button
               key={t}
               type="button"
-              onClick={() => selectTag("ALL")}
+              onClick={() => selectTag(t)}
               className={cx(
                 "text-[12px] px-3 py-1.5 rounded-full border transition-colors",
                 activeTag === t
@@ -258,7 +267,12 @@ const BlogPage: React.FC = () => {
         </div>
 
         {/* 리스트 */}
-        <section className="grid gap-6">
+        <section
+          className={cx(
+            "grid gap-6 transition-opacity duration-200",
+            fading ? "opacity-0" : "opacity-100"
+          )}
+        >
           {visiblePosts.map((p) => (
             <article
               key={p.id}

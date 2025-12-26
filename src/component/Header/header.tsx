@@ -45,12 +45,9 @@ const Header: React.FC<HeaderProps> = ({
     <header className="fixed inset-x-0 top-0 h-(--header-height) z-20 border-b border-white/5 backdrop-blur-xl">
       <div className="max-w-[1040px] mx-auto h-full px-5 flex items-center justify-between gap-3">
         {/* LEFT */}
-        <div className="flex items-center gap-2 text-[14px] tracking-[0.08em] uppercase">
-          <div className="w-5 h-5 rounded-full border border-(--border-subtle) flex items-center justify-center text-[11px] font-semibold bg-[radial-gradient(circle_at_20%_0%,#ffffff15_0,transparent_50%)]">
-            FE
-          </div>
-          <span className="text-[13px] text-fg-muted">Frontend · UX</span>
-        </div>
+        <span className=" tracking-[0.08em] uppercase text-[14px] text-fg-muted">
+          Frontend · UX
+        </span>
 
         {/* CENTER NAV */}
         <nav className="hidden md:flex items-center gap-4 text-[13px]">
