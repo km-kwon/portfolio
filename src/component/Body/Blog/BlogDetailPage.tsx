@@ -82,7 +82,7 @@ const TocSidebar: React.FC<{
   if (!toc.length) return null;
 
   return (
-    <aside className="fixed right-4 2xl:right-8 top-[calc(var(--header-height)+48px)] hidden xl:block w-56 2xl:w-60 h-[calc(100vh-var(--header-height)-96px)] overflow-y-auto overflow-x-hidden">
+    <aside className="fixed left-[calc(50%+780px/2+48px)] top-[calc(var(--header-height)+48px)] hidden xl:block w-56 2xl:w-64 h-[calc(100vh-var(--header-height)-96px)] overflow-y-auto overflow-x-hidden">
       <div className="border-l border-(--border-subtle) pl-4 pr-2">
         <nav aria-label="Table of contents">
           <ul className="space-y-2">
@@ -97,13 +97,13 @@ const TocSidebar: React.FC<{
                     type="button"
                     onClick={() => onClickItem(item.id)}
                     className={[
-                      "group relative block w-full text-left",
+                      "group relative block w-full text-left cursor-pointer",
                       "text-[13px] leading-[1.65]",
-                      "transition-colors duration-200",
+                      "transition-all duration-200 origin-left",
                       "focus:outline-none focus-visible:ring-2 focus-visible:ring-(--accent)/60 focus-visible:ring-offset-2 focus-visible:ring-offset-(--bg-base)",
                       isActive
-                        ? "text-(--fg-base) font-semibold"
-                        : "text-fg-muted hover:text-(--fg-base)",
+                        ? "text-(--fg-base) scale-110"
+                        : "text-gray-500 hover:text-gray-500/80 hover:scale-105",
                     ].join(" ")}
                   >
                     <span
