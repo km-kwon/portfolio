@@ -1,0 +1,82 @@
+import React, { Suspense, useEffect, useState } from "react";
+import type { ReactNode, CSSProperties } from "react";
+import { Canvas } from "@react-three/fiber";
+import type { CanvasProps } from "@react-three/fiber";
+import { PerformanceMonitor } from "@react-three/drei";
+
+interface SceneCanvasProps {
+  children?: ReactNode;
+  /** Rendered in place of the canvas when 3D is disabled (reduced-motion, etc). */
+  fallback?: ReactNode;
+  className?: string;
+  style?: CSSProperties;
+  /** Override gl props if a specific scene needs e.g. premultipliedAlpha. */
+  gl?: CanvasProps["gl"];
+}
+
+const ENABLED_3D = import.meta.env.VITE_ENABLE_3D !== "false";
+
+const useReducedMotion = (): boolean => {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReduced(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return reduced;
+};
+
+const useIsLowEndDevice = (): boolean => {
+  const [low, setLow] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const cores = navigator.hardwareConcurrency ?? 8;
+    setLow(isMobile || cores < 4);
+  }, []);
+  return low;
+};
+
+const SceneCanvas: React.FC<SceneCanvasProps> = ({
+  children,
+  fallback = null,
+  className,
+  style,
+  gl,
+}) => {
+  const reducedMotion = useReducedMotion();
+  const isLowEnd = useIsLowEndDevice();
+  const [dprCeiling, setDprCeiling] = useState<number>(2);
+
+  if (!ENABLED_3D) return null;
+  if (reducedMotion) return <>{fallback}</>;
+
+  // Low-end devices start at fixed dpr=1; PerformanceMonitor can still demote others.
+  const dpr: [number, number] = isLowEnd ? [1, 1] : [1, dprCeiling];
+
+  return (
+    <div className={className} style={style}>
+      <Canvas
+        dpr={dpr}
+        gl={{ antialias: true, alpha: true, ...gl }}
+      >
+        <PerformanceMonitor
+          onDecline={({ fps }) => {
+            if (fps < 45 && dprCeiling !== 1) {
+              setDprCeiling(1);
+              if (import.meta.env.DEV) {
+                console.info("[SceneCanvas] FPS<45, demoting dpr to [1,1]", { fps });
+              }
+            }
+          }}
+        />
+        <Suspense fallback={null}>{children}</Suspense>
+      </Canvas>
+    </div>
+  );
+};
+
+export default SceneCanvas;

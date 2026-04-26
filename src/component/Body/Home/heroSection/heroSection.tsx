@@ -1,5 +1,6 @@
 import React from "react";
 import SectionMarker from "../../../common/SectionMarker";
+import { SceneCanvas } from "../../../../three";
 
 interface HeroSectionProps {
   onScrollTo: (id: string) => void;
@@ -27,7 +28,12 @@ const Stat: React.FC<{ value: string; unit?: string; desc: string }> = ({
 
 const HeroSection: React.FC<HeroSectionProps> = ({ onScrollTo }) => {
   return (
-    <section id="top" className="mb-20">
+    <section id="top" className="relative mb-20">
+      {/* Phase 1 infra smoke-test — empty canvas, no scene. Remove when Hero scene lands. */}
+      <SceneCanvas
+        className="pointer-events-none absolute inset-0 -z-10 opacity-0"
+        style={{ width: "100%", height: "100%" }}
+      />
       <div>
         <SectionMarker number="01" label="Identity Profile" />
 

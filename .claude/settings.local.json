@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm i *)",
+      "Bash(grep -E \"export \\(\\\\\\\\*|\\\\\\\\{\\)\" node_modules/@react-three/fiber/dist/declarations/src/web/index.d.ts)"
+    ]
+  }
+}
