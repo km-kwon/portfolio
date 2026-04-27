@@ -1,8 +1,7 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import type { ReactNode, CSSProperties } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber";
 import type { CanvasProps } from "@react-three/fiber";
-import { PerformanceMonitor } from "@react-three/drei";
 
 interface SceneCanvasProps {
   children?: ReactNode;
@@ -40,6 +39,37 @@ const useIsLowEndDevice = (): boolean => {
   return low;
 };
 
+/**
+ * Minimal in-canvas FPS watcher — replaces drei's <PerformanceMonitor>
+ * to keep the 3D bundle under budget. Samples N consecutive frames; if
+ * the rolling average drops below `threshold`, fires once and stops.
+ */
+const FpsWatcher: React.FC<{
+  threshold: number;
+  windowSize: number;
+  onLow: (fps: number) => void;
+}> = ({ threshold, windowSize, onLow }) => {
+  const samplesRef = useRef<number[]>([]);
+  const firedRef = useRef(false);
+
+  useFrame((_, delta) => {
+    if (firedRef.current || delta <= 0) return;
+    const fps = 1 / delta;
+    const s = samplesRef.current;
+    s.push(fps);
+    if (s.length > windowSize) s.shift();
+    if (s.length === windowSize) {
+      const avg = s.reduce((a, b) => a + b, 0) / windowSize;
+      if (avg < threshold) {
+        firedRef.current = true;
+        onLow(avg);
+      }
+    }
+  });
+
+  return null;
+};
+
 const SceneCanvas: React.FC<SceneCanvasProps> = ({
   children,
   fallback = null,
@@ -54,21 +84,19 @@ const SceneCanvas: React.FC<SceneCanvasProps> = ({
   if (!ENABLED_3D) return null;
   if (reducedMotion) return <>{fallback}</>;
 
-  // Low-end devices start at fixed dpr=1; PerformanceMonitor can still demote others.
   const dpr: [number, number] = isLowEnd ? [1, 1] : [1, dprCeiling];
 
   return (
     <div className={className} style={style}>
-      <Canvas
-        dpr={dpr}
-        gl={{ antialias: true, alpha: true, ...gl }}
-      >
-        <PerformanceMonitor
-          onDecline={({ fps }) => {
-            if (fps < 45 && dprCeiling !== 1) {
+      <Canvas dpr={dpr} gl={{ antialias: true, alpha: true, ...gl }}>
+        <FpsWatcher
+          threshold={45}
+          windowSize={60}
+          onLow={(fps) => {
+            if (dprCeiling !== 1) {
               setDprCeiling(1);
               if (import.meta.env.DEV) {
-                console.info("[SceneCanvas] FPS<45, demoting dpr to [1,1]", { fps });
+                console.info("[SceneCanvas] avg FPS<45, demoting dpr to [1,1]", { fps });
               }
             }
           }}

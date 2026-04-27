@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(npm i *)",
-      "Bash(grep -E \"export \\(\\\\\\\\*|\\\\\\\\{\\)\" node_modules/@react-three/fiber/dist/declarations/src/web/index.d.ts)"
+      "Bash(grep -E \"export \\(\\\\\\\\*|\\\\\\\\{\\)\" node_modules/@react-three/fiber/dist/declarations/src/web/index.d.ts)",
+      "Bash(git checkout *)",
+      "Bash(npm run *)",
+      "Bash(git stash *)",
+      "Bash(npx tsc *)"
     ]
   }
 }

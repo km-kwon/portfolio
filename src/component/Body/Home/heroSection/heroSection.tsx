@@ -1,6 +1,13 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import SectionMarker from "../../../common/SectionMarker";
-import { SceneCanvas } from "../../../../three";
+import HeroFallback from "../../../../three/scenes/HeroFallback";
+
+// Lazy: keeps three / R3F / shader strings out of the initial bundle.
+// HeroFallback paints synchronously; the canvas swaps in once this chunk
+// arrives. Direct file path (not the barrel) so Vite cleanly splits.
+const HeroBackgroundCanvas = lazy(
+  () => import("../../../../three/scenes/HeroBackgroundCanvas")
+);
 
 interface HeroSectionProps {
   onScrollTo: (id: string) => void;
@@ -28,13 +35,16 @@ const Stat: React.FC<{ value: string; unit?: string; desc: string }> = ({
 
 const HeroSection: React.FC<HeroSectionProps> = ({ onScrollTo }) => {
   return (
-    <section id="top" className="relative mb-20">
-      {/* Phase 1 infra smoke-test — empty canvas, no scene. Remove when Hero scene lands. */}
-      <SceneCanvas
-        className="pointer-events-none absolute inset-0 -z-10 opacity-0"
-        style={{ width: "100%", height: "100%" }}
-      />
-      <div>
+    <section id="top" className="relative mb-20 isolate">
+      <div
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{ opacity: 0.6 }}
+      >
+        <Suspense fallback={<HeroFallback />}>
+          <HeroBackgroundCanvas />
+        </Suspense>
+      </div>
+      <div className="relative z-10">
         <SectionMarker number="01" label="Identity Profile" />
 
         <h1 className="text-[clamp(30px,4.5vw,44px)] font-bold leading-[1.2] mb-5 tracking-tight">
