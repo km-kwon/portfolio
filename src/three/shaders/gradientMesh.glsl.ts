@@ -102,13 +102,17 @@ export const fragmentShader = /* glsl */ `
     // Normalize fbm (~[-1,1]) → [0,1]
     float n = clamp(f * 0.5 + 0.5, 0.0, 1.0);
 
-    // Composite: bg dominates for legibility, accent only on noise peaks,
-    // primary as a tiny rim highlight. Smoothsteps tuned so >60% of pixels
-    // stay near uBg → contrast with foreground text preserved.
+    // Composite: bg dominates, accent only at noise peaks, primary as a
+    // tiny rim highlight. Lower factors than v1 — atmospheric, not decorative.
     vec3 col = uBg;
-    col = mix(col, uAccent,  smoothstep(0.55, 0.92, n) * 0.70);
-    col = mix(col, uPrimary, smoothstep(0.88, 1.00, n) * 0.12);
+    col = mix(col, uAccent,  smoothstep(0.60, 0.95, n) * 0.50);
+    col = mix(col, uPrimary, smoothstep(0.92, 1.00, n) * 0.08);
 
-    gl_FragColor = vec4(col, 1.0);
+    // Radial vignette → all edges fade to transparent so the canvas no longer
+    // reads as a rectangular card. Material must have transparent:true.
+    vec2 v = vUv - 0.5;
+    float vignette = 1.0 - smoothstep(0.42, 0.62, length(v) * 1.41);
+
+    gl_FragColor = vec4(col, vignette);
   }
 `;

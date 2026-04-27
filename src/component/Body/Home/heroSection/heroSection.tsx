@@ -36,9 +36,17 @@ const Stat: React.FC<{ value: string; unit?: string; desc: string }> = ({
 const HeroSection: React.FC<HeroSectionProps> = ({ onScrollTo }) => {
   return (
     <section id="top" className="relative mb-20 isolate">
+      {/* Escapes <main>'s max-w via left:50% + 100vw so the gradient reads as
+          ambient atmosphere rather than a constrained card. Body already has
+          overflow-x:hidden, so 100vw never produces a horizontal scrollbar. */}
       <div
-        className="pointer-events-none absolute inset-0 z-0"
-        style={{ opacity: 0.6 }}
+        className="pointer-events-none absolute inset-y-0 z-0"
+        style={{
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "100vw",
+          opacity: 0.4,
+        }}
       >
         <Suspense fallback={<HeroFallback />}>
           <HeroBackgroundCanvas />

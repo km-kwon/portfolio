@@ -67,6 +67,7 @@ const HeroBackground: React.FC = () => {
         uniforms={uniforms}
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
+        transparent
         depthWrite={false}
         depthTest={false}
       />
