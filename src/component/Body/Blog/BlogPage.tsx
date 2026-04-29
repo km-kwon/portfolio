@@ -5,6 +5,7 @@ import React, {
   useState,
   useCallback,
 } from "react";
+import type { MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { MOCK_ALL_POSTS } from "./data/postingDatas";
 import type { Post } from "./data/type/postingType";
@@ -143,9 +144,29 @@ const BlogPage: React.FC = () => {
     navigate(`/blog/${p.slug}`);
   };
 
+  const handleCardPointerMove = (event: MouseEvent<HTMLElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width) * 100;
+    const y = ((event.clientY - rect.top) / rect.height) * 100;
+    const rotateY = ((x - 50) / 50) * 4.5;
+    const rotateX = ((50 - y) / 50) * 3.5;
+
+    event.currentTarget.style.setProperty("--spot-x", `${x}%`);
+    event.currentTarget.style.setProperty("--spot-y", `${y}%`);
+    event.currentTarget.style.setProperty("--tilt-x", `${rotateX}deg`);
+    event.currentTarget.style.setProperty("--tilt-y", `${rotateY}deg`);
+  };
+
+  const handleCardPointerLeave = (event: MouseEvent<HTMLElement>) => {
+    event.currentTarget.style.setProperty("--spot-x", "50%");
+    event.currentTarget.style.setProperty("--spot-y", "50%");
+    event.currentTarget.style.setProperty("--tilt-x", "0deg");
+    event.currentTarget.style.setProperty("--tilt-y", "0deg");
+  };
+
   return (
-    <div className="min-h-screen bg-(--bg-base) text-(--fg-base)">
-      <div className="max-w-[1100px] mx-auto px-5 pt-[calc(var(--header-height)+32px)] pb-16">
+    <div className="blog-depth-page min-h-screen bg-(--bg-base) text-(--fg-base)">
+      <div className="relative z-10 max-w-[1100px] mx-auto px-5 pt-[calc(var(--header-height)+32px)] pb-16">
         {/* 헤더 */}
         <div className="flex items-end justify-between gap-4 mb-6">
           <div>
@@ -165,11 +186,13 @@ const BlogPage: React.FC = () => {
               role="button"
               tabIndex={0}
               onClick={() => openPost(featured)}
+              onPointerMove={handleCardPointerMove}
+              onPointerLeave={handleCardPointerLeave}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") openPost(featured);
               }}
               className={cx(
-                "group relative overflow-hidden rounded-3xl border bg-(--bg-elevated) border-(--border-subtle)",
+                "blog-orbit-card blog-depth-card blog-depth-card-featured group relative overflow-hidden rounded-3xl border bg-(--bg-elevated) border-(--border-subtle)",
                 "cursor-pointer transition-all duration-300 hover:border-(--accent)",
                 "focus:outline-none focus:ring-2 focus:ring-(--accent)/40",
                 featuredFading ? "opacity-0" : "opacity-100",
@@ -177,7 +200,7 @@ const BlogPage: React.FC = () => {
               )}
               style={{ transitionDuration: `${FADE_MS}ms` }}
             >
-              <div className="grid md:grid-cols-[320px_1fr]">
+              <div className="relative z-10 grid md:grid-cols-[320px_1fr]">
                 {/* 커버 */}
                 <div className="relative h-[250px] md:h-[250px] bg-(--bg-soft)">
                   {featured.cover ? (
@@ -215,7 +238,7 @@ const BlogPage: React.FC = () => {
                       {featured.tags.slice(0, 6).map((t) => (
                         <span
                           key={t}
-                          className="text-[11px] px-2.5 py-1.5 rounded-full bg-(--bg-soft) border border-(--border-subtle) text-(--accent)"
+                          className="blog-tag text-[11px] px-2.5 py-1.5 rounded-full bg-(--bg-soft) border border-(--border-subtle) text-(--accent)"
                         >
                           {t}
                         </span>
@@ -272,18 +295,20 @@ const BlogPage: React.FC = () => {
             <article
               key={p.id}
               onClick={() => openPost(p)}
+              onPointerMove={handleCardPointerMove}
+              onPointerLeave={handleCardPointerLeave}
               role="button"
               tabIndex={0}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") openPost(p);
               }}
               className={cx(
-                "group overflow-hidden rounded-2xl border bg-(--bg-elevated) border-(--border-subtle)",
-                "cursor-pointer transition-colors hover:border-(--accent)",
+                "blog-orbit-card blog-depth-card group overflow-hidden rounded-2xl border bg-(--bg-elevated) border-(--border-subtle)",
+                "cursor-pointer transition-all duration-300 hover:border-(--accent)",
                 "focus:outline-none focus:ring-2 focus:ring-(--accent)/40",
               )}
             >
-              <div className="grid md:grid-cols-[240px_1fr] md:h-60">
+              <div className="relative z-10 grid md:grid-cols-[240px_1fr] md:h-60">
                 {/* 왼쪽 커버(있을 때만) */}
                 {p.cover && (
                   <div className="relative h-[180px] md:h-60 bg-(--bg-soft)">
@@ -310,7 +335,7 @@ const BlogPage: React.FC = () => {
                     {p.tags.slice(0, 8).map((t) => (
                       <span
                         key={t}
-                        className="text-[11px] px-2.5 py-1.5 rounded-full bg-(--bg-soft) border border-(--border-subtle) text-(--accent)"
+                        className="blog-tag text-[11px] px-2.5 py-1.5 rounded-full bg-(--bg-soft) border border-(--border-subtle) text-(--accent)"
                       >
                         {t}
                       </span>

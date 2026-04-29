@@ -451,6 +451,76 @@ html {
   transform: translateY(-2px);
 }
 
+.blog-depth-page {
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
+}
+
+.blog-depth-page::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.64;
+  background:
+    radial-gradient(circle at 18% 16%, rgba(32,201,151,0.13), transparent 26%),
+    radial-gradient(circle at 82% 34%, rgba(99,102,241,0.12), transparent 24%),
+    linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.035) 48%, transparent 58%);
+}
+
+.blog-depth-page::after {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.14;
+  background-image:
+    linear-gradient(var(--border-subtle) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, transparent, black 16%, black 76%, transparent);
+}
+
+.blog-depth-card {
+  transform:
+    perspective(900px)
+    rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg))
+    translateY(0)
+    translateZ(0);
+  transform-style: preserve-3d;
+  will-change: transform;
+  box-shadow: 0 12px 34px rgba(0,0,0,0.12);
+  transition:
+    transform 260ms ease,
+    border-color 260ms ease,
+    box-shadow 260ms ease,
+    opacity 260ms ease;
+}
+
+.blog-depth-card:hover {
+  transform:
+    perspective(900px)
+    rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg))
+    translateY(-6px)
+    translateZ(0);
+  box-shadow:
+    0 22px 54px rgba(0,0,0,0.2),
+    0 0 0 1px rgba(32,201,151,0.08);
+}
+
+.blog-depth-card-featured {
+  box-shadow: 0 18px 52px rgba(0,0,0,0.16);
+}
+
+.blog-depth-card > * {
+  transform: translateZ(22px);
+}
+
 @media (hover: hover) and (pointer: fine) {
   .project-tilt-surface:hover .project-tilt-gloss {
     opacity: 1;
@@ -465,5 +535,17 @@ html {
 
   .project-tilt-gloss {
     opacity: 0 !important;
+  }
+
+  .blog-depth-page::before,
+  .blog-depth-page::after {
+    opacity: 0.08;
+  }
+
+  .blog-depth-card,
+  .blog-depth-card:hover,
+  .blog-depth-card > * {
+    transform: none !important;
+    will-change: auto;
   }
 }
