@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import type { SkillTabType } from "./types";
 import {
   cardBase,
@@ -35,8 +36,8 @@ const SkillsSection: React.FC = () => {
   };
 
   return (
-    <section id="skills" className="mb-20">
-      <SectionMarker number="03" label="Skills" />
+    <section id="skills" className="mb-16">
+      <SectionMarker number="04" label="Skills" />
       <div className={sectionHeaderBase}>
         <div>
           <h2 className={sectionTitleClass}>경력 &amp; 전문성</h2>
@@ -47,20 +48,45 @@ const SkillsSection: React.FC = () => {
       </div>
 
       {/* 탭 네비게이션 */}
-      <div className="flex gap-2.5 mb-6">
+      <div className="relative flex gap-2.5 mb-5">
         {tabs.map((tab) => (
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
-            className={tabButtonClass(activeTab === tab.key)}
+            className={[
+              tabButtonClass(activeTab === tab.key),
+              "relative overflow-hidden",
+              activeTab === tab.key
+                ? "shadow-[0_0_22px_rgba(32,201,151,0.14)]"
+                : "",
+            ].join(" ")}
           >
+            {activeTab === tab.key && (
+              <motion.span
+                layoutId="skills-active-scan"
+                className="absolute inset-x-2 bottom-1 h-px bg-(--accent)"
+                transition={{ type: "spring", stiffness: 420, damping: 32 }}
+              />
+            )}
             {tab.label}
           </button>
         ))}
       </div>
 
       {/* 탭 컨텐츠 */}
-      <div className={cardBase}>{renderTabContent()}</div>
+      <div className={cardBase}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            exit={{ opacity: 0, y: -8, filter: "blur(4px)" }}
+            transition={{ duration: 0.24, ease: [0.22, 0.61, 0.36, 1] }}
+          >
+            {renderTabContent()}
+          </motion.div>
+        </AnimatePresence>
+      </div>
     </section>
   );
 };

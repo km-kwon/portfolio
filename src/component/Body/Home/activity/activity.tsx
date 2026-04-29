@@ -8,6 +8,7 @@ import {
   sectionTitleClass,
 } from "../../../../styles/tokens";
 import SectionMarker from "../../../common/SectionMarker";
+import TiltCard from "../../../common/TiltCard";
 
 const AUTO_SLIDE_DURATION = 4000; // 자동 슬라이드 지속 시간 (ms)
 const ACTIVITY_HEIGHT = 500; // 데스크탑 세로 슬라이드 높이(px)
@@ -129,8 +130,8 @@ const ActivitySection: React.FC = () => {
   };
 
   return (
-    <section id="activity" className="mb-20">
-      <SectionMarker number="05" label="Activity" />
+    <section id="activity" className="mb-16">
+      <SectionMarker number="06" label="Activity" />
       <div className={sectionHeaderBase}>
         <div>
           <h2 className={sectionTitleClass}>대외 활동</h2>
@@ -171,12 +172,16 @@ const ActivitySection: React.FC = () => {
                     key={activity.id}
                     className="w-full mb-1 shrink-0 flex justify-center px-3"
                   >
-                    <div className="w-full h-full max-w-3xl rounded-2xl border border-(--border-subtle) bg-(--bg-elevated) transition-all duration-300 hover:border-(--accent-border) [html[data-theme='light']_&]:shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+                    <TiltCard
+                      className="w-full h-full max-w-3xl"
+                      surfaceClassName="rounded-2xl border border-(--border-subtle) bg-(--bg-elevated) transition-all duration-300 hover:border-(--accent-border) [html[data-theme='light']_&]:shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
+                      glossClassName="hidden"
+                    >
                       <ActivityItem
                         activity={activity}
                         isActive={idx === currentIndex}
                       />
-                    </div>
+                    </TiltCard>
                   </div>
                 ))}
               </div>
@@ -337,12 +342,16 @@ const ActivitySection: React.FC = () => {
                   className="h-full w-full shrink-0 flex items-center justify-center"
                 >
                   {/* 가운데 카드 컨테이너 */}
-                  <div className="w-full max-h-full overflow-y-auto rounded-2xl border border-(--border-subtle) bg-(--bg-elevated) transition-all duration-300 hover:border-(--accent-border) [html[data-theme='light']_&]:shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+                  <TiltCard
+                    className="w-full max-h-full"
+                    surfaceClassName="rounded-2xl border border-(--border-subtle) bg-(--bg-elevated) transition-all duration-300 hover:border-(--accent-border) [html[data-theme='light']_&]:shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
+                    glossClassName="hidden"
+                  >
                     <ActivityItem
                       activity={activity}
                       isActive={idx === currentIndex}
                     />
-                  </div>
+                  </TiltCard>
                 </div>
               ))}
             </div>

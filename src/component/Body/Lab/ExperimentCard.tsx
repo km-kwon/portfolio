@@ -19,13 +19,14 @@ const ExperimentCard: React.FC<ExperimentCardProps> = ({ experiment }) => {
   return (
     <article
       className={
-        "rounded-2xl border border-(--border-subtle) bg-(--bg-elevated) " +
+        "group rounded-2xl border border-(--border-subtle) bg-(--bg-elevated) " +
         "transition-all duration-300 ease-out overflow-hidden " +
-        "hover:border-(--accent-border) " +
+        "hover:border-(--accent-border) hover:-translate-y-0.5 " +
         "[html[data-theme='light']_&]:shadow-[0_1px_3px_rgba(0,0,0,0.04)] " +
         "[html[data-theme='light']_&]:hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)]"
       }
     >
+      <div className="pulse-line h-0.5 w-full bg-(--accent)" />
       {/* Header */}
       <div className="p-5 pb-0">
         <div className="flex items-start justify-between gap-3 mb-2">
@@ -52,7 +53,7 @@ const ExperimentCard: React.FC<ExperimentCardProps> = ({ experiment }) => {
       </div>
 
       {/* Interactive Demo */}
-      <div className="px-5 pb-5">
+      <div className="relative z-10 px-5 pb-5 transition-transform duration-300 ease-out group-hover:-translate-y-0.5">
         <Suspense
           fallback={
             <div className="flex items-center justify-center h-40 rounded-xl border border-(--border-subtle) bg-(--bg)">

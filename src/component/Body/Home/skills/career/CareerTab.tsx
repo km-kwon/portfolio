@@ -234,9 +234,9 @@ const CareerCard: React.FC<CareerCardProps> = ({ career }) => {
         onClick={() => setIsExpanded((v) => !v)}
         className="w-full text-left cursor-pointer group"
       >
-        <div className="grid grid-cols-[110px_1fr_auto] gap-5 items-start">
+        <div className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-2 items-start lg:grid-cols-[110px_1fr_auto] lg:gap-5">
           {/* 왼쪽: 기간 */}
-          <div className="text-[11px] font-mono text-fg-dimmed leading-relaxed pt-1 uppercase tracking-wide">
+          <div className="col-span-2 text-[11px] font-mono text-fg-dimmed leading-relaxed uppercase tracking-wide lg:col-span-1 lg:pt-1">
             {career.period}
           </div>
 
@@ -291,14 +291,14 @@ const CareerCard: React.FC<CareerCardProps> = ({ career }) => {
       </button>
 
       <AccordionBody open={isExpanded} durationMs={420}>
-        <div className="grid grid-cols-[110px_1fr_auto] gap-5 mt-5">
-          <div />
-          <div className="border-l border-(--accent)/25 pl-5 space-y-5">
+        <div className="mt-5 lg:grid lg:grid-cols-[110px_1fr_auto] lg:gap-5">
+          <div className="hidden lg:block" />
+          <div className="border-l border-(--accent)/25 pl-4 space-y-5 lg:pl-5">
             {career.projects.map((project, idx) => (
               <ProjectCard key={idx} project={project} index={idx} />
             ))}
           </div>
-          <div />
+          <div className="hidden lg:block" />
         </div>
       </AccordionBody>
     </section>

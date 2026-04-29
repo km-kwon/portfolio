@@ -42,15 +42,16 @@ const VALUES: Value[] = [
 
 const ValueCard: React.FC<{ value: Value }> = ({ value }) => (
   <div
-    className="group rounded-2xl border border-(--border-subtle) bg-(--bg-elevated) p-5
+    className="interactive-surface group relative h-full overflow-hidden rounded-2xl border border-(--border-subtle) bg-(--bg-elevated) p-5
                transition-all duration-300 ease-out
-               hover:-translate-y-0.5 hover:border-(--accent-border)
+               hover:-translate-y-1.5 hover:border-(--accent-border)
                [html[data-theme='light']_&]:shadow-[0_1px_3px_rgba(0,0,0,0.04)]
                [html[data-theme='light']_&]:hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)]"
   >
-    <div className="flex items-center justify-between gap-2 mb-2">
+    <div className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-(--accent) transition-transform duration-500 group-hover:scale-x-100" />
+    <div className="relative z-10 flex items-center justify-between gap-2 mb-2">
       <div>
-        <h3 className="text-[15px] font-bold text-fg tracking-tight">{value.title}</h3>
+        <h3 className="text-[15px] font-bold text-fg tracking-tight transition-transform duration-300 group-hover:translate-x-1">{value.title}</h3>
         <p className="text-[11px] text-fg-dimmed mt-0.5">{value.subtitle}</p>
       </div>
       <span className="text-[10px] px-2 py-0.5 rounded font-mono tracking-wider border border-(--accent-border) text-(--accent) bg-(--accent-subtle)">
@@ -58,9 +59,9 @@ const ValueCard: React.FC<{ value: Value }> = ({ value }) => (
       </span>
     </div>
 
-    <p className="text-[13px] text-fg-muted leading-[1.65] mt-3">{value.summary}</p>
+    <p className="relative z-10 text-[13px] text-fg-muted leading-[1.65] mt-3">{value.summary}</p>
 
-    <div className="mt-4 pt-3 border-t border-(--border-subtle)/60">
+    <div className="relative z-10 mt-4 pt-3 border-t border-(--border-subtle)/60">
       <p className="text-[11px] font-mono text-fg-dimmed leading-relaxed">
         <span className="text-(--accent)/70">→</span> {value.example}
       </p>
@@ -70,10 +71,10 @@ const ValueCard: React.FC<{ value: Value }> = ({ value }) => (
 
 const AboutSection: React.FC = () => {
   return (
-    <section id="about" className="mb-20">
-      <SectionMarker number="04" label="Values" />
+    <section id="about" className="mb-16">
+      <SectionMarker number="05" label="Values" />
 
-      <div className="flex flex-col gap-2 md:flex-row md:items-baseline md:justify-between mb-8">
+      <div className="flex flex-col gap-2 md:flex-row md:items-baseline md:justify-between mb-6">
         <h2 className="text-[22px] font-bold tracking-tight text-fg">개발자로서의 가치관</h2>
         <p className="text-[13px] text-fg-muted leading-relaxed max-w-md">
           최고의 성과를 지향하되, 최악의 상황을 먼저 대비하는 '안전한 혁신'을 추구합니다.

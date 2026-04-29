@@ -22,9 +22,10 @@ const Header: React.FC<HeaderProps> = ({
 
   const navItems: { id: string; label: string }[] = [
     { id: "top", label: "Profile" },
-    { id: "about", label: "About" },
-    { id: "skills", label: "Skills" },
+    { id: "world", label: "World" },
     { id: "projects", label: "Projects" },
+    { id: "skills", label: "Skills" },
+    { id: "about", label: "About" },
   ];
 
   const handleNavClick = (id: string) => {

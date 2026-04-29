@@ -21,7 +21,7 @@ const ContactSection: React.FC = () => {
 
   return (
     <section id="contact" className="mb-10">
-      <SectionMarker number="08" label="Contact" />
+      <SectionMarker number="09" label="Contact" />
       <div className={sectionHeaderBase}>
         <div>
           <h2 className={sectionTitleClass}>함께 이야기해요</h2>
@@ -34,7 +34,7 @@ const ContactSection: React.FC = () => {
       <div className="grid gap-4.5 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1.2fr)]">
         {/* 왼쪽 소개 카드 */}
         <div
-          className={`${cardBase} text-[14px] text-fg-muted leading-[1.7]`}
+          className={`${cardBase} interactive-surface text-[14px] text-fg-muted leading-[1.7]`}
         >
           <p>
             새 제품을 기획 중이거나, 기존 서비스를 재설계하고 싶다면

@@ -11,7 +11,8 @@ import {
 } from "../../../../styles/tokens";
 import SectionMarker from "../../../common/SectionMarker";
 import type { Project } from "./types";
-import { useTilt } from "./useTilt";
+import TiltCard from "../../../common/TiltCard";
+import { useTilt } from "../../../../hooks/useTilt";
 
 const AUTO_SLIDE_DURATION = 3000; // 자동 슬라이드 지속 시간 (ms)
 
@@ -39,6 +40,84 @@ type DesktopProjectCardProps = {
   onOpen: (id: string) => void;
   onFocusCard: () => void;
 };
+
+type MobileProjectCardProps = {
+  project: Project;
+  onOpen: (id: string) => void;
+};
+
+const MobileProjectCard = ({ project, onOpen }: MobileProjectCardProps) => (
+  <TiltCard
+    className="w-full max-w-3xl"
+    surfaceClassName="min-h-80 flex flex-col rounded-2xl bg-(--bg-elevated) [html[data-theme='light']_&]:shadow-[0_1px_3px_rgba(0,0,0,0.04)] [html[data-theme='light']_&]:hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] border border-(--border-subtle) cursor-pointer"
+    data-project-id={project.id}
+    onClick={() => onOpen(project.id)}
+    role="button"
+    tabIndex={0}
+    onKeyDown={(e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onOpen(project.id);
+      }
+    }}
+  >
+    {project.banner && (
+      <div className="relative w-full h-32 shrink-0 overflow-hidden">
+        <img src={project.banner} alt="" className="w-full h-full object-cover grayscale-30" />
+        <div className="absolute inset-0 bg-linear-to-t from-[rgba(0,0,0,0.6)] to-transparent" />
+      </div>
+    )}
+
+    <div className="relative flex flex-col flex-1 justify-between z-10 p-4 text-[13px] text-fg-muted leading-[1.6]">
+      <div>
+        <h3 className="mb-1.5 text-fg text-[15px] font-semibold tracking-[0.02em]">
+          {project.title}
+        </h3>
+
+        <p className="text-[12px] mb-2.5 line-clamp-2 text-fg opacity-100">
+          {project.summary}
+        </p>
+
+        {project.highlights && project.highlights.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mb-2.5">
+            {project.highlights.slice(0, 2).map((h, i) => (
+              <span
+                key={i}
+                className="text-[10px] px-2 py-0.5 rounded-full bg-(--accent-subtle) border border-(--accent-border) text-(--accent) font-medium"
+              >
+                {h.value} {h.label}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <div className="flex flex-wrap gap-1.5">
+          {project.tags.slice(0, 6).map((t) => (
+            <span key={t} className={pillClass}>
+              {t}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex gap-3 text-[11px] mt-3">
+        {project.links.map((link) => (
+          <a
+            key={link.label}
+            href={link.href}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1 text-fg-muted hover:text-fg hover:-translate-y-px transition-all duration-150 ease-out"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <span>{link.label}</span>
+            <span>↗</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </TiltCard>
+);
 
 const DesktopProjectCard = ({
   project,
@@ -300,8 +379,8 @@ const ProjectsSection: React.FC = () => {
 
   return (
     <>
-      <section id="projects" className="mb-20">
-        <SectionMarker number="02" label="Projects" />
+      <section id="projects" className="mb-16">
+        <SectionMarker number="03" label="Projects" />
         <div className={sectionHeaderBase}>
           <div>
             <h2 className={sectionTitleClass}>주요 프로젝트</h2>
@@ -337,72 +416,7 @@ const ProjectsSection: React.FC = () => {
                     key={project.id}
                     className="w-full shrink-0 flex justify-center px-3"
                   >
-                    <article
-                      data-project-id={project.id}
-                      className="w-full max-w-3xl min-h-80 flex flex-col rounded-2xl bg-(--bg-elevated) [html[data-theme='light']_&]:shadow-[0_1px_3px_rgba(0,0,0,0.04)] [html[data-theme='light']_&]:hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] border border-(--border-subtle) cursor-pointer overflow-hidden"
-                      onClick={() => openModal(project.id)}
-                    >
-                      {project.banner && (
-                        <div className="relative w-full h-32 shrink-0 overflow-hidden">
-                          <img
-                            src={project.banner}
-                            alt=""
-                            className="w-full h-full object-cover grayscale-30"
-                          />
-                          <div className="absolute inset-0 bg-linear-to-t from-[rgba(0,0,0,0.6)] to-transparent" />
-                        </div>
-                      )}
-
-                      <div className="relative flex flex-col flex-1 justify-between z-10 p-4 text-[13px] text-fg-muted leading-[1.6]">
-                        <div>
-                          <h3 className="mb-1.5 text-fg text-[15px] font-semibold tracking-[0.02em]">
-                            {project.title}
-                          </h3>
-
-                          <p className="text-[12px] mb-2.5 line-clamp-2 text-fg opacity-100">
-                            {project.summary}
-                          </p>
-
-                          {/* 핵심 성과 배지 (모바일) */}
-                          {project.highlights && project.highlights.length > 0 && (
-                            <div className="flex flex-wrap gap-1.5 mb-2.5">
-                              {project.highlights.slice(0, 2).map((h: { value: string; label: string }, i: number) => (
-                                <span
-                                  key={i}
-                                  className="text-[10px] px-2 py-0.5 rounded-full bg-(--accent-subtle) border border-(--accent-border) text-(--accent) font-medium"
-                                >
-                                  {h.value} {h.label}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-
-                          <div className="flex flex-wrap gap-1.5">
-                            {project.tags.slice(0, 6).map((t: string) => (
-                              <span key={t} className={pillClass}>
-                                {t}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className="flex gap-3 text-[11px]  mt-3">
-                          {project.links.map((link) => (
-                            <a
-                              key={link.label}
-                              href={link.href}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="inline-flex items-center gap-1 text-fg-muted hover:text-fg hover:-translate-y-px transition-all duration-150 ease-out"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              <span>{link.label}</span>
-                              <span>↗</span>
-                            </a>
-                          ))}
-                        </div>
-                      </div>
-                    </article>
+                    <MobileProjectCard project={project} onOpen={openModal} />
                   </div>
                 ))}
               </div>

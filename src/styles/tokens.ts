@@ -16,7 +16,7 @@ export const cardBase =
 
 /* ── Section Header ── */
 export const sectionHeaderBase =
-    "flex flex-col gap-2 md:flex-row md:items-baseline md:justify-between mb-8";
+    "flex flex-col gap-2 md:flex-row md:items-baseline md:justify-between mb-6";
 
 /* ── Label (섹션 상단 카테고리) ── */
 export const labelClass =

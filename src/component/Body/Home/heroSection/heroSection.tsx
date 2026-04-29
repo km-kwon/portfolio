@@ -37,7 +37,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollTo }) => {
   return (
     <section
       id="top"
-      className="relative mb-20 isolate min-h-[calc(100vh-var(--header-height)-40px)] flex items-center"
+      className="relative mb-16 isolate min-h-[calc(100vh-var(--header-height)-40px)] flex items-center"
     >
       {/* Escapes <main>'s max-w via left:50% + 100vw so the gradient reads as
           ambient atmosphere rather than a constrained card. Body already has
@@ -94,9 +94,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollTo }) => {
               <button
                 className="text-[13px] px-5 py-2.5 rounded-lg bg-(--accent) text-white font-semibold
                            hover:bg-(--accent-hover) transition-all duration-300 ease-out cursor-pointer"
-                onClick={() => onScrollTo("projects")}
+                onClick={() => onScrollTo("world")}
               >
-                프로젝트 보기
+                3D 쇼케이스 보기
               </button>
               <a
                 href={`${import.meta.env.BASE_URL}resume.pdf`}

@@ -16,8 +16,8 @@ const preview = shuffled.slice(0, 2);
 export const WorkerLab: React.FC = () => {
 
   return (
-    <section id="lab" className="mb-20">
-      <SectionMarker number="06" label="Lab" />
+    <section id="lab" className="mb-16">
+      <SectionMarker number="07" label="Lab" />
       <div className={sectionHeaderBase}>
         <div>
           <h2 className={sectionTitleClass}>프론트엔드 실험실</h2>
