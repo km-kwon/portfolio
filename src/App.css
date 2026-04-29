@@ -328,3 +328,29 @@ html {
   border-top: 1px solid var(--border-subtle);
   margin: 2em 0;
 }
+
+.project-tilt-surface {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.project-tilt-surface > * {
+  transform: translateZ(18px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project-tilt-surface:hover .project-tilt-gloss {
+    opacity: 1;
+  }
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .project-tilt-surface {
+    transform: none !important;
+    will-change: auto;
+  }
+
+  .project-tilt-gloss {
+    opacity: 0 !important;
+  }
+}

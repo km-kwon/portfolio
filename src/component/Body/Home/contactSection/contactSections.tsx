@@ -1,5 +1,6 @@
 // src/ContactSection.tsx
 import React from "react";
+import SectionMarker from "../../../common/SectionMarker";
 
 const cardBase =
   "rounded-3xl border border-(--border-subtle) bg-(--bg-elevated) p-5 shadow-[0_14px_34px_rgba(0,0,0,0.32)] " +
@@ -11,23 +12,22 @@ const cardBase =
 const sectionHeaderBase =
   "flex flex-col gap-3 md:flex-row md:items-baseline md:justify-between mb-5";
 
-const labelClass =
-  "text-[11px] uppercase tracking-[0.16em] text-fg-muted mb-3";
-
 const sectionTitleClass = "text-[20px] font-semibold tracking-[0.02em]";
 const sectionSubTitleClass =
   "text-[13px] text-fg-muted leading-relaxed";
 
 const ContactSection: React.FC = () => {
+  const email = "lanos5019@ajou.ac.kr";
+
   return (
     <section id="contact" className="mb-10">
+      <SectionMarker number="08" label="Contact" />
       <div className={sectionHeaderBase}>
         <div>
-          <p className={labelClass}>Contact</p>
           <h2 className={sectionTitleClass}>함께 이야기해요</h2>
         </div>
         <p className={sectionSubTitleClass}>
-          협업/채용/사이드 프로젝트 모두 편하게 연락 주세요.
+          프론트엔드 포지션, 협업, 프로젝트 제안 모두 이메일로 편하게 연락 주세요.
         </p>
       </div>
 
@@ -42,9 +42,9 @@ const ContactSection: React.FC = () => {
             도울 수 있습니다.
           </p>
           <p className="mt-3">
-            아래 채널 중 편한 방법으로 연락 주시면,
+            아래 채널 중 편한 방법으로 연락 주시면
             <br />
-            가능한 한 빠르게 답변 드리겠습니다.
+            가능한 한 빠르게 답변드리겠습니다.
           </p>
         </div>
 
@@ -56,10 +56,10 @@ const ContactSection: React.FC = () => {
                 Email
               </span>
               <a
-                href="mailto:you@example.com"
+                href={`mailto:${email}`}
                 className="text-[13px] font-medium truncate"
               >
-                you@example.com
+                {email}
               </a>
             </div>
 
@@ -68,34 +68,41 @@ const ContactSection: React.FC = () => {
                 GitHub
               </span>
               <a
-                href="https://github.com/your-id"
+                href="https://github.com/km-kwon"
                 target="_blank"
                 rel="noreferrer"
                 className="text-[13px] font-medium truncate"
               >
-                @your-id
+                @km-kwon
               </a>
             </div>
 
             <div className="flex items-center justify-between gap-3 rounded-full px-3.5 py-2 border border-(--border-subtle) bg-(--bg-soft) [html[data-theme='light']_&]:bg-[#f5f5fb]">
               <span className="text-[12px] text-fg-muted">
-                LinkedIn
+                NPM
               </span>
               <a
-                href="https://linkedin.com/in/your-id"
+                href="https://www.npmjs.com/~kwon-kyoungmin"
                 target="_blank"
                 rel="noreferrer"
                 className="text-[13px] font-medium truncate"
               >
-                /in/your-id
+                ~kwon-kyoungmin
               </a>
             </div>
 
             <div className="flex items-center justify-between gap-3 rounded-full px-3.5 py-2 border border-(--border-subtle) bg-(--bg-soft) [html[data-theme='light']_&]:bg-[#f5f5fb]">
               <span className="text-[12px] text-fg-muted">
-                Other
+                Resume
               </span>
-              <span className="text-[13px] font-medium">원하는 채널 추가</span>
+              <a
+                href={`${import.meta.env.BASE_URL}resume.pdf`}
+                target="_blank"
+                rel="noreferrer"
+                className="text-[13px] font-medium truncate"
+              >
+                PDF 다운로드
+              </a>
             </div>
           </div>
         </div>

@@ -71,7 +71,7 @@ const ValueCard: React.FC<{ value: Value }> = ({ value }) => (
 const AboutSection: React.FC = () => {
   return (
     <section id="about" className="mb-20">
-      <SectionMarker number="02" label="Values" />
+      <SectionMarker number="04" label="Values" />
 
       <div className="flex flex-col gap-2 md:flex-row md:items-baseline md:justify-between mb-8">
         <h2 className="text-[22px] font-bold tracking-tight text-fg">개발자로서의 가치관</h2>

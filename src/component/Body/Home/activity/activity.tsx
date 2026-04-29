@@ -130,7 +130,7 @@ const ActivitySection: React.FC = () => {
 
   return (
     <section id="activity" className="mb-20">
-      <SectionMarker number="04" label="Activity" />
+      <SectionMarker number="05" label="Activity" />
       <div className={sectionHeaderBase}>
         <div>
           <h2 className={sectionTitleClass}>대외 활동</h2>

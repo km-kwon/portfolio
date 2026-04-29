@@ -2,8 +2,8 @@ import React, { useCallback } from "react";
 import HeroSection from "./heroSection/heroSection";
 import AboutSection from "./about/about";
 import SkillsSection from "./skills/skills";
-import ExperienceSection from "./experience/experience";
-// import ContactSection from "./contactSection/contactSections";
+import BlogSection from "./experience/experience";
+import ContactSection from "./contactSection/contactSections";
 import { WorkerLab } from "./labs/labs";
 import ActivitySection from "./activity/activity";
 import ProjectsSection from "./projects/projects";
@@ -30,26 +30,26 @@ const HomePage: React.FC = () => {
       {/* HERO */}
       <HeroSection onScrollTo={handleScrollTo} />
 
-      {/* ABOUT */}
-      <AboutSection />
+      {/* PROJECTS */}
+      <ProjectsSection />
 
       {/* SKILLS */}
       <SkillsSection />
 
+      {/* ABOUT */}
+      <AboutSection />
+
       {/* ACTIVITY */}
       <ActivitySection />
-
-      {/* PROJECTS */}
-      <ProjectsSection />
 
       {/* LABS */}
       <WorkerLab />
 
-      {/* EXPERIENCE */}
-      <ExperienceSection />
+      {/* BLOG */}
+      <BlogSection />
 
       {/* CONTACT */}
-      {/*  <ContactSection /> */}
+      <ContactSection />
     </main>
   );
 };
