@@ -100,16 +100,16 @@ const TocSidebar: React.FC<{
                       "group relative block w-full text-left cursor-pointer",
                       "text-[13px] leading-[1.65]",
                       "transition-all duration-200 origin-left",
-                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-(--accent)/60 focus-visible:ring-offset-2 focus-visible:ring-offset-(--bg-base)",
+                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-(--accent)/60 focus-visible:ring-offset-2 focus-visible:ring-offset-(--bg)",
                       isActive
-                        ? "text-(--fg-base) scale-110"
+                        ? "text-fg scale-110"
                         : "text-gray-500 hover:text-gray-500/80 hover:scale-105",
                     ].join(" ")}
                   >
                     <span
                       className={[
                         "absolute -left-[22px] top-[9px] h-1.5 w-1.5 rounded-full",
-                        "bg-(--fg-base)",
+                        "bg-(--fg)",
                         "transition-opacity duration-200",
                         isActive
                           ? "opacity-100"
@@ -184,7 +184,7 @@ const CardShell: React.FC<{
       "border border-(--border-subtle)",
       "bg-(--bg-soft) hover:bg-(--bg-elevated)",
       "transition-all duration-300",
-      "focus:outline-none focus-visible:ring-2 focus-visible:ring-(--accent)/60 focus-visible:ring-offset-2 focus-visible:ring-offset-(--bg-base)",
+      "focus:outline-none focus-visible:ring-2 focus-visible:ring-(--accent)/60 focus-visible:ring-offset-2 focus-visible:ring-offset-(--bg)",
       align === "left" ? "text-left" : "text-right",
     ].join(" ")}
   >
@@ -222,7 +222,7 @@ const PostNavigation: React.FC<{
                   {/* 🔥 두 줄까지 줄바꿈 + 고정 높이 */}
                   <h3
                     className="
-                      text-[18px] font-bold text-(--fg-base)
+                      text-[18px] font-bold text-fg
                       truncate overflow-hidden
                     "
                   >
@@ -249,7 +249,7 @@ const PostNavigation: React.FC<{
                   {/* 🔥 동일하게 두 줄까지 제한 */}
                   <h3
                     className=" 
-                      text-[18px] font-bold text-(--fg-base)
+                      text-[18px] font-bold text-fg
                       truncate overflow-hidden
                     "
                   >
@@ -281,7 +281,7 @@ const MarkdownContent = React.memo(function MarkdownContent({
 }) {
   // content가 바뀔 때만 새 slugger 생성
   // (memo 덕분에 activeId 변경으로는 이 컴포넌트가 리렌더되지 않음)
-  const renderSlug = useMemo(() => createSlugger(), [content]);
+  const renderSlug = useMemo(() => createSlugger(), []);
   const remarkPlugins = useMemo(() => [remarkGfm], []);
 
   const components = useMemo(
@@ -469,7 +469,7 @@ const BlogDetailPage: React.FC = () => {
 
   if (!post) {
     return (
-      <div className="min-h-screen bg-(--bg-base) text-(--fg-base) flex items-center justify-center">
+      <div className="min-h-screen bg-(--bg) text-fg flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-[32px] font-bold mb-4">
             포스트를 찾을 수 없습니다
@@ -486,7 +486,7 @@ const BlogDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-(--bg-base) text-(--fg-base) overflow-x-hidden">
+    <div className="min-h-screen bg-(--bg) text-fg overflow-x-hidden">
       <div className="mx-auto max-w-(--content-max-w) px-5 md:px-8 pt-[calc(var(--header-height)+48px)] pb-16">
         <article className="w-full">
           <button
@@ -544,7 +544,7 @@ const BlogDetailPage: React.FC = () => {
 
           <div className="prose prose-invert max-w-none">
             {content ? (
-              <MarkdownContent content={content} />
+              <MarkdownContent key={post.slug} content={content} />
             ) : (
               <p className="text-fg-muted">콘텐츠가 없습니다.</p>
             )}

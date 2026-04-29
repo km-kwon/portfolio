@@ -322,7 +322,7 @@ const ProjectsSection: React.FC = () => {
 
     const handleResize = () => {
       const width = window.innerWidth;
-      const mobile = width < 768;
+      const mobile = width < 1024;
       setViewportWidth(width);
       setIsMobile(mobile);
     };
@@ -348,7 +348,8 @@ const ProjectsSection: React.FC = () => {
   const getBaseSpread = () => {
     if (!viewportWidth) return 140;
 
-    const base = viewportWidth / (projects.length + 1); // 화면 폭 / 카드 수
+    const usableWidth = Math.min(viewportWidth - 40, 1024);
+    const base = usableWidth / (projects.length + 1); // 실제 전시 영역 기준 카드 간격
     return Math.min(150, Math.max(82, base * 0.68));
   };
 
@@ -490,7 +491,7 @@ const ProjectsSection: React.FC = () => {
               activeId ? "cinematic-project-stage-paused" : "",
             ].join(" ")}
           >
-            <div className="archive-wall-status pointer-events-none absolute right-0 top-0 hidden w-[280px] border-l border-(--accent-border) bg-(--bg-elevated)/45 p-4 backdrop-blur-md lg:block">
+            <div className="archive-wall-status pointer-events-none absolute right-0 top-0 hidden w-[280px] border-l border-(--accent-border) bg-(--bg-elevated)/45 p-4 backdrop-blur-md xl:block">
               <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-(--accent)">
                 Now Exhibiting
               </div>

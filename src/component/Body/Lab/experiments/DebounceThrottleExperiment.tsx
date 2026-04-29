@@ -8,6 +8,7 @@ interface CallLog {
 }
 
 const DELAY = 300;
+const now = () => performance.now();
 
 const DebounceThrottleExperiment: React.FC = () => {
   const [strategy, setStrategy] = useState<Strategy>("none");
@@ -21,8 +22,12 @@ const DebounceThrottleExperiment: React.FC = () => {
 
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const throttleLock = useRef(false);
-  const startTime = useRef(Date.now());
+  const startTime = useRef(0);
   const logsContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    startTime.current = now();
+  }, []);
 
   // Auto-scroll logs (container only, not page)
   useEffect(() => {
@@ -34,7 +39,7 @@ const DebounceThrottleExperiment: React.FC = () => {
 
   const recordCall = useCallback(
     (value: string) => {
-      const elapsed = Date.now() - startTime.current;
+      const elapsed = Math.round(now() - startTime.current);
       setLogs((prev) => [...prev.slice(-30), { time: elapsed, value }]);
       setCallCount((prev) => ({ ...prev, [strategy]: prev[strategy] + 1 }));
     },
@@ -72,7 +77,7 @@ const DebounceThrottleExperiment: React.FC = () => {
     setInput("");
     setLogs([]);
     setCallCount({ none: 0, debounce: 0, throttle: 0 });
-    startTime.current = Date.now();
+    startTime.current = now();
     if (debounceTimer.current) clearTimeout(debounceTimer.current);
     throttleLock.current = false;
   };

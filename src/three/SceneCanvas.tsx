@@ -29,14 +29,13 @@ const useReducedMotion = (): boolean => {
 };
 
 const useIsLowEndDevice = (): boolean => {
-  const [low, setLow] = useState(false);
-  useEffect(() => {
+  const [low] = useState(() => {
     if (typeof window === "undefined") return;
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
     const cores = navigator.hardwareConcurrency ?? 8;
-    setLow(isMobile || cores < 4);
-  }, []);
-  return low;
+    return isMobile || cores < 4;
+  });
+  return low ?? false;
 };
 
 /**

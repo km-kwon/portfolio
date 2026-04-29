@@ -3,7 +3,8 @@ import type { Post } from "./type/postingType";
 // 모든 md 파일을 raw 문자열로 로드
 const mdModules = import.meta.glob<string>("./mdDatas/*.md", {
   eager: true,
-  as: "raw",
+  query: "?raw",
+  import: "default",
 });
 
 // 파일명으로 컨텐츠 가져오는 헬퍼 함수

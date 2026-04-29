@@ -16,8 +16,12 @@ const SpringPhysicsExperiment: React.FC = () => {
   const dampingRef = useRef(damping);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  stiffnessRef.current = stiffness;
-  dampingRef.current = damping;
+  useEffect(() => {
+    stiffnessRef.current = stiffness;
+    dampingRef.current = damping;
+  }, [stiffness, damping]);
+
+  const simulateRef = useRef<() => void>(() => {});
 
   const simulate = useCallback(() => {
     const dt = 1 / 60;
@@ -44,15 +48,19 @@ const SpringPhysicsExperiment: React.FC = () => {
     setDisplayX(xRef.current);
     setDisplayVel(velocityRef.current);
 
-    frameRef.current = requestAnimationFrame(simulate);
+    frameRef.current = requestAnimationFrame(simulateRef.current);
   }, []);
+
+  useEffect(() => {
+    simulateRef.current = simulate;
+  }, [simulate]);
 
   const startLoop = useCallback(() => {
     if (runningRef.current) return;
     runningRef.current = true;
     cancelAnimationFrame(frameRef.current);
-    frameRef.current = requestAnimationFrame(simulate);
-  }, [simulate]);
+    frameRef.current = requestAnimationFrame(simulateRef.current);
+  }, []);
 
   useEffect(() => {
     return () => cancelAnimationFrame(frameRef.current);

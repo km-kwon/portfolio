@@ -512,6 +512,17 @@ html {
 .cinematic-section-rail {
   position: relative;
   z-index: 1;
+  min-width: 0;
+}
+
+.cinematic-section-rail > span {
+  min-width: 0;
+}
+
+.hero-title {
+  text-wrap: balance;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .cinematic-project-stage {
@@ -922,6 +933,25 @@ html {
 }
 
 @media (max-width: 767px) {
+  .hero-title {
+    text-wrap: auto;
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .cinematic-section-rail {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 8px 12px;
+    letter-spacing: 0.12em;
+  }
+
+  .cinematic-section-rail > span:last-child {
+    flex-basis: 100%;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+  }
+
   .immersive-scene-layer {
     opacity: 0.18;
   }
@@ -934,6 +964,47 @@ html {
   .cinematic-project-stage::before,
   .cinematic-project-stage::after {
     inset-inline: -10px;
+  }
+
+  .research-terminal-toolbar {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    letter-spacing: 0.12em;
+  }
+
+  .research-media-card {
+    min-height: 300px;
+  }
+
+  .research-media-card-small {
+    min-height: 160px;
+  }
+
+  .skill-orbit-stage {
+    min-height: 360px;
+    border-radius: 12px;
+  }
+
+  .skill-orbit-core {
+    width: 124px;
+  }
+
+  .skill-orbit-node {
+    min-width: 50px;
+    height: 32px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 420px) {
+  .skill-orbit-core {
+    width: 112px;
+  }
+
+  .skill-orbit-node {
+    min-width: 46px;
+    height: 30px;
+    font-size: 9px;
   }
 }
 

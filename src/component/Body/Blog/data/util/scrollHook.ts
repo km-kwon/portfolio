@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 
 export function useScrollSpy(ids: string[]) {
   const [activeId, setActiveId] = useState<string>("");
+  const idsKey = ids.join("|");
 
   useEffect(() => {
-    if (!ids.length) return;
+    const currentIds = idsKey ? idsKey.split("|") : [];
+    if (!currentIds.length) return;
 
-    const elements = ids
+    const elements = currentIds
       .map((id) => document.getElementById(id))
       .filter(Boolean) as HTMLElement[];
 
@@ -36,7 +38,7 @@ export function useScrollSpy(ids: string[]) {
 
     elements.forEach((el) => io.observe(el));
     return () => io.disconnect();
-  }, [ids.join("|")]);
+  }, [idsKey]);
 
   return activeId;
 }

@@ -22,7 +22,6 @@ const AnimatedNumber: React.FC<{ value: string }> = ({ value }) => {
 
   useEffect(() => {
     if (!hasDigit || num === 0) {
-      setDisplay(num);
       return;
     }
     const controls = animate(0, num, {
@@ -42,7 +41,7 @@ const AnimatedNumber: React.FC<{ value: string }> = ({ value }) => {
   return (
     <span className="text-2xl font-bold text-(--accent)">
       {prefix}
-      {display}
+      {num === 0 ? 0 : display}
       {suffix}
     </span>
   );

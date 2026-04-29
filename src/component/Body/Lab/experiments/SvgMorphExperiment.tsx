@@ -52,6 +52,8 @@ function easeInOutCubic(t: number): number {
   return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
+const now = () => performance.now();
+
 function pointsToPath(pts: [number, number][], size: number): string {
   if (pts.length === 0) return "";
   const scaled = pts.map(([x, y]) => [x * size, y * size]);
@@ -71,19 +73,23 @@ const SvgMorphExperiment: React.FC = () => {
   const [autoPlay, setAutoPlay] = useState(false);
   const frameRef = useRef<number>(0);
   const startRef = useRef(0);
+  const durationRef = useRef(duration);
+  const autoPlayRef = useRef(autoPlay);
+  const toShapeRef = useRef(toShape);
+  const animateRef = useRef<() => void>(() => {});
 
   const animate = useCallback(() => {
-    const elapsed = Date.now() - startRef.current;
-    const t = Math.min(elapsed / duration, 1);
+    const elapsed = now() - startRef.current;
+    const t = Math.min(elapsed / durationRef.current, 1);
     setProgress(easeInOutCubic(t));
 
     if (t < 1) {
-      frameRef.current = requestAnimationFrame(animate);
+      frameRef.current = requestAnimationFrame(animateRef.current);
     } else {
       setIsAnimating(false);
-      if (autoPlay) {
+      if (autoPlayRef.current) {
         setTimeout(() => {
-          setFromShape(toShape);
+          setFromShape(toShapeRef.current);
           setToShape((prev) => {
             const idx = SHAPE_NAMES.indexOf(prev);
             return SHAPE_NAMES[(idx + 1) % SHAPE_NAMES.length];
@@ -91,15 +97,22 @@ const SvgMorphExperiment: React.FC = () => {
         }, 500);
       }
     }
-  }, [duration, autoPlay, toShape]);
+  }, []);
+
+  useEffect(() => {
+    durationRef.current = duration;
+    autoPlayRef.current = autoPlay;
+    toShapeRef.current = toShape;
+    animateRef.current = animate;
+  }, [animate, autoPlay, duration, toShape]);
 
   const startMorph = useCallback(() => {
     setProgress(0);
     setIsAnimating(true);
-    startRef.current = Date.now();
+    startRef.current = now();
     cancelAnimationFrame(frameRef.current);
-    frameRef.current = requestAnimationFrame(animate);
-  }, [animate]);
+    frameRef.current = requestAnimationFrame(animateRef.current);
+  }, []);
 
   // Auto-play trigger
   useEffect(() => {

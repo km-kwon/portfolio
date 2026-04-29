@@ -50,9 +50,9 @@ export const useThemeColors = (lerpFactor = 0.05): ThemeColorRefs => {
   const targetAccent = useRef(new THREE.Color(initial.accent));
   const targetBg = useRef(new THREE.Color(initial.bg));
 
-  const primary = useRef(targetPrimary.current.clone());
-  const accent = useRef(targetAccent.current.clone());
-  const bg = useRef(targetBg.current.clone());
+  const primary = useRef(new THREE.Color(initial.primary));
+  const accent = useRef(new THREE.Color(initial.accent));
+  const bg = useRef(new THREE.Color(initial.bg));
 
   useEffect(() => {
     if (typeof window === "undefined") return;

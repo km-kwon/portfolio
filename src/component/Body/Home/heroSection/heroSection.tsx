@@ -78,9 +78,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollTo }) => {
               <span className="cinematic-record-dot h-1.5 w-1.5 rounded-full bg-(--accent)" />
               Playing portfolio film
             </div>
-            <h1 className="text-[clamp(32px,5vw,56px)] font-bold leading-[1.12] mb-5 tracking-tight max-w-[720px]">
+            <h1 className="hero-title text-[clamp(30px,8vw,56px)] sm:text-[clamp(32px,5vw,56px)] font-bold leading-[1.12] mb-5 tracking-tight max-w-[720px]">
               복잡한 시스템을 안전하고 읽기 쉬운 인터페이스로 만드는
-              <br />
+              <br className="hidden sm:block" />
               프론트엔드 엔지니어,{" "}
               <span className="text-(--accent)">권경민</span>입니다.
             </h1>
@@ -175,12 +175,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollTo }) => {
         </div>
 
         {/* Stat row */}
-        <div className="mt-14 w-full pt-8 border-t border-(--border-subtle) grid grid-cols-3 gap-6 md:gap-12">
+        <div className="mt-14 w-full pt-8 border-t border-(--border-subtle) grid grid-cols-1 gap-5 sm:grid-cols-3 sm:gap-6 md:gap-12">
           <Stat value="80K" unit="logs/sec" desc="실시간 처리 경험" />
-          <div className="border-l border-(--border-subtle) pl-6 md:pl-12">
+          <div className="border-t border-(--border-subtle) pt-5 sm:border-t-0 sm:border-l sm:pt-0 sm:pl-6 md:pl-12">
             <Stat value="2s" desc="DLT 1M 로그 검색 Web Worker 최적화" />
           </div>
-          <div className="border-l border-(--border-subtle) pl-6 md:pl-12">
+          <div className="border-t border-(--border-subtle) pt-5 sm:border-t-0 sm:border-l sm:pt-0 sm:pl-6 md:pl-12">
             <Stat value="0" desc="Wireshark 평문 노출 RSA/AES 암호화 설계" />
           </div>
         </div>

@@ -72,7 +72,7 @@ const Header: React.FC<HeaderProps> = ({
           </Link>
 
           {/* CENTER NAV - Home 제거, 섹션들 + Blog */}
-          <nav className="hidden md:flex items-center gap-1 text-[13px]">
+          <nav className="hidden lg:flex items-center gap-1 text-[13px]">
             {navItems.map(({ id, label }) => (
               <button
                 key={id}
@@ -106,7 +106,7 @@ const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center gap-2">
             {/* 햄버거 메뉴 버튼 (모바일) */}
             <button
-              className="md:hidden w-9 h-9 rounded-lg border border-(--border-subtle) bg-(--bg-elevated)
+              className="lg:hidden w-9 h-9 rounded-lg border border-(--border-subtle) bg-(--bg-elevated)
                          flex items-center justify-center cursor-pointer
                          transition-all duration-300 ease-out
                          hover:bg-(--bg-soft) hover:border-(--border-hover)"
@@ -144,7 +144,7 @@ const Header: React.FC<HeaderProps> = ({
       {/* 모바일 메뉴 오버레이 */}
       {isMobileMenuOpen && (
         <div
-          className="md:hidden fixed inset-0 bg-black/50 z-9998"
+          className="lg:hidden fixed inset-0 bg-black/50 z-9998"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
@@ -152,7 +152,7 @@ const Header: React.FC<HeaderProps> = ({
       {/* 모바일 슬라이드 메뉴 */}
       <div
         className={[
-          "md:hidden fixed top-0 right-0 bottom-0 w-[280px] z-9999",
+          "lg:hidden fixed top-0 right-0 bottom-0 w-[280px] z-9999",
           "bg-(--bg-elevated)",
           "border-l border-(--border-subtle)",
           "transition-transform duration-300 ease-out",

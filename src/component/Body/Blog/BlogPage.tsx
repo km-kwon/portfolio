@@ -165,7 +165,7 @@ const BlogPage: React.FC = () => {
   };
 
   return (
-    <div className="blog-depth-page min-h-screen bg-(--bg-base) text-(--fg-base)">
+    <div className="blog-depth-page min-h-screen bg-(--bg) text-fg">
       <div className="relative z-10 max-w-[1100px] mx-auto px-5 pt-[calc(var(--header-height)+32px)] pb-16">
         {/* 헤더 */}
         <div className="flex items-end justify-between gap-4 mb-6">
@@ -192,7 +192,7 @@ const BlogPage: React.FC = () => {
                 if (e.key === "Enter" || e.key === " ") openPost(featured);
               }}
               className={cx(
-                "blog-orbit-card blog-depth-card blog-depth-card-featured group relative overflow-hidden rounded-3xl border bg-(--bg-elevated) border-(--border-subtle)",
+                "blog-orbit-card blog-depth-card blog-depth-card-featured group relative overflow-hidden rounded-2xl border bg-(--bg-elevated) border-(--border-subtle)",
                 "cursor-pointer transition-all duration-300 hover:border-(--accent)",
                 "focus:outline-none focus:ring-2 focus:ring-(--accent)/40",
                 featuredFading ? "opacity-0" : "opacity-100",
@@ -226,7 +226,7 @@ const BlogPage: React.FC = () => {
 
                 {/* 본문 */}
                 <div className="p-5 h-full flex flex-col justify-between">
-                  <h2 className="text-[22px] md:text-[24px] font-bold leading-snug tracking-[-0.02em] mb-3 line-clamp-1">
+                  <h2 className="text-[22px] md:text-[24px] font-bold leading-snug tracking-[-0.02em] mb-3 line-clamp-2 md:line-clamp-1">
                     {featured.title}
                   </h2>
 
@@ -260,7 +260,7 @@ const BlogPage: React.FC = () => {
             className={cx(
               "text-[12px] px-3 py-1.5 rounded-full border transition-colors",
               activeTag === "ALL"
-                ? "bg-(--bg-elevated) border-(--accent) text-(--fg-base)"
+                ? "bg-(--bg-elevated) border-(--accent) text-fg"
                 : "bg-(--bg-soft) border-(--border-subtle) text-fg-muted hover:border-(--accent)",
             )}
           >
@@ -275,7 +275,7 @@ const BlogPage: React.FC = () => {
               className={cx(
                 "text-[12px] px-3 py-1.5 rounded-full border transition-colors",
                 activeTag === t
-                  ? "bg-(--bg-elevated) border-(--accent) text-(--fg-base)"
+                  ? "bg-(--bg-elevated) border-(--accent) text-fg"
                   : "bg-(--bg-soft) border-(--border-subtle) text-fg-muted hover:border-(--accent)",
               )}
             >
@@ -323,7 +323,7 @@ const BlogPage: React.FC = () => {
                 )}
 
                 <div className="p-6 md:overflow-hidden flex flex-col h-full">
-                  <h3 className="text-[20px] font-semibold leading-snug mb-2 line-clamp-1">
+                  <h3 className="text-[20px] font-semibold leading-snug mb-2 line-clamp-2 md:line-clamp-1">
                     {p.title}
                   </h3>
 
