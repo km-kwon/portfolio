@@ -37,7 +37,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollTo }) => {
   return (
     <section
       id="top"
-      className="relative mb-16 isolate min-h-[calc(100vh-var(--header-height)-40px)] flex items-center"
+      className="relative mb-10 isolate min-h-[calc(100vh-var(--header-height)-24px)] flex items-center overflow-visible"
     >
       {/* Escapes <main>'s max-w via left:50% + 100vw so the gradient reads as
           ambient atmosphere rather than a constrained card. Body already has
@@ -55,11 +55,29 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollTo }) => {
           <HeroBackgroundCanvas />
         </Suspense>
       </div>
+
+      <div className="cinematic-frame pointer-events-none absolute inset-y-4 left-1/2 z-[1] hidden w-screen -translate-x-1/2 lg:block" />
+      <div className="pointer-events-none absolute bottom-8 left-1/2 z-[2] hidden w-screen -translate-x-1/2 px-8 lg:block">
+        <div className="mx-auto flex max-w-[1180px] items-end justify-between gap-6 font-mono text-[10px] uppercase tracking-[0.22em] text-fg-muted">
+          <div className="flex items-center gap-3">
+            <span className="h-2 w-2 rounded-full bg-(--accent) shadow-[0_0_18px_var(--accent)]" />
+            <span>Auto Exhibition Loop</span>
+          </div>
+          <div className="h-px min-w-[260px] flex-1 max-w-[520px] overflow-hidden bg-(--border-subtle)">
+            <span className="cinematic-progress block h-full bg-(--accent)" />
+          </div>
+          <span>Scene 01 / Identity</span>
+        </div>
+      </div>
       <div className="relative z-10 w-full">
         <SectionMarker number="01" label="Identity Profile" />
 
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(280px,0.55fr)] lg:items-center">
           <div>
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-(--accent-border) bg-(--bg-elevated)/55 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-(--accent) backdrop-blur-md">
+              <span className="cinematic-record-dot h-1.5 w-1.5 rounded-full bg-(--accent)" />
+              Playing portfolio film
+            </div>
             <h1 className="text-[clamp(32px,5vw,56px)] font-bold leading-[1.12] mb-5 tracking-tight max-w-[720px]">
               복잡한 시스템을 안전하고 읽기 쉬운 인터페이스로 만드는
               <br />

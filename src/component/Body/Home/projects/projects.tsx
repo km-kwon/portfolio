@@ -33,6 +33,7 @@ type CardLayout = {
 type DesktopProjectCardProps = {
   project: Project;
   isActive: boolean;
+  index: number;
   zIndex: number;
   transform: string;
   opacity: number;
@@ -122,6 +123,7 @@ const MobileProjectCard = ({ project, onOpen }: MobileProjectCardProps) => (
 const DesktopProjectCard = ({
   project,
   isActive,
+  index,
   zIndex,
   transform,
   opacity,
@@ -134,9 +136,8 @@ const DesktopProjectCard = ({
   return (
     <div
       className={[
-        "absolute w-full",
-        "max-w-[260px] sm:max-w-[300px] lg:max-w-[320px]",
-        "transition-all duration-300 ease-out",
+        "archive-wall-slot absolute w-full max-w-[340px]",
+        "transition-all duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)]",
       ].join(" ")}
       style={{
         zIndex,
@@ -149,20 +150,12 @@ const DesktopProjectCard = ({
       <motion.article
         data-project-id={project.id}
         className={[
-          "project-tilt-surface group relative w-full",
-          "rounded-2xl bg-(--bg-elevated)",
-          "[html[data-theme='light']_&]:shadow-[0_1px_3px_rgba(0,0,0,0.04)]",
-          "[html[data-theme='light']_&]:hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)]",
+          "archive-wall-card project-tilt-surface group relative w-full",
+          "rounded-xl bg-(--bg-elevated)",
           "border border-(--border-subtle)",
           "cursor-pointer overflow-hidden",
-          "transition-shadow duration-300 ease-out",
-          isActive
-            ? [
-                "ring-2 ring-(--accent)",
-                "ring-offset-2",
-                "ring-offset-(--bg-soft)",
-              ].join(" ")
-            : "ring-0",
+          "transition-all duration-500 ease-out",
+          isActive ? "archive-wall-card-active" : "archive-wall-card-idle",
         ].join(" ")}
         style={tiltStyle}
         onClick={() => onOpen(project.id)}
@@ -181,24 +174,31 @@ const DesktopProjectCard = ({
         {project.banner && (
           <div
             className={[
-              "absolute inset-0 z-0 pointer-events-none",
-              "transition-all duration-200",
-              isActive ? "opacity-20" : "opacity-40",
+              "relative z-0 h-36 pointer-events-none overflow-hidden",
+              "transition-all duration-500",
+              isActive ? "opacity-95" : "opacity-58",
             ].join(" ")}
           >
             <img
               src={project.banner}
               alt=""
-              className="w-full h-full object-cover grayscale-30"
+              className={[
+                "h-full w-full object-cover transition-all duration-700",
+                isActive ? "grayscale-0 scale-105" : "grayscale opacity-80",
+              ].join(" ")}
             />
             <div
               className={[
                 "absolute inset-0 bg-linear-to-t to-transparent transition-colors duration-200",
                 isActive
-                  ? "from-[rgba(0,0,0,0.6)] [html[data-theme='light']_&]:from-[rgba(0,0,0,0.52)]"
-                  : "from-[rgba(0,0,0,0.35)] [html[data-theme='light']_&]:from-[rgba(0,0,0,0.3)]",
+                  ? "from-[rgba(0,0,0,0.62)] via-transparent"
+                  : "from-[rgba(0,0,0,0.72)] via-[rgba(0,0,0,0.16)]",
               ].join(" ")}
             />
+            <div className="absolute left-3 top-3 flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.16em] text-white/80">
+              <span className="h-1.5 w-1.5 rounded-full bg-(--accent)" />
+              Archive {String(index + 1).padStart(2, "0")}
+            </div>
           </div>
         )}
 
@@ -208,13 +208,17 @@ const DesktopProjectCard = ({
         />
 
         <div className="relative z-10 p-4 text-[13px] text-fg-muted leading-[1.6]">
+          <div className="mb-2 flex items-center justify-between gap-3 font-mono text-[9px] uppercase tracking-[0.16em] text-(--accent)">
+            <span>{project.period}</span>
+            <span>{project.team}</span>
+          </div>
           <h3
             className={[
               "mb-1.5",
               "text-fg",
               "transition-all duration-200",
               isActive
-                ? "text-[15px] font-semibold tracking-[0.02em]"
+                ? "text-[17px] font-semibold tracking-[0.01em]"
                 : "text-[14px] font-medium tracking-[0.01em]",
             ].join(" ")}
           >
@@ -266,6 +270,13 @@ const DesktopProjectCard = ({
               </a>
             ))}
           </div>
+          <div
+            className={[
+              "mt-4 h-px w-full origin-left bg-(--accent)",
+              "transition-transform duration-700",
+              isActive ? "scale-x-100" : "scale-x-20 opacity-40",
+            ].join(" ")}
+          />
         </div>
       </motion.article>
     </div>
@@ -312,7 +323,6 @@ const ProjectsSection: React.FC = () => {
     const handleResize = () => {
       const width = window.innerWidth;
       const mobile = width < 768;
-      console.log("Projects resize:", { width, mobile }); // 디버깅
       setViewportWidth(width);
       setIsMobile(mobile);
     };
@@ -339,11 +349,12 @@ const ProjectsSection: React.FC = () => {
     if (!viewportWidth) return 140;
 
     const base = viewportWidth / (projects.length + 1); // 화면 폭 / 카드 수
-    return Math.min(180, Math.max(70, base * 0.8));
+    return Math.min(150, Math.max(82, base * 0.68));
   };
 
   const baseSpread = getBaseSpread();
   const middle = (projects.length - 1) / 2;
+  const focusedProject = projects[focusedIndex];
 
   // 터치 이벤트 핸들러
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -380,6 +391,13 @@ const ProjectsSection: React.FC = () => {
   return (
     <>
       <section id="projects" className="mb-16">
+        <div className="cinematic-section-rail mb-5 flex items-center justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.22em] text-fg-muted">
+          <span>Scene 03 / Evidence Archive</span>
+          <div className="hidden h-px flex-1 bg-(--border-subtle) md:block">
+            <span className="cinematic-progress block h-full max-w-[36%] bg-(--accent)" />
+          </div>
+          <span className="text-(--accent)">Auto Curated Projects</span>
+        </div>
         <SectionMarker number="03" label="Projects" />
         <div className={sectionHeaderBase}>
           <div>
@@ -466,10 +484,26 @@ const ProjectsSection: React.FC = () => {
           </div>
         ) : (
           // ====================== 💻 데스크탑: 수납장 스타일 ======================
-          <div className="relative flex flex-col items-center">
+          <div
+            className={[
+              "cinematic-project-stage relative flex flex-col items-center",
+              activeId ? "cinematic-project-stage-paused" : "",
+            ].join(" ")}
+          >
+            <div className="archive-wall-status pointer-events-none absolute right-0 top-0 hidden w-[280px] border-l border-(--accent-border) bg-(--bg-elevated)/45 p-4 backdrop-blur-md lg:block">
+              <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-(--accent)">
+                Now Exhibiting
+              </div>
+              <div className="mt-3 text-[18px] font-semibold leading-tight text-fg">
+                {focusedProject?.subTitle}
+              </div>
+              <p className="mt-2 line-clamp-3 text-[12px] leading-[1.65] text-fg-muted">
+                {focusedProject?.summary}
+              </p>
+            </div>
             {/* 🎴 무작위 섞인 카드 영역 */}
             <div
-              className="relative w-full max-w-5xl h-[260px] flex items-center justify-center mb-10 overflow-visible"
+              className="archive-wall relative w-full max-w-5xl h-[430px] flex items-center justify-center mb-12 overflow-visible"
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
             >
@@ -478,30 +512,40 @@ const ProjectsSection: React.FC = () => {
                 const isActive = idx === focusedIndex;
 
                 // 🧮 화면 폭에 따른 centerOffset + 랜덤 흔들림
-                const centerOffset = (idx - middle) * baseSpread;
-                const baseX = centerOffset + layout.jitterX;
-                const baseY = layout.jitterY;
+                const relativeIndex = idx - focusedIndex;
+                const wrappedRelative =
+                  relativeIndex > middle
+                    ? relativeIndex - projects.length
+                    : relativeIndex < -middle
+                      ? relativeIndex + projects.length
+                      : relativeIndex;
+                const centerOffset = wrappedRelative * baseSpread;
+                const baseX = centerOffset + layout.jitterX * 0.35;
+                const baseY = layout.jitterY * 0.35;
 
                 // 정수 좌표 → 폰트 또렷하게
                 const translateX = Math.round(baseX);
-                const translateY = Math.round(baseY + (isActive ? -10 : 6));
+                const translateY = Math.round(baseY + Math.abs(wrappedRelative) * 14);
+                const depth = Math.min(1, Math.abs(wrappedRelative) / Math.max(1, middle));
+                const rotateY = wrappedRelative * -12;
+                const rotateZ = isActive ? 0 : layout.baseRotate * 0.28;
 
-                // 활성 카드는 회전 없이 / 살짝 확대
                 const transform = isActive
-                  ? `translateX(${translateX}px) translateY(${translateY}px) scale(1.05)`
-                  : `translateX(${translateX}px) translateY(${translateY}px) rotate(${layout.baseRotate}deg) scale(0.96)`;
+                  ? `translate3d(${translateX}px, -20px, 90px) rotateY(0deg) scale(1.08)`
+                  : `translate3d(${translateX}px, ${translateY}px, ${-150 * depth}px) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) scale(${0.84 - depth * 0.06})`;
 
                 // z-index: 프로젝트 순서대로 쌓이고, 포커스된 카드만 맨 위
-                const zIndex = isActive ? 999 : 100 + idx;
+                const zIndex = isActive ? 90 : 60 - Math.abs(wrappedRelative);
 
-                const opacity = isActive ? 1 : 0.8;
-                const filter = isActive ? "none" : "blur(0.8px)";
+                const opacity = isActive ? 1 : 0.42 + (1 - depth) * 0.22;
+                const filter = isActive ? "none" : `blur(${1.2 + depth * 1.6}px) saturate(0.72)`;
 
                 return (
                   <DesktopProjectCard
                     key={project.id}
                     project={project}
                     isActive={isActive}
+                    index={idx}
                     zIndex={zIndex}
                     transform={transform}
                     opacity={opacity}

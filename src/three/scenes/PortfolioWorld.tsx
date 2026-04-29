@@ -35,6 +35,13 @@ const panels = [
   },
 ] as const;
 
+const archivePanels = [
+  { angle: 0, label: "PROJECTS", color: "#20c997" },
+  { angle: Math.PI * 0.5, label: "SKILLS", color: "#f8fafc" },
+  { angle: Math.PI, label: "BLOG", color: "#5eead4" },
+  { angle: Math.PI * 1.5, label: "LAB", color: "#a5b4fc" },
+] as const;
+
 const createLine = (
   points: THREE.Vector3[],
   color: string | THREE.Color,
@@ -146,6 +153,108 @@ const SignalField: React.FC = () => {
   );
 };
 
+const CoreSystem: React.FC = () => {
+  const colors = useThemeColors(0.06);
+  const coreRef = useRef<THREE.Group>(null);
+
+  useFrame(({ clock }) => {
+    if (!coreRef.current) return;
+    const t = clock.elapsedTime;
+    coreRef.current.rotation.y = t * 0.28;
+    coreRef.current.rotation.z = Math.sin(t * 0.22) * 0.12;
+  });
+
+  return (
+    <group ref={coreRef} position={[0, -0.08, 0.08]}>
+      <mesh renderOrder={6}>
+        <icosahedronGeometry args={[0.28, 1]} />
+        <meshStandardMaterial
+          color={colors.bg.current}
+          emissive={colors.accent.current}
+          emissiveIntensity={0.34}
+          metalness={0.72}
+          roughness={0.18}
+          transparent
+          opacity={0.9}
+        />
+      </mesh>
+      {[0.52, 0.78, 1.04].map((radius, index) => (
+        <mesh
+          key={radius}
+          rotation={[
+            Math.PI / 2 + index * 0.36,
+            index * 0.44,
+            index * 0.18,
+          ]}
+          renderOrder={3}
+        >
+          <torusGeometry args={[radius, 0.0045, 8, 120]} />
+          <meshBasicMaterial
+            color={index === 1 ? colors.primary.current : colors.accent.current}
+            transparent
+            opacity={0.2 - index * 0.035}
+            depthWrite={false}
+          />
+        </mesh>
+      ))}
+    </group>
+  );
+};
+
+const ArchiveOrbit: React.FC = () => {
+  const colors = useThemeColors(0.06);
+  const orbitRef = useRef<THREE.Group>(null);
+
+  useFrame(({ clock }) => {
+    if (!orbitRef.current) return;
+    orbitRef.current.rotation.y = clock.elapsedTime * 0.12;
+  });
+
+  return (
+    <group ref={orbitRef} position={[0, -0.08, -0.12]}>
+      {archivePanels.map((panel, index) => {
+        const radius = 2.55;
+        const x = Math.cos(panel.angle) * radius;
+        const z = Math.sin(panel.angle) * radius * 0.36;
+        const y = index % 2 === 0 ? 0.72 : -0.48;
+
+        return (
+          <group
+            key={panel.label}
+            position={[x, y, z]}
+            rotation={[0.02, -panel.angle + Math.PI / 2, 0]}
+          >
+            <mesh renderOrder={2}>
+              <boxGeometry args={[0.78, 0.46, 0.026]} />
+              <meshStandardMaterial
+                color={colors.bg.current}
+                emissive={panel.color}
+                emissiveIntensity={0.13}
+                metalness={0.35}
+                roughness={0.24}
+                transparent
+                opacity={0.62}
+              />
+            </mesh>
+            <lineSegments renderOrder={4}>
+              <edgesGeometry args={[new THREE.BoxGeometry(0.8, 0.48, 0.032)]} />
+              <lineBasicMaterial color={panel.color} transparent opacity={0.48} />
+            </lineSegments>
+            <mesh position={[-0.16, 0.08, 0.03]} renderOrder={5}>
+              <boxGeometry args={[0.34, 0.018, 0.01]} />
+              <meshBasicMaterial color={panel.color} transparent opacity={0.78} />
+            </mesh>
+            <mesh position={[0.02, -0.08, 0.03]} renderOrder={5}>
+              <boxGeometry args={[0.5, 0.012, 0.01]} />
+              <meshBasicMaterial color="#cbd5e1" transparent opacity={0.3} />
+            </mesh>
+          </group>
+        );
+      })}
+    </group>
+  );
+};
+
 const PortfolioWorld: React.FC = () => {
   const colors = useThemeColors(0.06);
   const rootRef = useRef<THREE.Group>(null);
@@ -190,9 +299,11 @@ const PortfolioWorld: React.FC = () => {
       <pointLight position={[2.5, 2.4, 2.8]} intensity={3.4} color={colors.accent.current} />
       <pointLight position={[-2.2, -1.2, 2.2]} intensity={1.6} color={colors.primary.current} />
       <SignalField />
-      <group ref={rootRef} position={[0, 0.04, 0]} scale={[1.12, 1.12, 1.12]}>
+      <group ref={rootRef} position={[0, 0.04, 0]} scale={[1.14, 1.14, 1.14]}>
         <primitive object={flowLine} />
         <primitive object={baseline} />
+        <CoreSystem />
+        <ArchiveOrbit />
         {anchors.map((anchor, index) => (
           <mesh key={index} position={anchor} renderOrder={5}>
             <sphereGeometry args={[index === 1 ? 0.09 : 0.065, 24, 24]} />

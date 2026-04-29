@@ -19,6 +19,8 @@ const metrics = [
   ["0 plain", "encrypted transport"],
 ];
 
+const scenes = ["Identity", "World", "Projects", "Skills", "Archive"];
+
 const layers = [
   {
     label: "Interface",
@@ -79,12 +81,12 @@ const ImmersiveShowcase: React.FC<{ onScrollTo: (id: string) => void }> = ({
     <section
       ref={sectionRef}
       id="world"
-      className="relative left-1/2 mb-12 min-h-[clamp(540px,72vh,660px)] w-screen -translate-x-1/2 overflow-clip bg-(--bg)"
+      className="relative left-1/2 mb-14 min-h-[clamp(680px,92vh,860px)] w-screen -translate-x-1/2 overflow-clip bg-(--bg)"
       aria-labelledby="world-title"
     >
-      <div className="relative min-h-[clamp(540px,72vh,660px)] overflow-hidden">
+      <div className="relative min-h-[clamp(680px,92vh,860px)] overflow-hidden">
         <motion.div
-          className="absolute inset-0"
+          className="immersive-scene-layer absolute inset-0"
           style={{ y: sceneY, scale: sceneScale }}
           aria-hidden
         >
@@ -92,11 +94,31 @@ const ImmersiveShowcase: React.FC<{ onScrollTo: (id: string) => void }> = ({
             <PortfolioWorldCanvas />
           </Suspense>
         </motion.div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_64%_46%,transparent_0%,rgba(26,29,35,0.04)_34%,rgba(26,29,35,0.42)_72%,rgba(26,29,35,0.82)_100%),linear-gradient(90deg,rgba(26,29,35,0.9),rgba(26,29,35,0.42)_48%,rgba(26,29,35,0.68))] [html[data-theme='light']_&]:bg-[radial-gradient(circle_at_64%_46%,rgba(250,251,252,0)_0%,rgba(250,251,252,0.18)_34%,rgba(250,251,252,0.54)_72%,rgba(250,251,252,0.9)_100%),linear-gradient(90deg,rgba(250,251,252,0.94),rgba(250,251,252,0.36)_48%,rgba(250,251,252,0.72))]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_64%_46%,transparent_0%,rgba(26,29,35,0.04)_34%,rgba(26,29,35,0.42)_72%,rgba(26,29,35,0.82)_100%),linear-gradient(90deg,rgba(26,29,35,0.92),rgba(26,29,35,0.36)_48%,rgba(26,29,35,0.72))] [html[data-theme='light']_&]:bg-[radial-gradient(circle_at_64%_46%,rgba(250,251,252,0)_0%,rgba(250,251,252,0.18)_34%,rgba(250,251,252,0.54)_72%,rgba(250,251,252,0.9)_100%),linear-gradient(90deg,rgba(250,251,252,0.95),rgba(250,251,252,0.34)_48%,rgba(250,251,252,0.74))]" />
+        <div className="cinematic-scan pointer-events-none absolute inset-0" />
+        <div className="immersive-scene-rail pointer-events-none absolute left-1/2 top-6 z-10 w-screen -translate-x-1/2 px-6">
+          <div className="mx-auto flex max-w-[1180px] items-center justify-between gap-5 font-mono text-[10px] uppercase tracking-[0.22em] text-fg-muted">
+            <span>Scene 02 / Spatial System</span>
+            <div className="flex flex-1 items-center justify-end gap-3">
+              {scenes.map((scene, index) => (
+                <span
+                  key={scene}
+                  className={[
+                    "flex items-center gap-2",
+                    index === 1 ? "text-(--accent)" : "",
+                  ].join(" ")}
+                >
+                  <span className="h-px w-8 bg-current opacity-45" />
+                  {scene}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
 
-        <div className="relative z-10 mx-auto flex min-h-[clamp(540px,72vh,660px)] w-full max-w-[1180px] flex-col justify-center px-5 py-12">
+        <div className="relative z-10 mx-auto flex min-h-[clamp(680px,92vh,860px)] w-full max-w-[1180px] flex-col justify-center px-5 py-16">
         <motion.div
-          className="max-w-[760px]"
+          className="immersive-copy max-w-[620px] 2xl:max-w-[760px]"
           style={{ y: copyY, opacity: copyOpacity }}
         >
           <SectionMarker number="02" label="3D System Gallery" />
@@ -105,7 +127,7 @@ const ImmersiveShowcase: React.FC<{ onScrollTo: (id: string) => void }> = ({
           </p>
           <h2
             id="world-title"
-            className="text-[clamp(38px,6vw,74px)] font-bold leading-[0.98] tracking-tight text-fg"
+            className="text-[clamp(36px,5.4vw,68px)] 2xl:text-[clamp(38px,6vw,74px)] font-bold leading-[0.98] tracking-tight text-fg"
           >
             제품의 흐름을 공간으로 보여주는 프론트엔드.
           </h2>
@@ -115,11 +137,11 @@ const ImmersiveShowcase: React.FC<{ onScrollTo: (id: string) => void }> = ({
             먼저 보이게 하는 장면입니다.
           </p>
 
-          <div className="mt-6 flex max-w-[680px] flex-wrap gap-px border-l border-(--accent-border)">
+          <div className="mt-7 flex max-w-[680px] flex-wrap gap-px border-l border-(--accent-border)">
             {metrics.map(([value, label]) => (
               <div
                 key={value}
-                className="min-w-[180px] border-r border-(--border-subtle) bg-(--bg-elevated)/45 px-5 py-3 backdrop-blur-md"
+                className="cinematic-panel min-w-[180px] border-r border-(--border-subtle) bg-(--bg-elevated)/45 px-5 py-3 backdrop-blur-md"
               >
                 <div className="font-mono text-[20px] font-semibold text-fg">
                   {value}
@@ -148,17 +170,17 @@ const ImmersiveShowcase: React.FC<{ onScrollTo: (id: string) => void }> = ({
         </motion.div>
 
         <motion.div
-          className="pointer-events-none absolute right-[max(20px,calc((100vw-1180px)/2+20px))] top-1/2 hidden w-[360px] -translate-y-1/2 lg:block"
+          className="immersive-callouts pointer-events-none absolute right-[max(20px,calc((100vw-1180px)/2+20px))] top-1/2 w-[380px] -translate-y-1/2"
           style={{ y: calloutY, opacity: calloutOpacity }}
         >
           {layers.map((layer, index) => (
             <div
               key={layer.label}
               className={[
-                "absolute w-[300px] border-l border-(--accent-border) py-3 pl-4 pr-2 backdrop-blur-sm",
-                index === 0 ? "-top-44 right-12" : "",
-                index === 1 ? "-top-7 right-0" : "",
-                index === 2 ? "top-32 right-16" : "",
+                "cinematic-panel absolute w-[320px] border-l border-(--accent-border) bg-(--bg-elevated)/30 py-3 pl-4 pr-3 backdrop-blur-md",
+                index === 0 ? "-top-52 right-10" : "",
+                index === 1 ? "-top-10 right-0" : "",
+                index === 2 ? "top-36 right-20" : "",
               ].join(" ")}
             >
               <div className="font-mono text-[11px] text-(--accent)">
