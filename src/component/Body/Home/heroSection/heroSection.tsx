@@ -37,7 +37,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollTo }) => {
   return (
     <section
       id="top"
-      className="relative mb-10 isolate min-h-[calc(100vh-var(--header-height)-24px)] flex items-center overflow-visible"
+      className="relative mb-10 isolate min-h-[calc(100vh-var(--header-height)-24px)] flex items-center overflow-visible py-8"
     >
       {/* Escapes <main>'s max-w via left:50% + 100vw so the gradient reads as
           ambient atmosphere rather than a constrained card. Body already has
@@ -57,18 +57,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollTo }) => {
       </div>
 
       <div className="cinematic-frame pointer-events-none absolute inset-y-4 left-1/2 z-[1] hidden w-screen -translate-x-1/2 lg:block" />
-      <div className="pointer-events-none absolute bottom-8 left-1/2 z-[2] hidden w-screen -translate-x-1/2 px-8 lg:block">
-        <div className="mx-auto flex max-w-[1180px] items-end justify-between gap-6 font-mono text-[10px] uppercase tracking-[0.22em] text-fg-muted">
-          <div className="flex items-center gap-3">
-            <span className="h-2 w-2 rounded-full bg-(--accent) shadow-[0_0_18px_var(--accent)]" />
-            <span>Auto Exhibition Loop</span>
-          </div>
-          <div className="h-px min-w-[260px] flex-1 max-w-[520px] overflow-hidden bg-(--border-subtle)">
-            <span className="cinematic-progress block h-full bg-(--accent)" />
-          </div>
-          <span>Scene 01 / Identity</span>
-        </div>
-      </div>
       <div className="relative z-10 w-full">
         <SectionMarker number="01" label="Identity Profile" />
 
@@ -78,14 +66,35 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollTo }) => {
               <span className="cinematic-record-dot h-1.5 w-1.5 rounded-full bg-(--accent)" />
               Playing portfolio film
             </div>
-            <h1 className="hero-title text-[clamp(30px,8vw,56px)] sm:text-[clamp(32px,5vw,56px)] font-bold leading-[1.12] mb-5 tracking-tight max-w-[720px]">
+            <h1 className="hero-title mb-5 block text-[32px] font-bold leading-[1.15] tracking-tight sm:hidden">
+              복잡한 시스템을
+              <br />
+              안전하고 읽기 쉬운
+              <br />
+              인터페이스로 만드는
+              <br />
+              프론트엔드 엔지니어,
+              <br />
+              <span className="text-(--accent)">권경민</span>입니다.
+            </h1>
+            <h1 className="hero-title hidden sm:block sm:text-[clamp(32px,5vw,56px)] font-bold sm:leading-[1.12] mb-5 tracking-tight max-w-[720px]">
               복잡한 시스템을 안전하고 읽기 쉬운 인터페이스로 만드는
               <br className="hidden sm:block" />
               프론트엔드 엔지니어,{" "}
               <span className="text-(--accent)">권경민</span>입니다.
             </h1>
 
-            <p className="text-[15px] text-fg-muted leading-[1.75] max-w-[600px] mb-7">
+            <p className="hero-summary mb-7 block text-[14px] leading-[1.75] text-fg-muted sm:hidden">
+              <strong className="text-fg font-semibold">80K logs/sec</strong>{" "}
+              실시간 시각화,
+              <br />
+              Web Worker 기반 검색,
+              <br />
+              보안 네트워크 경험을
+              <br />
+              신뢰도 높은 UI로 바꿉니다.
+            </p>
+            <p className="hero-summary hidden text-[15px] text-fg-muted leading-[1.75] max-w-[600px] mb-7 sm:block">
               <strong className="text-fg font-semibold">80K logs/sec</strong>{" "}
               실시간 시각화, Web Worker 기반 대용량 검색, 보안 네트워크 구현 경험을
               제품 인터페이스의 신뢰도로 바꿉니다.
@@ -146,7 +155,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollTo }) => {
                 이력서 (PDF)
               </a>
               <button
-                className="inline-flex items-center gap-1.5 text-[13px] text-fg-muted
+                className="inline-flex w-full items-center gap-1.5 text-[13px] text-fg-muted sm:w-auto
                            hover:text-(--accent) transition-colors duration-300 ease-out cursor-pointer"
                 onClick={() => onScrollTo("skills")}
               >
@@ -183,6 +192,17 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollTo }) => {
           <div className="border-t border-(--border-subtle) pt-5 sm:border-t-0 sm:border-l sm:pt-0 sm:pl-6 md:pl-12">
             <Stat value="0" desc="Wireshark 평문 노출 RSA/AES 암호화 설계" />
           </div>
+        </div>
+
+        <div className="pointer-events-none mt-10 hidden items-center justify-between gap-6 font-mono text-[10px] uppercase tracking-[0.22em] text-fg-muted lg:flex">
+          <div className="flex items-center gap-3">
+            <span className="h-2 w-2 rounded-full bg-(--accent) shadow-[0_0_18px_var(--accent)]" />
+            <span>Auto Exhibition Loop</span>
+          </div>
+          <div className="h-px min-w-[260px] flex-1 max-w-[520px] overflow-hidden bg-(--border-subtle)">
+            <span className="cinematic-progress block h-full bg-(--accent)" />
+          </div>
+          <span>Scene 01 / Identity</span>
         </div>
       </div>
     </section>

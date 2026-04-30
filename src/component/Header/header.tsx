@@ -61,7 +61,7 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 h-(--header-height) z-[9000] border-b border-(--border-subtle)">
+      <header className="site-header fixed inset-x-0 top-0 h-(--header-height) z-[9000]">
         <div className="max-w-(--content-max-w) mx-auto h-full px-5 flex items-center justify-between gap-4">
           {/* LEFT - 로고 (홈 링크 역할) */}
           <Link

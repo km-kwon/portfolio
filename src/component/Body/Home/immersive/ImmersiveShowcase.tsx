@@ -170,7 +170,7 @@ const ImmersiveShowcase: React.FC<{ onScrollTo: (id: string) => void }> = ({
         </motion.div>
 
         <motion.div
-          className="immersive-callouts pointer-events-none absolute right-[max(20px,calc((100vw-1180px)/2+20px))] top-1/2 w-[380px] -translate-y-1/2"
+          className="immersive-callouts pointer-events-none absolute right-5 top-1/2 w-[340px] -translate-y-1/2 2xl:right-0"
           style={{ y: calloutY, opacity: calloutOpacity }}
         >
           {layers.map((layer, index) => (

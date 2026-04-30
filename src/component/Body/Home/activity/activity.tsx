@@ -130,7 +130,14 @@ const ActivitySection: React.FC = () => {
   };
 
   return (
-    <section id="activity" className="mb-16">
+    <section id="activity" className="activity-depth-section mb-16">
+      <div className="cinematic-section-rail mb-5 flex items-center justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.22em] text-fg-muted">
+        <span>Scene 06 / Field Archive</span>
+        <div className="hidden h-px flex-1 bg-(--border-subtle) md:block">
+          <span className="cinematic-progress block h-full max-w-[28%] bg-(--accent)" />
+        </div>
+        <span className="text-(--accent)">Live Activity Deck</span>
+      </div>
       <SectionMarker number="06" label="Activity" />
       <div className={sectionHeaderBase}>
         <div>
@@ -142,7 +149,7 @@ const ActivitySection: React.FC = () => {
       {isMobile ? (
         // ====================== 📱 모바일: 가로 슬라이더 + 아래 포인트 ======================
         <div
-          className="flex flex-col gap-6"
+          className="activity-depth-mobile flex flex-col gap-6"
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
@@ -174,8 +181,7 @@ const ActivitySection: React.FC = () => {
                   >
                     <TiltCard
                       className="w-full h-full max-w-3xl"
-                      surfaceClassName="rounded-2xl border border-(--border-subtle) bg-(--bg-elevated) transition-all duration-300 hover:border-(--accent-border) [html[data-theme='light']_&]:shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
-                      glossClassName="hidden"
+                      surfaceClassName="activity-depth-card rounded-2xl border border-(--border-subtle) bg-(--bg-elevated) transition-all duration-300 hover:border-(--accent-border) [html[data-theme='light']_&]:shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
                     >
                       <ActivityItem
                         activity={activity}
@@ -258,15 +264,15 @@ const ActivitySection: React.FC = () => {
       ) : (
         // ====================== 💻 데스크탑: 왼쪽 세로 타임라인 + 오른쪽 세로 슬라이드 ======================
         <div
-          className="flex flex-col md:flex-row gap-8"
+          className="activity-depth-stage flex flex-col md:flex-row gap-8"
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
           {/* 좌측: 세로형 네비게이션 */}
-          <div className="w-64 shrink-0">
+          <div className="activity-depth-nav w-64 shrink-0">
             <div className="relative py-4" style={{ height: ACTIVITY_HEIGHT }}>
               {/* 세로선 (타임라인) */}
-              <div className="absolute left-[19px] top-4 bottom-4 w-px bg-(--border-subtle) opacity-70" />
+              <div className="activity-depth-axis absolute left-[19px] top-4 bottom-4 w-px bg-(--border-subtle) opacity-70" />
 
               {/* 포인트 리스트: 선 높이 기준으로 고르게 분배 */}
               <div className="relative h-full flex flex-col justify-evenly">
@@ -283,9 +289,9 @@ const ActivitySection: React.FC = () => {
                       aria-label={`${activity.title}로 이동`}
                     >
                       {/* 포인트/인디케이터 */}
-                      <div className="relative z-10 flex items-center justify-center w-8 h-8 shrink-0">
+                      <div className="activity-depth-node relative z-10 flex items-center justify-center w-8 h-8 shrink-0">
                         {isActive && (
-                          <div className="absolute inset-0 bg-(--accent-subtle) rounded-full" />
+                          <div className="activity-depth-node-active absolute inset-0 bg-(--accent-subtle) rounded-full" />
                         )}
 
                         <CircularProgress
@@ -320,7 +326,7 @@ const ActivitySection: React.FC = () => {
           {/* 우측: 세로 슬라이드 영역 */}
           <div
             ref={carouselRef}
-            className="flex-1 w-full overflow-hidden"
+            className="activity-depth-viewport flex-1 w-full overflow-hidden"
             style={{ height: ACTIVITY_HEIGHT }}
           >
             <div
@@ -344,8 +350,7 @@ const ActivitySection: React.FC = () => {
                   {/* 가운데 카드 컨테이너 */}
                   <TiltCard
                     className="w-full max-h-full"
-                    surfaceClassName="rounded-2xl border border-(--border-subtle) bg-(--bg-elevated) transition-all duration-300 hover:border-(--accent-border) [html[data-theme='light']_&]:shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
-                    glossClassName="hidden"
+                    surfaceClassName="activity-depth-card rounded-2xl border border-(--border-subtle) bg-(--bg-elevated) transition-all duration-300 hover:border-(--accent-border) [html[data-theme='light']_&]:shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
                   >
                     <ActivityItem
                       activity={activity}

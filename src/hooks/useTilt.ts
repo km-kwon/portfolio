@@ -1,6 +1,5 @@
-import type { MouseEvent } from "react";
+import type { PointerEvent } from "react";
 import {
-  useMotionTemplate,
   useMotionValue,
   useReducedMotion,
   useSpring,
@@ -19,41 +18,38 @@ const canUsePointerTilt = () => {
   return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 };
 
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(max, Math.max(min, value));
+
 export const useTilt = () => {
   const prefersReducedMotion = useReducedMotion();
   const rotateXTarget = useMotionValue(0);
   const rotateYTarget = useMotionValue(0);
-  const highlightX = useMotionValue(50);
-  const highlightY = useMotionValue(35);
 
   const rotateX = useSpring(rotateXTarget, SPRING);
   const rotateY = useSpring(rotateYTarget, SPRING);
-  const background = useMotionTemplate`radial-gradient(circle at ${highlightX}% ${highlightY}%, rgba(255,255,255,0.34), rgba(255,255,255,0.1) 24%, rgba(255,255,255,0) 58%)`;
 
   const resetTilt = () => {
     rotateXTarget.set(0);
     rotateYTarget.set(0);
-    highlightX.set(50);
-    highlightY.set(35);
   };
 
-  const handleMouseMove = (event: MouseEvent<HTMLElement>) => {
+  const updatePointerPosition = (event: PointerEvent<HTMLElement>) => {
     if (prefersReducedMotion || !canUsePointerTilt()) return;
 
     const rect = event.currentTarget.getBoundingClientRect();
     const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     const y = ((event.clientY - rect.top) / rect.height) * 2 - 1;
 
-    rotateXTarget.set(-y * MAX_ROTATE);
-    rotateYTarget.set(x * MAX_ROTATE);
-    highlightX.set(((x + 1) / 2) * 100);
-    highlightY.set(((y + 1) / 2) * 100);
+    rotateXTarget.set(-clamp(y, -1, 1) * MAX_ROTATE);
+    rotateYTarget.set(clamp(x, -1, 1) * MAX_ROTATE);
   };
 
   return {
     tiltHandlers: {
-      onMouseMove: handleMouseMove,
-      onMouseLeave: resetTilt,
+      onPointerEnter: updatePointerPosition,
+      onPointerMove: updatePointerPosition,
+      onPointerLeave: resetTilt,
     },
     tiltStyle: prefersReducedMotion
       ? {}
@@ -62,7 +58,8 @@ export const useTilt = () => {
           rotateY,
         },
     highlightStyle: {
-      background,
+      background:
+        "linear-gradient(115deg, transparent 0%, transparent 40%, rgba(255,255,255,0.075) 48%, rgba(32,201,151,0.055) 54%, transparent 68%)",
     },
     isTiltDisabled: prefersReducedMotion,
   };

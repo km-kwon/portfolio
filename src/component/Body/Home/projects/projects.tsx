@@ -38,8 +38,10 @@ type DesktopProjectCardProps = {
   transform: string;
   opacity: number;
   filter: string;
+  isInteractive: boolean;
+  disableTransition: boolean;
   onOpen: (id: string) => void;
-  onFocusCard: () => void;
+  onHoldAutoSlide: () => void;
 };
 
 type MobileProjectCardProps = {
@@ -64,7 +66,11 @@ const MobileProjectCard = ({ project, onOpen }: MobileProjectCardProps) => (
   >
     {project.banner && (
       <div className="relative w-full h-32 shrink-0 overflow-hidden">
-        <img src={project.banner} alt="" className="w-full h-full object-cover grayscale-30" />
+        <img
+          src={project.banner}
+          alt=""
+          className="h-full w-full object-contain bg-black/18 saturate-105"
+        />
         <div className="absolute inset-0 bg-linear-to-t from-[rgba(0,0,0,0.6)] to-transparent" />
       </div>
     )}
@@ -128,22 +134,32 @@ const DesktopProjectCard = ({
   transform,
   opacity,
   filter,
+  isInteractive,
+  disableTransition,
   onOpen,
-  onFocusCard,
+  onHoldAutoSlide,
 }: DesktopProjectCardProps) => {
-  const { tiltHandlers, tiltStyle, highlightStyle, isTiltDisabled } = useTilt();
+  const { tiltHandlers, highlightStyle, isTiltDisabled } = useTilt();
+
+  const handlePointerEnter: React.PointerEventHandler<HTMLElement> = (event) => {
+    onHoldAutoSlide();
+    tiltHandlers.onPointerEnter?.(event);
+  };
 
   return (
     <div
       className={[
         "archive-wall-slot absolute w-full max-w-[340px]",
-        "transition-all duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)]",
+        disableTransition
+          ? "transition-none"
+          : "transition-all duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)]",
       ].join(" ")}
       style={{
         zIndex,
         transform,
         opacity,
         filter,
+        pointerEvents: isInteractive ? "auto" : "none",
         perspective: isTiltDisabled ? undefined : 900,
       }}
     >
@@ -157,42 +173,42 @@ const DesktopProjectCard = ({
           "transition-all duration-500 ease-out",
           isActive ? "archive-wall-card-active" : "archive-wall-card-idle",
         ].join(" ")}
-        style={tiltStyle}
         onClick={() => onOpen(project.id)}
-        onMouseEnter={onFocusCard}
-        onFocus={onFocusCard}
+        onPointerEnter={handlePointerEnter}
+        onPointerMove={tiltHandlers.onPointerMove}
+        onPointerLeave={tiltHandlers.onPointerLeave}
+        onFocus={onHoldAutoSlide}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
             onOpen(project.id);
           }
         }}
-        tabIndex={0}
+        tabIndex={isInteractive ? 0 : -1}
         role="button"
-        {...tiltHandlers}
       >
         {project.banner && (
           <div
             className={[
               "relative z-0 h-36 pointer-events-none overflow-hidden",
               "transition-all duration-500",
-              isActive ? "opacity-95" : "opacity-58",
+              isActive ? "opacity-100" : "opacity-72",
             ].join(" ")}
           >
             <img
               src={project.banner}
               alt=""
               className={[
-                "h-full w-full object-cover transition-all duration-700",
-                isActive ? "grayscale-0 scale-105" : "grayscale opacity-80",
+                "h-full w-full object-contain bg-black/18 transition-all duration-700",
+                isActive ? "grayscale-0 saturate-110" : "grayscale-[25%] opacity-90 saturate-90",
               ].join(" ")}
             />
             <div
               className={[
                 "absolute inset-0 bg-linear-to-t to-transparent transition-colors duration-200",
                 isActive
-                  ? "from-[rgba(0,0,0,0.62)] via-transparent"
-                  : "from-[rgba(0,0,0,0.72)] via-[rgba(0,0,0,0.16)]",
+                  ? "from-[rgba(0,0,0,0.42)] via-transparent"
+                  : "from-[rgba(0,0,0,0.5)] via-[rgba(0,0,0,0.08)]",
               ].join(" ")}
             />
             <div className="absolute left-3 top-3 flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.16em] text-white/80">
@@ -491,7 +507,7 @@ const ProjectsSection: React.FC = () => {
               activeId ? "cinematic-project-stage-paused" : "",
             ].join(" ")}
           >
-            <div className="archive-wall-status pointer-events-none absolute right-0 top-0 hidden w-[280px] border-l border-(--accent-border) bg-(--bg-elevated)/45 p-4 backdrop-blur-md xl:block">
+            <div className="archive-wall-status pointer-events-none absolute right-0 top-0 z-[120] hidden w-[280px] border-l border-(--accent-border) bg-(--bg-elevated)/72 p-4 backdrop-blur-md xl:block">
               <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-(--accent)">
                 Now Exhibiting
               </div>
@@ -506,7 +522,9 @@ const ProjectsSection: React.FC = () => {
             <div
               className="archive-wall relative w-full max-w-5xl h-[430px] flex items-center justify-center mb-12 overflow-visible"
               onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
+              onMouseLeave={() => {
+                setIsPaused(false);
+              }}
             >
               {projects.map((project, idx) => {
                 const layout = cardLayouts[idx];
@@ -514,12 +532,16 @@ const ProjectsSection: React.FC = () => {
 
                 // 🧮 화면 폭에 따른 centerOffset + 랜덤 흔들림
                 const relativeIndex = idx - focusedIndex;
+                const isWrapping =
+                  relativeIndex > middle || relativeIndex < -middle;
                 const wrappedRelative =
                   relativeIndex > middle
                     ? relativeIndex - projects.length
                     : relativeIndex < -middle
                       ? relativeIndex + projects.length
                       : relativeIndex;
+                const visibleDistance = 2;
+                const isVisible = Math.abs(wrappedRelative) <= visibleDistance;
                 const centerOffset = wrappedRelative * baseSpread;
                 const baseX = centerOffset + layout.jitterX * 0.35;
                 const baseY = layout.jitterY * 0.35;
@@ -532,14 +554,20 @@ const ProjectsSection: React.FC = () => {
                 const rotateZ = isActive ? 0 : layout.baseRotate * 0.28;
 
                 const transform = isActive
-                  ? `translate3d(${translateX}px, -20px, 90px) rotateY(0deg) scale(1.08)`
+                  ? `translate3d(${translateX}px, -20px, 72px) rotateY(0deg) scale(1.04)`
                   : `translate3d(${translateX}px, ${translateY}px, ${-150 * depth}px) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) scale(${0.84 - depth * 0.06})`;
 
                 // z-index: 프로젝트 순서대로 쌓이고, 포커스된 카드만 맨 위
-                const zIndex = isActive ? 90 : 60 - Math.abs(wrappedRelative);
+                const zIndex = isActive ? 90 : isVisible ? 60 - Math.abs(wrappedRelative) : 0;
 
-                const opacity = isActive ? 1 : 0.42 + (1 - depth) * 0.22;
-                const filter = isActive ? "none" : `blur(${1.2 + depth * 1.6}px) saturate(0.72)`;
+                const opacity = isActive
+                  ? 1
+                  : isVisible
+                    ? 0.42 + (1 - depth) * 0.22
+                    : 0;
+                const filter = isActive ? "none" : `saturate(${0.86 - depth * 0.12}) brightness(${0.82 - depth * 0.08})`;
+                const isInteractive = isActive || Math.abs(wrappedRelative) <= 1;
+                const disableTransition = isWrapping && !isVisible;
 
                 return (
                   <DesktopProjectCard
@@ -551,8 +579,10 @@ const ProjectsSection: React.FC = () => {
                     transform={transform}
                     opacity={opacity}
                     filter={filter}
+                    isInteractive={isInteractive}
+                    disableTransition={disableTransition}
                     onOpen={openModal}
-                    onFocusCard={() => setFocusedIndex(idx)}
+                    onHoldAutoSlide={() => setIsPaused(true)}
                   />
                 );
               })}

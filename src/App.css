@@ -124,13 +124,15 @@ a {
    Header
    ─────────────────────────────────────────────── */
 header {
-  background: rgba(26, 29, 35, 0.85);
+  background:
+    linear-gradient(to bottom, rgba(26, 29, 35, 0.94), rgba(26, 29, 35, 0.76) 72%, rgba(26, 29, 35, 0));
   backdrop-filter: blur(12px) saturate(1.2);
   -webkit-backdrop-filter: blur(12px) saturate(1.2);
 }
 
 html[data-theme="light"] header {
-  background: rgba(250, 251, 252, 0.85);
+  background:
+    linear-gradient(to bottom, rgba(250, 251, 252, 0.94), rgba(250, 251, 252, 0.74) 72%, rgba(250, 251, 252, 0));
   backdrop-filter: blur(12px) saturate(1.2);
   -webkit-backdrop-filter: blur(12px) saturate(1.2);
 }
@@ -330,12 +332,48 @@ html {
 }
 
 .project-tilt-surface {
-  transform-style: preserve-3d;
   will-change: transform;
 }
 
-.project-tilt-surface > * {
-  transform: translateZ(18px);
+.project-tilt-surface {
+  transition:
+    border-color 240ms ease,
+    box-shadow 240ms ease,
+    background-color 240ms ease,
+    transform 240ms ease;
+}
+
+.project-tilt-surface::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 19;
+  border: 1px solid rgba(32,201,151,0.22);
+  border-radius: inherit;
+  background: transparent;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    inset 0 -1px 0 rgba(32,201,151,0.08);
+  opacity: 0;
+  transition: opacity 240ms ease;
+}
+
+.project-tilt-surface:hover::after,
+.project-tilt-surface:focus-visible::after {
+  opacity: 1;
+}
+
+.project-tilt-gloss {
+  transform: translateX(-120%) skewX(-16deg);
+  transition:
+    opacity 180ms ease,
+    transform 520ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.project-tilt-surface:hover .project-tilt-gloss,
+.project-tilt-surface:focus-visible .project-tilt-gloss {
+  transform: translateX(120%) skewX(-16deg);
 }
 
 @keyframes energySweep {
@@ -437,21 +475,21 @@ html {
 }
 
 .cinematic-frame {
-  border-top: 1px solid var(--border-subtle);
-  border-bottom: 1px solid var(--border-subtle);
   background:
     linear-gradient(90deg, rgba(32,201,151,0.16), transparent 18%, transparent 82%, rgba(32,201,151,0.12)),
-    linear-gradient(to bottom, rgba(255,255,255,0.03), transparent 20%, transparent 80%, rgba(255,255,255,0.025));
+    linear-gradient(to bottom, rgba(255,255,255,0.018), transparent 18%, transparent 82%, rgba(255,255,255,0.015));
+  mask-image: linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%);
 }
 
 .cinematic-frame::before,
 .cinematic-frame::after {
   content: "";
   position: absolute;
-  top: 22px;
-  bottom: 22px;
+  top: 54px;
+  bottom: 54px;
   width: 1px;
-  background: var(--border-subtle);
+  background: linear-gradient(to bottom, transparent, var(--border-subtle) 18%, var(--border-subtle) 82%, transparent);
+  opacity: 0.42;
 }
 
 .cinematic-frame::before {
@@ -587,12 +625,17 @@ html {
 .archive-wall-slot {
   transform-style: preserve-3d;
   transform-origin: center center;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 .archive-wall-card {
   min-height: 318px;
   box-shadow: 0 18px 50px rgba(0,0,0,0.22);
   transform-style: preserve-3d;
+  backface-visibility: hidden;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
 }
 
 .archive-wall-card::before {
@@ -603,8 +646,8 @@ html {
   z-index: 2;
   opacity: 0;
   background:
-    radial-gradient(circle at 50% 0%, rgba(32,201,151,0.18), transparent 38%),
-    linear-gradient(120deg, transparent 18%, rgba(255,255,255,0.13) 44%, transparent 62%);
+    linear-gradient(180deg, rgba(32,201,151,0.09), transparent 42%),
+    linear-gradient(120deg, transparent 18%, rgba(255,255,255,0.07) 44%, transparent 62%);
   transition: opacity 420ms ease;
 }
 
@@ -646,6 +689,158 @@ html {
 
 .archive-wall-status {
   box-shadow: 0 18px 48px rgba(0,0,0,0.18);
+}
+
+.activity-depth-section {
+  position: relative;
+  isolation: isolate;
+}
+
+.activity-depth-section::before,
+.activity-depth-section::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset-inline: -28px;
+  z-index: -1;
+}
+
+.activity-depth-section::before {
+  top: 82px;
+  bottom: 12px;
+  opacity: 0.72;
+  background:
+    radial-gradient(circle at 18% 24%, rgba(32,201,151,0.13), transparent 28%),
+    radial-gradient(circle at 88% 54%, rgba(165,180,252,0.1), transparent 26%),
+    linear-gradient(180deg, color-mix(in srgb, var(--bg-elevated) 36%, transparent), transparent 72%);
+}
+
+.activity-depth-section::after {
+  top: 132px;
+  bottom: 28px;
+  opacity: 0.12;
+  background-image:
+    linear-gradient(var(--border-subtle) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at 58% 42%, black, transparent 72%);
+}
+
+.activity-depth-stage {
+  position: relative;
+  min-height: 540px;
+  perspective: 1200px;
+}
+
+.activity-depth-stage::before,
+.activity-depth-stage::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  border: 1px solid var(--accent-border);
+  background: color-mix(in srgb, var(--bg-elevated) 24%, transparent);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+  backdrop-filter: blur(10px);
+}
+
+.activity-depth-stage::before {
+  right: 8%;
+  top: 22px;
+  width: 180px;
+  height: 92px;
+  opacity: 0.28;
+  transform: translateZ(-80px) rotateY(-18deg) rotateZ(2deg);
+}
+
+.activity-depth-stage::after {
+  right: 22%;
+  bottom: 46px;
+  width: 124px;
+  height: 74px;
+  opacity: 0.18;
+  transform: translateZ(-120px) rotateY(24deg) rotateZ(-3deg);
+}
+
+.activity-depth-nav {
+  position: relative;
+  z-index: 2;
+}
+
+.activity-depth-axis {
+  background: linear-gradient(to bottom, transparent, var(--accent-border) 16%, var(--border-subtle) 50%, var(--accent-border) 84%, transparent);
+  box-shadow: 0 0 24px rgba(32,201,151,0.12);
+}
+
+.activity-depth-node::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: -8px;
+  border: 1px solid var(--accent-border);
+  border-radius: 999px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.group\/point:hover .activity-depth-node::after,
+.activity-depth-node:has(.activity-depth-node-active)::after {
+  opacity: 0.52;
+  transform: scale(1);
+}
+
+.activity-depth-viewport {
+  position: relative;
+  z-index: 1;
+  border-radius: 18px;
+}
+
+.activity-depth-viewport::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 12px;
+  z-index: 2;
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  opacity: 0.28;
+}
+
+.activity-depth-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 420px;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(32,201,151,0.12), transparent 30%),
+    linear-gradient(135deg, color-mix(in srgb, var(--bg-elevated) 92%, transparent), color-mix(in srgb, var(--bg) 86%, transparent));
+  box-shadow:
+    0 24px 70px rgba(0,0,0,0.2),
+    0 0 0 1px rgba(32,201,151,0.04);
+}
+
+.activity-depth-card::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.12;
+  background:
+    repeating-linear-gradient(to bottom, rgba(255,255,255,0.08) 0 1px, transparent 1px 8px),
+    linear-gradient(120deg, transparent, rgba(32,201,151,0.12), transparent 62%);
+  mix-blend-mode: screen;
+}
+
+.activity-depth-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.activity-depth-card:hover {
+  box-shadow:
+    0 30px 84px rgba(0,0,0,0.24),
+    0 0 0 1px rgba(32,201,151,0.12),
+    0 0 42px rgba(32,201,151,0.08);
 }
 
 .research-terminal {
@@ -934,8 +1129,15 @@ html {
 
 @media (max-width: 767px) {
   .hero-title {
-    text-wrap: auto;
-    word-break: normal;
+    max-width: 100%;
+    text-wrap: wrap;
+    word-break: break-all;
+    overflow-wrap: anywhere;
+  }
+
+  .hero-summary {
+    max-width: 100%;
+    word-break: break-all;
     overflow-wrap: anywhere;
   }
 
@@ -1172,7 +1374,7 @@ html {
 
 @media (hover: hover) and (pointer: fine) {
   .project-tilt-surface:hover .project-tilt-gloss {
-    opacity: 1;
+    opacity: 0.72;
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useLayoutEffect } from "react";
 import { motion } from "framer-motion";
 import HeroSection from "./heroSection/heroSection";
 import ImmersiveShowcase from "./immersive/ImmersiveShowcase";
@@ -27,21 +27,40 @@ const RevealBlock: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 );
 
 const HomePage: React.FC = () => {
-  const handleScrollTo = useCallback((id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      const headerHeight = 64; // --header-height 값
-      const offset = 20; // 추가 여백
-      const elementPosition =
-        el.getBoundingClientRect().top + window.pageYOffset;
-      const offsetPosition = elementPosition - headerHeight - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-    }
+  const getInitialSectionId = useCallback(() => {
+    const params = new URLSearchParams(window.location.search);
+    return window.location.hash.replace("#", "") || params.get("section");
   }, []);
+
+  const scrollToSection = useCallback((id: string, behavior: ScrollBehavior) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const headerHeight = 64;
+    const offset = 20;
+    el.scrollIntoView({ block: "start", behavior });
+    window.scrollBy({ top: -(headerHeight + offset), behavior });
+  }, []);
+
+  const handleScrollTo = useCallback((id: string) => {
+    scrollToSection(id, "smooth");
+  }, [scrollToSection]);
+
+  useLayoutEffect(() => {
+    const id = getInitialSectionId();
+    if (!id) return;
+    scrollToSection(id, "auto");
+  }, [getInitialSectionId, scrollToSection]);
+
+  useEffect(() => {
+    const id = getInitialSectionId();
+    if (!id) return;
+
+    const timers = [120, 420].map((delay) =>
+      window.setTimeout(() => scrollToSection(id, "auto"), delay)
+    );
+    return () => timers.forEach((timer) => window.clearTimeout(timer));
+  }, [getInitialSectionId, scrollToSection]);
 
   return (
     <main className="home-cinematic max-w-(--content-max-w) mx-auto px-5 pt-[calc(var(--header-height)+20px)] pb-16 text-[14px] text-fg leading-[1.6]">
