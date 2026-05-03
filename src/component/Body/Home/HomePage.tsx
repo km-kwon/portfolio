@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useLayoutEffect } from "react";
 import { motion } from "framer-motion";
 import HeroSection from "./heroSection/heroSection";
-import ImmersiveShowcase from "./immersive/ImmersiveShowcase";
 import AboutSection from "./about/about";
 import SkillsSection from "./skills/skills";
 import BlogSection from "./experience/experience";
@@ -38,8 +37,16 @@ const HomePage: React.FC = () => {
 
     const headerHeight = 64;
     const offset = 20;
-    el.scrollIntoView({ block: "start", behavior });
-    window.scrollBy({ top: -(headerHeight + offset), behavior });
+    const top =
+      el.getBoundingClientRect().top +
+      window.scrollY -
+      headerHeight -
+      offset;
+
+    window.scrollTo({
+      top: Math.max(0, top),
+      behavior,
+    });
   }, []);
 
   const handleScrollTo = useCallback((id: string) => {
@@ -67,9 +74,6 @@ const HomePage: React.FC = () => {
       {/* HERO */}
       <HeroSection onScrollTo={handleScrollTo} />
 
-      {/* IMMERSIVE 3D SHOWCASE */}
-      <ImmersiveShowcase onScrollTo={handleScrollTo} />
-
       {/* PROJECTS */}
       <RevealBlock>
         <ProjectsSection />
@@ -90,14 +94,14 @@ const HomePage: React.FC = () => {
         <ActivitySection />
       </RevealBlock>
 
-      {/* LABS */}
-      <RevealBlock>
-        <WorkerLab />
-      </RevealBlock>
-
       {/* BLOG */}
       <RevealBlock>
         <BlogSection />
+      </RevealBlock>
+
+      {/* LABS */}
+      <RevealBlock>
+        <WorkerLab />
       </RevealBlock>
 
       {/* CONTACT */}

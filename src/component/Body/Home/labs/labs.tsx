@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import {
   sectionHeaderBase,
   sectionTitleClass,
-  sectionSubTitleClass,
 } from "../../../../styles/tokens";
 import { experiments } from "../../Lab/experiments";
 import ExperimentCard from "../../Lab/ExperimentCard";
@@ -22,9 +21,6 @@ export const WorkerLab: React.FC = () => {
         <div>
           <h2 className={sectionTitleClass}>프론트엔드 실험실</h2>
         </div>
-        <p className={sectionSubTitleClass}>
-          성능 최적화 기법을 라이브 데모로 직접 체험해 보세요.
-        </p>
       </div>
 
       <div className="grid gap-5">

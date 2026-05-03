@@ -72,13 +72,10 @@ const ValueCard: React.FC<{ value: Value }> = ({ value }) => (
 const AboutSection: React.FC = () => {
   return (
     <section id="about" className="mb-16">
-      <SectionMarker number="05" label="Values" />
+      <SectionMarker number="04" label="Values" />
 
       <div className="flex flex-col gap-2 md:flex-row md:items-baseline md:justify-between mb-6">
         <h2 className="text-[22px] font-bold tracking-tight text-fg">개발자로서의 가치관</h2>
-        <p className="text-[13px] text-fg-muted leading-relaxed max-w-md">
-          최고의 성과를 지향하되, 최악의 상황을 먼저 대비하는 '안전한 혁신'을 추구합니다.
-        </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">

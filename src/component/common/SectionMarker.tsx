@@ -6,14 +6,11 @@ interface SectionMarkerProps {
 }
 
 const SectionMarker: React.FC<SectionMarkerProps> = ({ number, label }) => (
-  <div className="flex items-center gap-3 mb-6">
-    <span className="text-[11px] font-mono text-fg-dimmed tracking-wider">
+  <div className="flex items-center gap-3 mb-4" aria-label={label}>
+    <span className="text-[10px] font-mono text-fg-dimmed tracking-wider">
       {number}
     </span>
-    <span className="h-px w-6 bg-(--border-subtle)" />
-    <span className="text-[11px] uppercase tracking-[0.15em] text-(--accent) font-medium">
-      {label}
-    </span>
+    <span className="h-px w-10 bg-(--border-subtle)" />
   </div>
 );
 

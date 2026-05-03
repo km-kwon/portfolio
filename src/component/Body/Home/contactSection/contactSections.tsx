@@ -1,111 +1,94 @@
-// src/ContactSection.tsx
 import React from "react";
 import SectionMarker from "../../../common/SectionMarker";
 
-const cardBase =
-  "rounded-3xl border border-(--border-subtle) bg-(--bg-elevated) p-5 shadow-[0_14px_34px_rgba(0,0,0,0.32)] " +
-  "transition-transform transition-shadow transition-colors duration-200 ease-out " +
-  "hover:-translate-y-0.5 hover:shadow-[0_18px_40px_rgba(0,0,0,0.5)] hover:border-white/20 " +
-  "[html[data-theme='light']_&]:shadow-[0_8px_20px_rgba(0,0,0,0.08)] " +
-  "[html[data-theme='light']_&]:hover:shadow-[0_12px_28px_rgba(0,0,0,0.12)]";
-
-const sectionHeaderBase =
-  "flex flex-col gap-3 md:flex-row md:items-baseline md:justify-between mb-5";
-
-const sectionTitleClass = "text-[20px] font-semibold tracking-[0.02em]";
-const sectionSubTitleClass =
-  "text-[13px] text-fg-muted leading-relaxed";
+const contactLinkClass =
+  "group flex min-h-[92px] flex-col justify-between border border-(--border-subtle) bg-(--bg-elevated)/72 px-4 py-3 " +
+  "transition-all duration-300 hover:-translate-y-0.5 hover:border-(--accent-border) hover:bg-(--bg-elevated) " +
+  "[html[data-theme='light']_&]:shadow-[0_1px_3px_rgba(0,0,0,0.035)]";
 
 const ContactSection: React.FC = () => {
   const email = "lanos5019@ajou.ac.kr";
 
+  const channels = [
+    {
+      label: "Email",
+      value: email,
+      href: `mailto:${email}`,
+    },
+    {
+      label: "GitHub",
+      value: "@km-kwon",
+      href: "https://github.com/km-kwon",
+    },
+    {
+      label: "NPM",
+      value: "~kwon-kyoungmin",
+      href: "https://www.npmjs.com/~kwon-kyoungmin",
+    },
+    {
+      label: "Resume",
+      value: "PDF",
+      href: `${import.meta.env.BASE_URL}resume.pdf`,
+    },
+  ];
+
   return (
     <section id="contact" className="mb-10">
-      <SectionMarker number="09" label="Contact" />
-      <div className={sectionHeaderBase}>
-        <div>
-          <h2 className={sectionTitleClass}>함께 이야기해요</h2>
-        </div>
-        <p className={sectionSubTitleClass}>
-          프론트엔드 포지션, 협업, 프로젝트 제안 모두 이메일로 편하게 연락 주세요.
-        </p>
-      </div>
+      <SectionMarker number="08" label="Contact" />
 
-      <div className="grid gap-4.5 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1.2fr)]">
-        {/* 왼쪽 소개 카드 */}
-        <div
-          className={`${cardBase} interactive-surface text-[14px] text-fg-muted leading-[1.7]`}
-        >
-          <p>
-            새 제품을 기획 중이거나, 기존 서비스를 재설계하고 싶다면
-            <strong> “무엇을 해결하고 싶은지” </strong>를 함께 정리하는 단계부터
-            도울 수 있습니다.
-          </p>
-          <p className="mt-3">
-            아래 채널 중 편한 방법으로 연락 주시면
-            <br />
-            가능한 한 빠르게 답변드리겠습니다.
-          </p>
-        </div>
+      <div className="contact-modern relative overflow-hidden border-y border-(--border-subtle) py-8 md:py-10">
+        <div className="relative z-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.78fr)] lg:items-end">
+          <div>
+            <h2 className="max-w-[620px] text-[26px] font-bold leading-[1.18] tracking-tight text-fg md:text-[34px]">
+              다음 인터페이스를
+              <br className="hidden sm:block" />
+              함께 설계해요.
+            </h2>
+            <p className="mt-4 max-w-[520px] text-[13px] leading-[1.75] text-fg-muted">
+              복잡한 데이터와 상태를 사용자가 믿고 쓸 수 있는 흐름으로 정리합니다.
+            </p>
+          </div>
 
-        {/* 오른쪽 채널 카드 */}
-        <div className={cardBase}>
-          <div className="grid gap-2">
-            <div className="flex items-center justify-between gap-3 rounded-full px-3.5 py-2 border border-(--border-subtle) bg-(--bg-soft) [html[data-theme='light']_&]:bg-[#f5f5fb]">
-              <span className="text-[12px] text-fg-muted">
-                Email
+          <div className="flex flex-col gap-3">
+            <a
+              href={`mailto:${email}`}
+              className="group inline-flex items-center justify-between gap-4 border border-(--accent-border) bg-(--accent) px-5 py-4 text-[14px] font-semibold text-white transition-all duration-300 hover:bg-(--accent-hover)"
+            >
+              <span>메일로 바로 이야기하기</span>
+              <span className="transition-transform duration-300 group-hover:translate-x-1">
+                ↗
               </span>
-              <a
-                href={`mailto:${email}`}
-                className="text-[13px] font-medium truncate"
-              >
-                {email}
-              </a>
-            </div>
-
-            <div className="flex items-center justify-between gap-3 rounded-full px-3.5 py-2 border border-(--border-subtle) bg-(--bg-soft) [html[data-theme='light']_&]:bg-[#f5f5fb]">
-              <span className="text-[12px] text-fg-muted">
-                GitHub
-              </span>
-              <a
-                href="https://github.com/km-kwon"
-                target="_blank"
-                rel="noreferrer"
-                className="text-[13px] font-medium truncate"
-              >
-                @km-kwon
-              </a>
-            </div>
-
-            <div className="flex items-center justify-between gap-3 rounded-full px-3.5 py-2 border border-(--border-subtle) bg-(--bg-soft) [html[data-theme='light']_&]:bg-[#f5f5fb]">
-              <span className="text-[12px] text-fg-muted">
-                NPM
-              </span>
-              <a
-                href="https://www.npmjs.com/~kwon-kyoungmin"
-                target="_blank"
-                rel="noreferrer"
-                className="text-[13px] font-medium truncate"
-              >
-                ~kwon-kyoungmin
-              </a>
-            </div>
-
-            <div className="flex items-center justify-between gap-3 rounded-full px-3.5 py-2 border border-(--border-subtle) bg-(--bg-soft) [html[data-theme='light']_&]:bg-[#f5f5fb]">
-              <span className="text-[12px] text-fg-muted">
-                Resume
-              </span>
-              <a
-                href={`${import.meta.env.BASE_URL}resume.pdf`}
-                target="_blank"
-                rel="noreferrer"
-                className="text-[13px] font-medium truncate"
-              >
-                PDF 다운로드
-              </a>
+            </a>
+            <div className="flex items-center justify-between gap-4 border border-(--border-subtle) bg-(--bg-elevated)/56 px-5 py-3 font-mono text-[10px] uppercase tracking-[0.16em] text-fg-muted">
+              <span>Frontend · Product UI</span>
+              <span className="text-(--accent)">Open to work</span>
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {channels.map((channel) => (
+          <a
+            key={channel.label}
+            href={channel.href}
+            target={channel.label === "Email" ? undefined : "_blank"}
+            rel={channel.label === "Email" ? undefined : "noreferrer"}
+            className={contactLinkClass}
+          >
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-fg-dimmed">
+              {channel.label}
+            </span>
+            <span className="flex items-end justify-between gap-3">
+              <span className="min-w-0 truncate text-[14px] font-medium text-fg">
+                {channel.value}
+              </span>
+              <span className="text-[13px] text-fg-muted transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-(--accent)">
+                ↗
+              </span>
+            </span>
+          </a>
+        ))}
       </div>
     </section>
   );

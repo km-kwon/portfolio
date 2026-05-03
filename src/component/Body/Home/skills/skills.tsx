@@ -5,7 +5,6 @@ import {
   cardBase,
   sectionHeaderBase,
   sectionTitleClass,
-  sectionSubTitleClass,
   tabButtonClass,
 } from "../../../../styles/tokens";
 import SectionMarker from "../../../common/SectionMarker";
@@ -97,21 +96,11 @@ const SkillsSection: React.FC = () => {
 
   return (
     <section id="skills" className="mb-16">
-      <div className="cinematic-section-rail mb-5 flex items-center justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.22em] text-fg-muted">
-        <span>Scene 04 / Skill Orbit</span>
-        <div className="hidden h-px flex-1 bg-(--border-subtle) md:block">
-          <span className="cinematic-progress block h-full max-w-[28%] bg-(--accent)" />
-        </div>
-        <span className="text-(--accent)">Interactive Stack System</span>
-      </div>
-      <SectionMarker number="04" label="Skills" />
+      <SectionMarker number="03" label="Skills" />
       <div className={sectionHeaderBase}>
         <div>
           <h2 className={sectionTitleClass}>경력 &amp; 전문성</h2>
         </div>
-        <p className={sectionSubTitleClass}>
-          안전하고 견고한 제품을 만들기 위해 사용하는 기술들입니다.
-        </p>
       </div>
 
       <div className="skill-orbit-system mb-6 grid gap-6 lg:grid-cols-[minmax(360px,0.92fr)_minmax(280px,0.58fr)] lg:items-center">

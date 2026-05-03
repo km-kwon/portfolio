@@ -11,7 +11,7 @@ import SectionMarker from "../../../common/SectionMarker";
 import TiltCard from "../../../common/TiltCard";
 
 const AUTO_SLIDE_DURATION = 4000; // 자동 슬라이드 지속 시간 (ms)
-const ACTIVITY_HEIGHT = 500; // 데스크탑 세로 슬라이드 높이(px)
+const ACTIVITY_HEIGHT = 540; // 데스크탑 세로 슬라이드 높이(px)
 
 // 동적 import로 data 폴더의 모든 activity 데이터 로드
 const modules = import.meta.glob("./data/**/index.ts", { eager: true });
@@ -131,14 +131,7 @@ const ActivitySection: React.FC = () => {
 
   return (
     <section id="activity" className="activity-depth-section mb-16">
-      <div className="cinematic-section-rail mb-5 flex items-center justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.22em] text-fg-muted">
-        <span>Scene 06 / Field Archive</span>
-        <div className="hidden h-px flex-1 bg-(--border-subtle) md:block">
-          <span className="cinematic-progress block h-full max-w-[28%] bg-(--accent)" />
-        </div>
-        <span className="text-(--accent)">Live Activity Deck</span>
-      </div>
-      <SectionMarker number="06" label="Activity" />
+      <SectionMarker number="05" label="Activity" />
       <div className={sectionHeaderBase}>
         <div>
           <h2 className={sectionTitleClass}>대외 활동</h2>
@@ -157,7 +150,7 @@ const ActivitySection: React.FC = () => {
           <div className="relative">
             <div
               ref={carouselRef}
-              className="w-full overflow-hidden"
+              className="activity-depth-mobile-viewport w-full overflow-hidden"
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
@@ -177,7 +170,7 @@ const ActivitySection: React.FC = () => {
                 {activities.map((activity, idx) => (
                   <div
                     key={activity.id}
-                    className="w-full mb-1 shrink-0 flex justify-center px-3"
+                    className="activity-depth-slide activity-depth-slide-mobile w-full shrink-0 flex justify-center"
                   >
                     <TiltCard
                       className="w-full h-full max-w-3xl"
@@ -323,42 +316,64 @@ const ActivitySection: React.FC = () => {
             </div>
           </div>
 
-          {/* 우측: 세로 슬라이드 영역 */}
+          {/* 우측: 깊이감 있는 카드 스택 영역 */}
           <div
             ref={carouselRef}
-            className="activity-depth-viewport flex-1 w-full overflow-hidden"
+            className="activity-depth-viewport activity-depth-stack flex-1 w-full overflow-visible"
             style={{ height: ACTIVITY_HEIGHT }}
           >
-            <div
-              className="
-                flex flex-col 
-                h-full w-full
-                transition-transform 
-                duration-700 
-                ease-[cubic-bezier(0.22,0.61,0.36,1)]
-                will-change-transform
-              "
-              style={{
-                transform: `translate3d(0, -${currentIndex * 100}%, 0)`,
-              }}
-            >
-              {activities.map((activity, idx) => (
-                <div
-                  key={activity.id}
-                  className="h-full w-full shrink-0 flex items-center justify-center"
-                >
-                  {/* 가운데 카드 컨테이너 */}
-                  <TiltCard
-                    className="w-full max-h-full"
-                    surfaceClassName="activity-depth-card rounded-2xl border border-(--border-subtle) bg-(--bg-elevated) transition-all duration-300 hover:border-(--accent-border) [html[data-theme='light']_&]:shadow-[0_1px_3px_rgba(0,0,0,0.04)]"
+            <div className="activity-depth-stack-inner">
+              {activities.map((activity, idx) => {
+                const rawOffset = idx - currentIndex;
+                const half = totalItems / 2;
+                const relativeIndex =
+                  rawOffset > half
+                    ? rawOffset - totalItems
+                    : rawOffset < -half
+                      ? rawOffset + totalItems
+                      : rawOffset;
+                const depth = Math.abs(relativeIndex);
+                const direction = relativeIndex < 0 ? -1 : 1;
+                const isActive = idx === currentIndex;
+                const isVisible = depth <= 2;
+                const translateX = isActive ? 0 : depth * 10;
+                const translateY = isActive ? 0 : direction * depth * 42;
+                const translateZ = isActive ? 72 : -120 * depth;
+                const rotateX = isActive ? 0 : direction * 7;
+                const scale = isActive ? 1 : 1 - depth * 0.055;
+
+                return (
+                  <div
+                    key={activity.id}
+                    className="activity-depth-stack-card activity-depth-slide flex items-center justify-center"
+                    style={{
+                      zIndex: isActive ? 40 : isVisible ? 30 - depth : 0,
+                      opacity: isActive ? 1 : isVisible ? 0.58 - depth * 0.15 : 0,
+                      filter: isActive
+                        ? "none"
+                        : `saturate(${0.9 - depth * 0.08}) brightness(${0.84 - depth * 0.08}) blur(${depth === 2 ? 0.4 : 0}px)`,
+                      pointerEvents: isActive ? "auto" : "none",
+                      transform: `translate3d(${translateX}px, ${translateY}px, ${translateZ}px) rotateX(${rotateX}deg) scale(${scale})`,
+                    }}
                   >
-                    <ActivityItem
-                      activity={activity}
-                      isActive={idx === currentIndex}
-                    />
-                  </TiltCard>
-                </div>
-              ))}
+                    {/* 가운데 카드 컨테이너 */}
+                    <TiltCard
+                      className="w-full max-h-full"
+                      surfaceClassName={[
+                        "activity-depth-card rounded-2xl border border-(--border-subtle) bg-(--bg-elevated) transition-all duration-300 hover:border-(--accent-border) [html[data-theme='light']_&]:shadow-[0_1px_3px_rgba(0,0,0,0.04)]",
+                        isActive
+                          ? "activity-depth-card-active"
+                          : "activity-depth-card-behind",
+                      ].join(" ")}
+                    >
+                      <ActivityItem
+                        activity={activity}
+                        isActive={isActive}
+                      />
+                    </TiltCard>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

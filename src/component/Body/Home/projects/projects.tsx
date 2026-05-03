@@ -6,7 +6,6 @@ import CircularProgress from "../../../common/CircularProgress";
 import {
   sectionHeaderBase,
   sectionTitleClass,
-  sectionSubTitleClass,
   pillClass,
 } from "../../../../styles/tokens";
 import SectionMarker from "../../../common/SectionMarker";
@@ -408,21 +407,11 @@ const ProjectsSection: React.FC = () => {
   return (
     <>
       <section id="projects" className="mb-16">
-        <div className="cinematic-section-rail mb-5 flex items-center justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.22em] text-fg-muted">
-          <span>Scene 03 / Evidence Archive</span>
-          <div className="hidden h-px flex-1 bg-(--border-subtle) md:block">
-            <span className="cinematic-progress block h-full max-w-[36%] bg-(--accent)" />
-          </div>
-          <span className="text-(--accent)">Auto Curated Projects</span>
-        </div>
-        <SectionMarker number="03" label="Projects" />
+        <SectionMarker number="02" label="Projects" />
         <div className={sectionHeaderBase}>
           <div>
             <h2 className={sectionTitleClass}>주요 프로젝트</h2>
           </div>
-          <p className={sectionSubTitleClass}>
-            아래 포인트나 카드를 클릭하면 상세 모달을 볼 수 있습니다.
-          </p>
         </div>
 
         {/* 레이아웃: 모바일 = 가로 슬라이더, 데스크탑 = 수납장 */}
@@ -435,7 +424,7 @@ const ProjectsSection: React.FC = () => {
           >
             {/* 카드 슬라이더 */}
             <div
-              className="w-full overflow-hidden"
+              className="project-mobile-viewport w-full overflow-hidden py-4"
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
@@ -449,7 +438,7 @@ const ProjectsSection: React.FC = () => {
                 {projects.map((project) => (
                   <div
                     key={project.id}
-                    className="w-full shrink-0 flex justify-center px-3"
+                    className="w-full shrink-0 flex justify-center px-3 py-1"
                   >
                     <MobileProjectCard project={project} onOpen={openModal} />
                   </div>
@@ -520,7 +509,7 @@ const ProjectsSection: React.FC = () => {
             </div>
             {/* 🎴 무작위 섞인 카드 영역 */}
             <div
-              className="archive-wall relative w-full max-w-5xl h-[430px] flex items-center justify-center mb-12 overflow-visible"
+              className="archive-wall relative mt-8 w-full max-w-5xl h-[470px] flex items-center justify-center mb-14 overflow-visible"
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => {
                 setIsPaused(false);
@@ -554,7 +543,7 @@ const ProjectsSection: React.FC = () => {
                 const rotateZ = isActive ? 0 : layout.baseRotate * 0.28;
 
                 const transform = isActive
-                  ? `translate3d(${translateX}px, -20px, 72px) rotateY(0deg) scale(1.04)`
+                  ? `translate3d(${translateX}px, -16px, 0) rotateY(0deg) scale(1.015)`
                   : `translate3d(${translateX}px, ${translateY}px, ${-150 * depth}px) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) scale(${0.84 - depth * 0.06})`;
 
                 // z-index: 프로젝트 순서대로 쌓이고, 포커스된 카드만 맨 위

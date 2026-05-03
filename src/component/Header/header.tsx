@@ -22,7 +22,6 @@ const Header: React.FC<HeaderProps> = ({
 
   const navItems: { id: string; label: string }[] = [
     { id: "top", label: "Profile" },
-    { id: "world", label: "World" },
     { id: "projects", label: "Projects" },
     { id: "skills", label: "Skills" },
     { id: "about", label: "About" },
@@ -87,18 +86,18 @@ const Header: React.FC<HeaderProps> = ({
             <span className="text-fg-muted/40 mx-1">·</span>
 
             <Link
-              to="/lab"
-              className={`${navLinkBase} ${location.pathname === "/lab" ? navLinkActive : navLinkInactive
-                }`}
-            >
-              Lab
-            </Link>
-            <Link
               to="/blog"
               className={`${navLinkBase} ${location.pathname === "/blog" ? navLinkActive : navLinkInactive
                 }`}
             >
               Blog
+            </Link>
+            <Link
+              to="/lab"
+              className={`${navLinkBase} ${location.pathname === "/lab" ? navLinkActive : navLinkInactive
+                }`}
+            >
+              Lab
             </Link>
           </nav>
 
@@ -176,20 +175,6 @@ const Header: React.FC<HeaderProps> = ({
           <div className="my-2 border-t border-(--border-subtle)" />
 
           <Link
-            to="/lab"
-            className={[
-              "px-4 py-3 rounded-lg text-[14px] border border-transparent",
-              "transition-all duration-200 ease-out",
-              "hover:bg-(--bg-soft)",
-              location.pathname === "/lab"
-                ? "text-fg bg-(--bg-soft)"
-                : "text-fg-muted",
-            ].join(" ")}
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Lab
-          </Link>
-          <Link
             to="/blog"
             className={[
               "px-4 py-3 rounded-lg text-[14px] border border-transparent",
@@ -202,6 +187,20 @@ const Header: React.FC<HeaderProps> = ({
             onClick={() => setIsMobileMenuOpen(false)}
           >
             Blog
+          </Link>
+          <Link
+            to="/lab"
+            className={[
+              "px-4 py-3 rounded-lg text-[14px] border border-transparent",
+              "transition-all duration-200 ease-out",
+              "hover:bg-(--bg-soft)",
+              location.pathname === "/lab"
+                ? "text-fg bg-(--bg-soft)"
+                : "text-fg-muted",
+            ].join(" ")}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Lab
           </Link>
 
           <div className="mt-4 pt-4 border-t border-(--border-subtle)">

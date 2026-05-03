@@ -44,14 +44,7 @@ const BlogSection: React.FC = () => {
 
   return (
     <section id="experience" className="mb-16">
-      <div className="cinematic-section-rail mb-5 flex items-center justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.22em] text-fg-muted">
-        <span>Scene 08 / Research Terminal</span>
-        <div className="hidden h-px flex-1 bg-(--border-subtle) md:block">
-          <span className="cinematic-progress block h-full max-w-[32%] bg-(--accent)" />
-        </div>
-        <span className="text-(--accent)">Reading Archive</span>
-      </div>
-      <SectionMarker number="08" label="Blog" />
+      <SectionMarker number="06" label="Blog" />
       <div className={sectionHeaderBase}>
         <div className="w-full">
           <div className="w-full flex justify-between">
@@ -66,24 +59,6 @@ const BlogSection: React.FC = () => {
       </div>
 
       <div className="research-terminal">
-        <div className="research-terminal-toolbar">
-          <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-(--accent)" />
-            <span>archive.feed</span>
-          </div>
-          <div className="hidden items-center gap-4 sm:flex">
-            <span>{MOCK_ALL_POSTS.length} entries</span>
-            <span>{randomPosts.length} selected</span>
-            <button
-              type="button"
-              onClick={handleViewAllClick}
-              className="pointer-events-auto text-(--accent) transition-colors hover:text-(--accent-hover)"
-            >
-              open all
-            </button>
-          </div>
-        </div>
-
         <div className="grid gap-4 lg:grid-cols-[minmax(0,1.05fr)_minmax(280px,0.7fr)]">
           {featuredPost && (
             <article
@@ -120,7 +95,7 @@ const BlogSection: React.FC = () => {
                       <span className="h-1.5 w-1.5 rounded-full bg-(--accent)" />
                       Log Entry 01
                     </div>
-                    <h3 className="max-w-[640px] text-[clamp(28px,4.4vw,46px)] font-bold leading-[1.02] text-white">
+                    <h3 className="max-w-[620px] text-[clamp(22px,3.4vw,34px)] font-bold leading-[1.12] text-white">
                       {featuredPost.title}
                     </h3>
                     <p className="mt-4 max-w-[560px] text-[13px] leading-[1.75] text-white/72 line-clamp-3">
