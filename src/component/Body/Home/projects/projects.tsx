@@ -543,7 +543,7 @@ const ProjectsSection: React.FC = () => {
                 const rotateZ = isActive ? 0 : layout.baseRotate * 0.28;
 
                 const transform = isActive
-                  ? `translate3d(${translateX}px, -16px, 0) rotateY(0deg) scale(1.015)`
+                  ? `translate3d(${translateX}px, -16px, 0)`
                   : `translate3d(${translateX}px, ${translateY}px, ${-150 * depth}px) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg) scale(${0.84 - depth * 0.06})`;
 
                 // z-index: 프로젝트 순서대로 쌓이고, 포커스된 카드만 맨 위

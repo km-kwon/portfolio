@@ -638,8 +638,9 @@ html {
   box-shadow: 0 18px 50px rgba(0,0,0,0.22);
   transform-style: preserve-3d;
   backface-visibility: hidden;
-  text-rendering: geometricPrecision;
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .archive-wall-card::before {
