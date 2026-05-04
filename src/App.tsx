@@ -1,38 +1,125 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Link } from "react-router-dom";
 
 import "./App.css";
-import Header from "./component/Header/header";
-import Footer from "./component/Footer/footer";
 import ScrollToTop from "./component/common/ScrollToTop";
-import HomePage from "./component/Body/Home/HomePage";
-import BlogPage from "./component/Body/Blog/BlogPage";
 import BlogDetailPage from "./component/Body/Blog/BlogDetailPage";
-import ContactPage from "./component/Body/Contact/ContactPage";
 import LabPage from "./component/Body/Lab/LabPage";
 
+import WireHeader from "./wireframe/layout/Header";
+import World from "./wireframe/layout/World";
+import Trail from "./wireframe/layout/Trail";
+
+import HomePage from "./wireframe/pages/HomePage";
+import ProjectsPage from "./wireframe/pages/ProjectsPage";
+import DetailPage from "./wireframe/pages/DetailPage";
+import AboutPage from "./wireframe/pages/AboutPage";
+import ResumePage from "./wireframe/pages/ResumePage";
+import BlogPage from "./wireframe/pages/BlogPage";
+import ContactPage from "./wireframe/pages/ContactPage";
+
 type Theme = "light" | "dark";
+type StageKey = "home" | "projects" | "detail" | "about" | "contact" | "resume" | "blog";
+
+const pathToStage = (pathname: string): StageKey => {
+  if (pathname === "/")                   return "home";
+  if (pathname.startsWith("/projects/"))  return "detail";
+  if (pathname.startsWith("/projects"))   return "projects";
+  if (pathname.startsWith("/about"))      return "about";
+  if (pathname.startsWith("/resume"))     return "resume";
+  if (pathname.startsWith("/blog"))       return "blog";
+  if (pathname.startsWith("/contact"))    return "contact";
+  if (pathname.startsWith("/lab"))        return "projects";
+  return "home";
+};
+
+const Shell: React.FC<{ theme: Theme; onToggleTheme: () => void }> = ({ theme, onToggleTheme }) => {
+  const location = useLocation();
+  const stage = pathToStage(location.pathname);
+  const [scrollY, setScrollY] = useState(0);
+  const [mouse, setMouse] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const onScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      setMouse({
+        x: e.clientX / window.innerWidth - 0.5,
+        y: e.clientY / window.innerHeight - 0.5,
+      });
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => window.removeEventListener("mousemove", onMove);
+  }, []);
+
+  return (
+    <>
+      <ScrollToTop />
+      <World page={stage} scrollY={scrollY} mouse={mouse} />
+      <WireHeader theme={theme} onToggleTheme={onToggleTheme} />
+      <Trail />
+
+      <main
+        style={{
+          position: "relative", zIndex: 2,
+          maxWidth: "var(--content-max)", margin: "0 auto",
+          padding: "calc(var(--header-h) + 32px) 24px 80px",
+        }}
+      >
+        <Routes>
+          <Route path="/"               element={<HomePage />} />
+          <Route path="/projects"       element={<ProjectsPage />} />
+          <Route path="/projects/:id"   element={<DetailPage />} />
+          <Route path="/about"          element={<AboutPage />} />
+          <Route path="/resume"         element={<ResumePage />} />
+          <Route path="/blog"           element={<BlogPage />} />
+          <Route path="/blog/:slug"     element={<BlogDetailPage />} />
+          <Route path="/contact"        element={<ContactPage />} />
+          <Route path="/lab"            element={<LabPage />} />
+        </Routes>
+      </main>
+
+      <footer
+        style={{
+          position: "relative", zIndex: 2,
+          maxWidth: "var(--content-max)", margin: "0 auto",
+          padding: "60px 24px 40px",
+          borderTop: "1px solid var(--border)",
+          display: "flex", justifyContent: "space-between", alignItems: "baseline",
+          fontFamily: "var(--mono)", fontSize: 11, color: "var(--fg-dim)",
+          letterSpacing: "0.06em", flexWrap: "wrap", gap: 16,
+        }}
+      >
+        <div>© {new Date().getFullYear()} KM-KWON · BUILT WITH REACT + R3F</div>
+        <div style={{ display: "flex", gap: 16 }}>
+          <Link to="/contact" style={{ color: "inherit", textDecoration: "none" }}>CONTACT</Link>
+          <a href="https://github.com/km-kwon" target="_blank" rel="noreferrer" style={{ color: "inherit", textDecoration: "none" }}>GITHUB ↗</a>
+          <span>v2026.05</span>
+        </div>
+      </footer>
+    </>
+  );
+};
 
 const App: React.FC = () => {
   const [theme, setTheme] = useState<Theme>(() => {
-    if (typeof window === "undefined") {
-      return "dark";
-    }
-
+    if (typeof window === "undefined") return "dark";
     try {
       const stored = localStorage.getItem("portfolio-theme") as Theme | null;
-      // localStorage에 저장된 값이 있으면 그걸 사용, 없으면 무조건 dark
       return stored || "dark";
     } catch {
       return "dark";
     }
   });
 
-  // ✅ theme 변경 시에만 DOM + localStorage 동기화
   useEffect(() => {
     if (typeof document === "undefined") return;
-
     document.documentElement.setAttribute("data-theme", theme);
+    document.body.setAttribute("data-theme", theme);
     try {
       localStorage.setItem("portfolio-theme", theme);
     } catch {
@@ -44,46 +131,11 @@ const App: React.FC = () => {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   }, []);
 
-  const handleScrollTo = useCallback((id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      const headerHeight = 64; // --header-height 값
-      const offset = 20; // 추가 여백
-      const elementPosition =
-        el.getBoundingClientRect().top + window.pageYOffset;
-      const offsetPosition = elementPosition - headerHeight - offset;
+  const basename = import.meta.env.BASE_URL.replace(/\/$/, "");
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-    }
-  }, []);
-
-  const basename = import.meta.env.BASE_URL.replace(/\/$/, ""); // '/' -> '' , '/portfolio/' -> '/portfolio'
   return (
     <BrowserRouter basename={basename === "" ? undefined : basename}>
-      {/* 라우트 변경 시 스크롤 맨 위로 */}
-      <ScrollToTop />
-
-      {/* 헤더 */}
-      <Header
-        theme={theme}
-        onToggleTheme={toggleTheme}
-        onNavClick={handleScrollTo}
-      />
-
-      {/* 라우트 */}
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/blog/:slug" element={<BlogDetailPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/lab" element={<LabPage />} />
-      </Routes>
-
-      {/* FOOTER */}
-      <Footer />
+      <Shell theme={theme} onToggleTheme={toggleTheme} />
     </BrowserRouter>
   );
 };
