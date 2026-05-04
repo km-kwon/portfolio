@@ -14,10 +14,10 @@ const styles = {
   } as React.CSSProperties,
   title: {
     fontFamily: "var(--serif)",
-    fontSize: "clamp(40px, 5.4vw, 76px)", fontWeight: 400,
-    lineHeight: 1.04, letterSpacing: "-0.02em",
-    margin: "0 0 28px",
-    fontVariationSettings: "'opsz' 96",
+    fontSize: "clamp(26px, 3.2vw, 44px)", fontWeight: 400,
+    lineHeight: 1.15, letterSpacing: "-0.015em",
+    margin: "0 0 24px",
+    fontVariationSettings: "'opsz' 60",
   } as React.CSSProperties,
   intro: {
     fontFamily: "var(--mono)", fontSize: 12, letterSpacing: "0.16em",
@@ -69,9 +69,9 @@ const styles = {
   stat: { padding: "0 32px", borderLeft: "1px solid var(--border)" } as React.CSSProperties,
   statFirst: { padding: "0 32px 0 0", borderLeft: 0 } as React.CSSProperties,
   statValue: {
-    fontFamily: "var(--serif)", fontSize: 56, fontWeight: 500,
-    color: "var(--accent-hi)", lineHeight: 1, letterSpacing: "-0.02em",
-    fontVariationSettings: "'opsz' 96",
+    fontFamily: "var(--serif)", fontSize: 32, fontWeight: 500,
+    color: "var(--accent-hi)", lineHeight: 1, letterSpacing: "-0.015em",
+    fontVariationSettings: "'opsz' 60",
   } as React.CSSProperties,
   statUnit: { fontFamily: "var(--mono)", fontSize: 12, color: "var(--accent)", marginLeft: 6 },
   statDesc: { marginTop: 12, fontSize: 12, color: "var(--fg-dim)", lineHeight: 1.5 },
@@ -176,7 +176,7 @@ const HomePage: React.FC = () => {
           </Link>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 24 }}>
-          {PROJECTS.slice(0, 4).map((p, i) => (
+          {PROJECTS.map((p, i) => (
             <Link
               key={p.id}
               to={`/projects/${p.id}`}
@@ -200,24 +200,44 @@ const HomePage: React.FC = () => {
                 e.currentTarget.style.transform = "translateY(0)";
               }}
             >
+              {p.banner && (
+                <img
+                  src={p.banner}
+                  alt=""
+                  style={{
+                    position: "absolute", inset: 0,
+                    width: "100%", height: "100%", objectFit: "cover",
+                    opacity: 0.40, pointerEvents: "none",
+                    filter: "saturate(1.05)",
+                  }}
+                />
+              )}
               <div
                 style={{
-                  position: "absolute", top: 0, right: 0, width: 100, height: 100,
-                  background: `radial-gradient(circle at top right, ${p.color}33, transparent 70%)`,
+                  position: "absolute", inset: 0, pointerEvents: "none",
+                  background: p.banner
+                    ? `linear-gradient(to bottom, color-mix(in oklab, var(--bg-elevated) 30%, transparent) 0%, color-mix(in oklab, var(--bg-elevated) 70%, transparent) 60%, var(--bg-elevated) 100%)`
+                    : "transparent",
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute", top: 0, right: 0, width: 120, height: 120,
+                  background: `radial-gradient(circle at top right, ${p.color}40, transparent 70%)`,
                   pointerEvents: "none",
                 }}
               />
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16, fontFamily: "var(--mono)", fontSize: 11, color: "var(--fg-dim)" }}>
+              <div style={{ position: "relative", display: "flex", justifyContent: "space-between", marginBottom: 16, fontFamily: "var(--mono)", fontSize: 11, color: "var(--fg-dim)" }}>
                 <span>0{i + 1} · {p.year}</span>
                 <span style={{ color: p.color }}>●</span>
               </div>
-              <h3 style={{ fontFamily: "var(--serif)", fontSize: 26, fontWeight: 500, margin: "0 0 6px", letterSpacing: "-0.01em", lineHeight: 1.15 }}>
+              <h3 style={{ position: "relative", fontFamily: "var(--serif)", fontSize: 18, fontWeight: 500, margin: "0 0 6px", letterSpacing: "-0.01em", lineHeight: 1.2 }}>
                 {p.subTitle}
               </h3>
-              <div style={{ fontSize: 13, color: "var(--fg-muted)", marginBottom: 18, lineHeight: 1.5 }}>
+              <div style={{ position: "relative", fontSize: 13, color: "var(--fg-muted)", marginBottom: 18, lineHeight: 1.5 }}>
                 {p.subtitle ?? p.summary.slice(0, 60) + "…"}
               </div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+              <div style={{ position: "relative", display: "flex", flexWrap: "wrap", gap: 6 }}>
                 {p.visualTags.map((t) => (
                   <span key={t} style={{
                     fontFamily: "var(--mono)", fontSize: 10, padding: "3px 8px",
@@ -281,9 +301,9 @@ const HomePage: React.FC = () => {
         </div>
         <p
           style={{
-            fontFamily: "var(--serif)", fontSize: "clamp(28px, 3.4vw, 44px)",
-            fontWeight: 400, lineHeight: 1.25, letterSpacing: "-0.01em",
-            maxWidth: 880, margin: "0 auto", textWrap: "balance" as React.CSSProperties["textWrap"],
+            fontFamily: "var(--serif)", fontSize: "clamp(18px, 2vw, 26px)",
+            fontWeight: 400, lineHeight: 1.4, letterSpacing: "-0.005em",
+            maxWidth: 720, margin: "0 auto", textWrap: "balance" as React.CSSProperties["textWrap"],
           }}
         >
           좋은 인터페이스는 <em style={{ color: "var(--accent-hi)" }}>복잡한 시스템에 대해</em> 거짓말하지 않는다.

@@ -81,13 +81,13 @@ const DetailPage: React.FC = () => {
             </div>
             <h1
               style={{
-                fontFamily: "var(--serif)", fontSize: "clamp(40px, 5vw, 80px)",
-                fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 0.98, margin: 0,
+                fontFamily: "var(--serif)", fontSize: "clamp(26px, 3.2vw, 44px)",
+                fontWeight: 400, letterSpacing: "-0.015em", lineHeight: 1.1, margin: 0,
               }}
             >
               {p.title}
             </h1>
-            <div style={{ marginTop: 16, fontSize: 16, color: "var(--fg-muted)", maxWidth: 620, lineHeight: 1.5 }}>
+            <div style={{ marginTop: 14, fontSize: 14, color: "var(--fg-muted)", maxWidth: 620, lineHeight: 1.55 }}>
               {p.subtitle ?? p.summary}
             </div>
           </div>
@@ -136,7 +136,7 @@ const DetailPage: React.FC = () => {
           <h2
             className="reveal"
             style={{
-              fontFamily: "var(--serif)", fontSize: 36, fontWeight: 500,
+              fontFamily: "var(--serif)", fontSize: 22, fontWeight: 500,
               margin: "0 0 4px", letterSpacing: "-0.01em",
             }}
           >
@@ -214,7 +214,7 @@ const DetailPage: React.FC = () => {
               >
                 <h3
                   style={{
-                    fontFamily: "var(--serif)", fontSize: 22, fontWeight: 500,
+                    fontFamily: "var(--serif)", fontSize: 17, fontWeight: 500,
                     letterSpacing: "-0.01em", margin: "0 0 16px",
                   }}
                 >
@@ -249,8 +249,8 @@ const DetailPage: React.FC = () => {
             >
               <div
                 style={{
-                  fontFamily: "var(--serif)", fontSize: 64, fontWeight: 500,
-                  color: p.color, lineHeight: 1, letterSpacing: "-0.03em",
+                  fontFamily: "var(--serif)", fontSize: 38, fontWeight: 500,
+                  color: p.color, lineHeight: 1, letterSpacing: "-0.02em",
                 }}
               >
                 {m.v}
@@ -344,7 +344,7 @@ const DetailPage: React.FC = () => {
           >
             NEXT CASE →
           </div>
-          <div style={{ fontFamily: "var(--serif)", fontSize: 32, fontWeight: 500, letterSpacing: "-0.01em" }}>
+          <div style={{ fontFamily: "var(--serif)", fontSize: 22, fontWeight: 500, letterSpacing: "-0.01em" }}>
             {next.subTitle}
           </div>
         </div>

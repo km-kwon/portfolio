@@ -55,14 +55,14 @@ const ResumePage: React.FC = () => {
       <h1
         className="reveal"
         style={{
-          fontFamily: "var(--serif)", fontSize: "clamp(64px, 9vw, 132px)",
-          fontWeight: 400, letterSpacing: "-0.03em",
-          lineHeight: 0.92, margin: "0 0 8px",
+          fontFamily: "var(--serif)", fontSize: "clamp(36px, 4.5vw, 64px)",
+          fontWeight: 400, letterSpacing: "-0.02em",
+          lineHeight: 1.05, margin: "0 0 8px",
         }}
       >
         권경민
       </h1>
-      <div className="reveal d1" style={{ fontSize: 17, color: "var(--fg-muted)", marginBottom: 56 }}>
+      <div className="reveal d1" style={{ fontSize: 14, color: "var(--fg-muted)", marginBottom: 56 }}>
         <em style={{ fontFamily: "var(--serif)", fontStyle: "italic", color: "var(--accent-hi)" }}>Frontend</em>
         {" × "}
         <em style={{ fontFamily: "var(--serif)", fontStyle: "italic", color: "var(--accent-hi)" }}>System</em>
@@ -90,8 +90,8 @@ const ResumePage: React.FC = () => {
           >
             <div
               style={{
-                fontFamily: "var(--serif)", fontSize: 56, fontWeight: 500,
-                color: "var(--accent-hi)", lineHeight: 1, letterSpacing: "-0.02em",
+                fontFamily: "var(--serif)", fontSize: 32, fontWeight: 500,
+                color: "var(--accent-hi)", lineHeight: 1, letterSpacing: "-0.015em",
               }}
             >
               {s.v}
@@ -145,8 +145,8 @@ const ResumePage: React.FC = () => {
               </div>
               <div
                 style={{
-                  fontFamily: "var(--serif)", fontSize: 22, fontWeight: 500,
-                  letterSpacing: "-0.01em",
+                  fontFamily: "var(--serif)", fontSize: 16, fontWeight: 500,
+                  letterSpacing: "-0.005em",
                 }}
               >
                 {t.role}
@@ -173,7 +173,7 @@ const ResumePage: React.FC = () => {
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: 12, marginBottom: 16 }}>
                 <div>
-                  <div style={{ fontFamily: "var(--serif)", fontSize: 24, fontWeight: 500, letterSpacing: "-0.01em" }}>
+                  <div style={{ fontFamily: "var(--serif)", fontSize: 18, fontWeight: 500, letterSpacing: "-0.005em" }}>
                     {c.position}
                   </div>
                   <div style={{ fontSize: 13, color: "var(--fg-muted)", marginTop: 4 }}>
@@ -198,7 +198,7 @@ const ResumePage: React.FC = () => {
                       border: "1px solid var(--border)", background: "var(--bg-soft)",
                     }}
                   >
-                    <div style={{ fontFamily: "var(--serif)", fontSize: 17, fontWeight: 500, marginBottom: 6 }}>
+                    <div style={{ fontFamily: "var(--serif)", fontSize: 15, fontWeight: 500, marginBottom: 6 }}>
                       {proj.name}
                     </div>
                     <div style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--accent)", letterSpacing: "0.08em", marginBottom: 8 }}>
@@ -269,8 +269,8 @@ const ResumePage: React.FC = () => {
               </div>
               <div
                 style={{
-                  fontFamily: "var(--serif)", fontSize: 18, fontWeight: 500,
-                  letterSpacing: "-0.01em",
+                  fontFamily: "var(--serif)", fontSize: 15, fontWeight: 500,
+                  letterSpacing: "-0.005em",
                 }}
               >
                 {t}

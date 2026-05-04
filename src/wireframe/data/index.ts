@@ -84,6 +84,7 @@ export interface WireBlogPost {
   tag: string;
   featured?: boolean;
   excerpt: string;
+  cover?: string;
 }
 
 const monthFromKorean = (kor: string): string => {
@@ -106,6 +107,7 @@ export const BLOG_POSTS: WireBlogPost[] = MOCK_ALL_POSTS.map((post, idx) => ({
   tag: post.tags[0] ?? post.category ?? "Etc",
   featured: idx === 0,
   excerpt: post.excerpt,
+  cover: post.cover,
 }));
 
 // ── Career Timeline ─────────────────────────────────────────────────────

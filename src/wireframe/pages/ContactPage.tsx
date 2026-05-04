@@ -31,9 +31,9 @@ const ContactPage: React.FC = () => {
         <h1
           className="reveal d1"
           style={{
-            fontFamily: "var(--serif)", fontSize: "clamp(64px, 9vw, 140px)",
-            fontWeight: 400, letterSpacing: "-0.03em",
-            lineHeight: 0.95, margin: "0 0 32px",
+            fontFamily: "var(--serif)", fontSize: "clamp(34px, 4.5vw, 60px)",
+            fontWeight: 400, letterSpacing: "-0.02em",
+            lineHeight: 1.05, margin: "0 0 28px",
           }}
         >
           Let&apos;s <em style={{ fontStyle: "italic", color: "var(--accent-hi)" }}>build</em>
@@ -44,8 +44,8 @@ const ContactPage: React.FC = () => {
         <p
           className="reveal d2"
           style={{
-            fontSize: 18, color: "var(--fg-muted)",
-            maxWidth: 580, marginBottom: 56, lineHeight: 1.6,
+            fontSize: 14, color: "var(--fg-muted)",
+            maxWidth: 580, marginBottom: 48, lineHeight: 1.65,
           }}
         >
           시스템 UI / 성능 / 보안 — 도메인은 다양해도 좋습니다. 풀타임 합류, 외주
@@ -75,8 +75,8 @@ const ContactPage: React.FC = () => {
           </div>
           <div
             style={{
-              fontFamily: "var(--serif)", fontSize: 32, fontWeight: 500,
-              letterSpacing: "-0.01em",
+              fontFamily: "var(--serif)", fontSize: 22, fontWeight: 500,
+              letterSpacing: "-0.005em",
             }}
           >
             lanos0609@gmail.com

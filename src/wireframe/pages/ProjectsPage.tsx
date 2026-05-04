@@ -28,9 +28,9 @@ const ProjectsPage: React.FC = () => {
       <h1
         className="reveal"
         style={{
-          fontFamily: "var(--serif)", fontSize: "clamp(48px, 6vw, 88px)",
-          fontWeight: 400, letterSpacing: "-0.02em",
-          margin: "0 0 12px", lineHeight: 1.02,
+          fontFamily: "var(--serif)", fontSize: "clamp(28px, 3.2vw, 44px)",
+          fontWeight: 400, letterSpacing: "-0.015em",
+          margin: "0 0 12px", lineHeight: 1.15,
         }}
       >
         <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>Six</em> projects,
@@ -102,15 +102,41 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
         boxShadow: hover ? `0 24px 60px ${project.color}33` : "0 0 0 transparent",
       }}
     >
-      <div style={{ position: "absolute", inset: 0, opacity: hover ? 1 : 0.7, transition: "opacity .4s" }}>
-        <MiniThumb color={project.color} variant={variant} />
+      <div style={{ position: "absolute", inset: 0, transition: "opacity .4s" }}>
+        {project.banner ? (
+          <img
+            src={project.banner}
+            alt=""
+            style={{
+              width: "100%", height: "100%", objectFit: "cover",
+              opacity: hover ? 1 : 0.62,
+              transition: "opacity .4s, transform .6s cubic-bezier(.22,.61,.36,1)",
+              transform: hover ? "scale(1.04)" : "scale(1)",
+              filter: "saturate(1.05)",
+            }}
+          />
+        ) : (
+          <div style={{ opacity: hover ? 1 : 0.7, transition: "opacity .4s" }}>
+            <MiniThumb color={project.color} variant={variant} />
+          </div>
+        )}
       </div>
       <div
         style={{
           position: "absolute", inset: 0, pointerEvents: "none",
-          background: "linear-gradient(to bottom, transparent 0%, transparent 30%, var(--bg-elevated) 95%)",
+          background: project.banner
+            ? `linear-gradient(to bottom, color-mix(in oklab, var(--bg-elevated) 25%, transparent) 0%, color-mix(in oklab, var(--bg-elevated) 55%, transparent) 55%, var(--bg-elevated) 95%)`
+            : "linear-gradient(to bottom, transparent 0%, transparent 30%, var(--bg-elevated) 95%)",
         }}
       />
+      {project.banner && (
+        <div
+          style={{
+            position: "absolute", inset: 0, pointerEvents: "none",
+            background: `radial-gradient(circle at top right, ${project.color}33, transparent 60%)`,
+          }}
+        />
+      )}
       <div
         style={{
           position: "absolute", inset: 0, padding: 22,
@@ -123,9 +149,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
           </span>
           <span
             style={{
-              fontFamily: "var(--mono)", fontSize: 9, letterSpacing: "0.1em",
-              color: project.color, padding: "3px 8px",
-              border: `1px solid ${project.color}55`, borderRadius: 999, textTransform: "uppercase",
+              fontFamily: "var(--mono)", fontSize: 11, fontWeight: 700,
+              letterSpacing: "0.12em",
+              color: `color-mix(in oklab, ${project.color} 55%, white)`,
+              padding: "4px 10px",
+              background: "color-mix(in oklab, var(--bg-elevated) 92%, transparent)",
+              backdropFilter: "blur(6px)",
+              WebkitBackdropFilter: "blur(6px)",
+              border: `1px solid color-mix(in oklab, ${project.color} 70%, white)`,
+              borderRadius: 999, textTransform: "uppercase",
             }}
           >
             {project.visualTags[0]}
@@ -134,8 +166,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
         <div>
           <h3
             style={{
-              fontFamily: "var(--serif)", fontSize: 26, fontWeight: 500,
-              margin: "0 0 6px", letterSpacing: "-0.01em", lineHeight: 1.05,
+              fontFamily: "var(--serif)", fontSize: 18, fontWeight: 500,
+              margin: "0 0 6px", letterSpacing: "-0.01em", lineHeight: 1.2,
             }}
           >
             {project.subTitle}

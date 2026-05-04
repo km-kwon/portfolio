@@ -28,8 +28,8 @@ const AboutPage: React.FC = () => {
           <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center" }}>
             <div
               style={{
-                fontFamily: "var(--serif)", fontSize: 96, fontWeight: 500,
-                color: "var(--accent-hi)", opacity: 0.7, letterSpacing: "-0.04em",
+                fontFamily: "var(--serif)", fontSize: 64, fontWeight: 500,
+                color: "var(--accent-hi)", opacity: 0.7, letterSpacing: "-0.03em",
               }}
             >
               K
@@ -50,9 +50,9 @@ const AboutPage: React.FC = () => {
           <h1
             className="reveal d1"
             style={{
-              fontFamily: "var(--serif)", fontSize: "clamp(40px, 5vw, 72px)",
-              fontWeight: 400, letterSpacing: "-0.02em",
-              lineHeight: 1.05, margin: "0 0 28px",
+              fontFamily: "var(--serif)", fontSize: "clamp(24px, 3vw, 40px)",
+              fontWeight: 400, letterSpacing: "-0.015em",
+              lineHeight: 1.2, margin: "0 0 24px",
             }}
           >
             안녕하세요,{" "}
@@ -131,7 +131,7 @@ const AboutPage: React.FC = () => {
           >
             <div
               style={{
-                fontFamily: "var(--serif)", fontSize: 32, fontWeight: 500,
+                fontFamily: "var(--serif)", fontSize: 22, fontWeight: 500,
                 color: "var(--accent-hi)", letterSpacing: "-0.01em",
               }}
             >
@@ -140,8 +140,8 @@ const AboutPage: React.FC = () => {
             <div>
               <div
                 style={{
-                  fontFamily: "var(--serif)", fontSize: 22, fontWeight: 500,
-                  letterSpacing: "-0.01em",
+                  fontFamily: "var(--serif)", fontSize: 16, fontWeight: 500,
+                  letterSpacing: "-0.005em",
                 }}
               >
                 {row.role}
@@ -186,8 +186,8 @@ const AboutPage: React.FC = () => {
             >
               <div
                 style={{
-                  fontFamily: "var(--serif)", fontSize: 22, fontWeight: 500,
-                  marginBottom: 10, letterSpacing: "-0.01em",
+                  fontFamily: "var(--serif)", fontSize: 17, fontWeight: 500,
+                  marginBottom: 10, letterSpacing: "-0.005em",
                 }}
               >
                 <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>{t}</em>

@@ -23,9 +23,9 @@ const BlogPage: React.FC = () => {
       <h1
         className="reveal"
         style={{
-          fontFamily: "var(--serif)", fontSize: "clamp(48px, 6vw, 88px)",
-          fontWeight: 400, letterSpacing: "-0.02em",
-          margin: "0 0 32px", lineHeight: 1.02,
+          fontFamily: "var(--serif)", fontSize: "clamp(28px, 3.2vw, 44px)",
+          fontWeight: 400, letterSpacing: "-0.015em",
+          margin: "0 0 32px", lineHeight: 1.15,
         }}
       >
         <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>Words</em>,
@@ -48,6 +48,26 @@ const BlogPage: React.FC = () => {
           onMouseEnter={(e) => (e.currentTarget.style.transform = "translateY(-2px)")}
           onMouseLeave={(e) => (e.currentTarget.style.transform = "translateY(0)")}
         >
+          {featured.cover && (
+            <img
+              src={featured.cover}
+              alt=""
+              style={{
+                position: "absolute", inset: 0,
+                width: "100%", height: "100%", objectFit: "cover",
+                opacity: 0.80, pointerEvents: "none",
+                filter: "saturate(1.05)",
+              }}
+            />
+          )}
+          <div
+            style={{
+              position: "absolute", inset: 0, pointerEvents: "none",
+              background: featured.cover
+                ? `linear-gradient(135deg, color-mix(in oklab, var(--bg-elevated) 50%, transparent) 0%, color-mix(in oklab, var(--bg-elevated) 80%, transparent) 100%)`
+                : "transparent",
+            }}
+          />
           <div
             style={{
               position: "absolute", right: -80, top: -80, width: 320, height: 320,
@@ -77,9 +97,9 @@ const BlogPage: React.FC = () => {
               </div>
               <h2
                 style={{
-                  fontFamily: "var(--serif)", fontSize: "clamp(28px, 3.6vw, 48px)",
-                  fontWeight: 500, margin: "0 0 16px", lineHeight: 1.1,
-                  letterSpacing: "-0.015em", maxWidth: 720,
+                  fontFamily: "var(--serif)", fontSize: "clamp(20px, 2.4vw, 28px)",
+                  fontWeight: 500, margin: "0 0 14px", lineHeight: 1.25,
+                  letterSpacing: "-0.01em", maxWidth: 720,
                 }}
               >
                 {featured.title}
@@ -95,7 +115,7 @@ const BlogPage: React.FC = () => {
             </div>
             <div
               style={{
-                fontFamily: "var(--serif)", fontSize: 80,
+                fontFamily: "var(--serif)", fontSize: 48,
                 color: "var(--accent)", lineHeight: 1, paddingLeft: 16,
               }}
             >
@@ -141,6 +161,7 @@ const BlogPage: React.FC = () => {
             className="reveal"
             style={{
               animationDelay: `${0.04 * i}s`,
+              position: "relative", overflow: "hidden",
               padding: 24, borderRadius: 12,
               border: "1px solid var(--border)", background: "var(--bg-elevated)",
               cursor: "pointer", transition: "all .3s",
@@ -156,29 +177,76 @@ const BlogPage: React.FC = () => {
               e.currentTarget.style.transform = "translateY(0)";
             }}
           >
+            {post.cover && (
+              <img
+                src={post.cover}
+                alt=""
+                style={{
+                  position: "absolute", inset: 0,
+                  width: "100%", height: "100%", objectFit: "cover",
+                  opacity: 0.80, pointerEvents: "none",
+                  filter: "saturate(1.05)",
+                }}
+              />
+            )}
             <div
               style={{
-                display: "flex", justifyContent: "space-between",
+                position: "absolute", inset: 0, pointerEvents: "none",
+                background: post.cover
+                  ? `linear-gradient(180deg, color-mix(in oklab, var(--bg-elevated) 30%, transparent) 0%, color-mix(in oklab, var(--bg-elevated) 75%, transparent) 60%, var(--bg-elevated) 100%)`
+                  : "transparent",
+              }}
+            />
+            <div
+              style={{
+                position: "relative",
+                display: "flex", justifyContent: "space-between", alignItems: "center",
                 fontFamily: "var(--mono)", fontSize: 10,
-                color: "var(--fg-dim)", letterSpacing: "0.1em",
+                color: "var(--fg)", letterSpacing: "0.1em",
               }}
             >
-              <span>POST · {String(i + 2).padStart(2, "0")}</span>
-              <span style={{ color: "var(--accent)" }}>{post.tag}</span>
+              <span
+                style={{
+                  fontWeight: 500, fontSize: 10, letterSpacing: "0.1em",
+                  padding: "3px 8px", borderRadius: 999,
+                  background: "color-mix(in oklab, var(--bg-elevated) 75%, transparent)",
+                  border: "1px solid var(--border)",
+                  backdropFilter: "blur(6px)",
+                  WebkitBackdropFilter: "blur(6px)",
+                  color: "var(--fg-muted)",
+                }}
+              >
+                POST · {String(i + 2).padStart(2, "0")}
+              </span>
+              <span
+                style={{
+                  fontWeight: 500, fontSize: 11, letterSpacing: "0.12em",
+                  padding: "4px 10px", borderRadius: 999,
+                  color: "color-mix(in oklab, var(--accent) 50%, white)",
+                  background: "color-mix(in oklab, var(--bg-elevated) 92%, transparent)",
+                  border: "1px solid color-mix(in oklab, var(--accent) 75%, white)",
+                  backdropFilter: "blur(6px)",
+                  WebkitBackdropFilter: "blur(6px)",
+                }}
+              >
+                {post.tag}
+              </span>
             </div>
             <h3
               style={{
-                fontFamily: "var(--serif)", fontSize: 19, fontWeight: 500,
-                margin: 0, lineHeight: 1.25, letterSpacing: "-0.01em", flex: 1,
+                position: "relative",
+                fontFamily: "var(--serif)", fontSize: 15, fontWeight: 500,
+                margin: 0, lineHeight: 1.35, letterSpacing: "-0.005em", flex: 1,
               }}
             >
               {post.title}
             </h3>
-            <div style={{ fontSize: 12, color: "var(--fg-muted)", lineHeight: 1.55, opacity: 0.85 }}>
+            <div style={{ position: "relative", fontSize: 12, color: "var(--fg-muted)", lineHeight: 1.55, opacity: 0.85 }}>
               {post.excerpt.length > 110 ? post.excerpt.slice(0, 110) + "…" : post.excerpt}
             </div>
             <div
               style={{
+                position: "relative",
                 display: "flex", justifyContent: "space-between",
                 fontFamily: "var(--mono)", fontSize: 10,
                 color: "var(--fg-dim)", letterSpacing: "0.06em",
