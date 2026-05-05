@@ -85,7 +85,7 @@ interface ProjectCardProps {
   index: number;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
+export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
   const [hover, setHover] = useState(false);
   const variant = index % 4;
   return (

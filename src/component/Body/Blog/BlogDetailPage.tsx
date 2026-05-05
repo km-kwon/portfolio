@@ -82,8 +82,13 @@ const TocSidebar: React.FC<{
   if (!toc.length) return null;
 
   return (
-    <aside className="fixed left-[calc(50%+870px/2+48px)] top-[calc(var(--header-height)+48px)] hidden xl:block w-56 2xl:w-64 h-[calc(100vh-var(--header-height)-96px)] overflow-y-auto overflow-x-hidden">
-      <div className=" pl-4 pr-2">
+    <aside
+      className="hidden min-[1280px]:block fixed top-[calc(var(--header-height)+48px)] right-6 w-[220px] max-h-[calc(100vh-var(--header-height)-96px)] overflow-y-auto overflow-x-hidden"
+    >
+      <div className="pl-4 pr-2 border-l border-(--border-subtle)">
+        <div className="text-[10px] font-mono tracking-[0.16em] uppercase text-fg-dimmed mb-4">
+          On this page
+        </div>
         <nav aria-label="Table of contents">
           <ul className="space-y-2">
             {toc.map((item) => {
@@ -487,7 +492,7 @@ const BlogDetailPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-(--bg-base) text-(--fg-base) overflow-x-hidden">
-      <div className="mx-auto max-w-(--content-max-w) px-5 md:px-8 pt-[calc(var(--header-height)+48px)] pb-16">
+      <div className="mx-auto max-w-[990px] px-5 md:px-8 pt-[calc(var(--header-height)+48px)] pb-16">
         <article className="w-full">
           <button
             onClick={() => navigate("/blog")}

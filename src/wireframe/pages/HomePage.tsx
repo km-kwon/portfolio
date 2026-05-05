@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { PROJECTS, SKILLS, HERO_STREAM } from "../data";
+import { PROJECTS, SKILLS, HERO_STREAM, type WireProject } from "../data";
 
 const styles = {
   hero: {
@@ -177,77 +177,13 @@ const HomePage: React.FC = () => {
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 24 }}>
           {PROJECTS.map((p, i) => (
-            <Link
+            <div
               key={p.id}
-              to={`/projects/${p.id}`}
               className="reveal"
-              style={{
-                animationDelay: `${0.06 * i}s`,
-                padding: 28, borderRadius: 14,
-                border: "1px solid var(--border)",
-                background: "color-mix(in oklab, var(--bg-elevated) 60%, transparent)",
-                backdropFilter: "blur(12px)",
-                cursor: "pointer", transition: "all .35s",
-                position: "relative", overflow: "hidden",
-                textDecoration: "none", color: "inherit", display: "block",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "var(--accent)";
-                e.currentTarget.style.transform = "translateY(-2px)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "var(--border)";
-                e.currentTarget.style.transform = "translateY(0)";
-              }}
+              style={{ animationDelay: `${0.06 * i}s` }}
             >
-              {p.banner && (
-                <img
-                  src={p.banner}
-                  alt=""
-                  style={{
-                    position: "absolute", inset: 0,
-                    width: "100%", height: "100%", objectFit: "cover",
-                    opacity: 0.40, pointerEvents: "none",
-                    filter: "saturate(1.05)",
-                  }}
-                />
-              )}
-              <div
-                style={{
-                  position: "absolute", inset: 0, pointerEvents: "none",
-                  background: p.banner
-                    ? `linear-gradient(to bottom, color-mix(in oklab, var(--bg-elevated) 30%, transparent) 0%, color-mix(in oklab, var(--bg-elevated) 70%, transparent) 60%, var(--bg-elevated) 100%)`
-                    : "transparent",
-                }}
-              />
-              <div
-                style={{
-                  position: "absolute", top: 0, right: 0, width: 120, height: 120,
-                  background: `radial-gradient(circle at top right, ${p.color}40, transparent 70%)`,
-                  pointerEvents: "none",
-                }}
-              />
-              <div style={{ position: "relative", display: "flex", justifyContent: "space-between", marginBottom: 16, fontFamily: "var(--mono)", fontSize: 11, color: "var(--fg-dim)" }}>
-                <span>0{i + 1} · {p.year}</span>
-                <span style={{ color: p.color }}>●</span>
-              </div>
-              <h3 style={{ position: "relative", fontFamily: "var(--serif)", fontSize: 18, fontWeight: 500, margin: "0 0 6px", letterSpacing: "-0.01em", lineHeight: 1.2 }}>
-                {p.subTitle}
-              </h3>
-              <div style={{ position: "relative", fontSize: 13, color: "var(--fg-muted)", marginBottom: 18, lineHeight: 1.5 }}>
-                {p.subtitle ?? p.summary.slice(0, 60) + "…"}
-              </div>
-              <div style={{ position: "relative", display: "flex", flexWrap: "wrap", gap: 6 }}>
-                {p.visualTags.map((t) => (
-                  <span key={t} style={{
-                    fontFamily: "var(--mono)", fontSize: 10, padding: "3px 8px",
-                    border: "1px dashed var(--border-hi)", borderRadius: 999, color: "var(--fg-muted)",
-                  }}>
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </Link>
+              <SelectedWorkCard project={p} index={i} />
+            </div>
           ))}
         </div>
       </section>
@@ -319,6 +255,123 @@ const HomePage: React.FC = () => {
         </div>
       </section>
     </div>
+  );
+};
+
+interface SelectedWorkCardProps {
+  project: WireProject;
+  index: number;
+}
+
+const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project: p, index: i }) => {
+  const [hover, setHover] = useState(false);
+  return (
+    <Link
+      to={`/projects/${p.id}`}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        padding: 28, borderRadius: 14,
+        border: hover ? "1px solid var(--accent)" : "1px solid var(--border)",
+        background: "color-mix(in oklab, var(--bg-elevated) 60%, transparent)",
+        backdropFilter: "blur(12px)",
+        cursor: "pointer",
+        transition: "border-color .35s, transform .35s, box-shadow .35s",
+        transform: hover ? "translateY(-3px)" : "translateY(0)",
+        boxShadow: hover ? `0 18px 40px ${p.color}33` : "0 0 0 transparent",
+        position: "relative", overflow: "hidden",
+        textDecoration: "none", color: "inherit", display: "block",
+      }}
+    >
+      {p.banner && (
+        <img
+          src={p.banner}
+          alt=""
+          style={{
+            position: "absolute", inset: 0,
+            width: "100%", height: "100%", objectFit: "cover",
+            opacity: hover ? 0.92 : 0.62,
+            pointerEvents: "none",
+            transition: "opacity .4s, transform .6s cubic-bezier(.22,.61,.36,1), filter .4s",
+            transform: hover ? "scale(1.04)" : "scale(1)",
+            filter: hover ? "saturate(1.15) brightness(1.02)" : "saturate(0.95) brightness(0.94)",
+          }}
+        />
+      )}
+      <div
+        style={{
+          position: "absolute", inset: 0, pointerEvents: "none",
+          transition: "background .4s ease",
+          background: p.banner
+            ? hover
+              ? `linear-gradient(180deg, color-mix(in oklab, var(--bg-elevated) 55%, transparent) 0%, color-mix(in oklab, var(--bg-elevated) 35%, transparent) 35%, color-mix(in oklab, var(--bg-elevated) 75%, transparent) 75%, var(--bg-elevated) 100%)`
+              : `linear-gradient(180deg, color-mix(in oklab, var(--bg-elevated) 40%, transparent) 0%, color-mix(in oklab, var(--bg-elevated) 80%, transparent) 55%, var(--bg-elevated) 100%)`
+            : "transparent",
+        }}
+      />
+      <div
+        style={{
+          position: "absolute", top: 0, right: 0, width: 120, height: 120,
+          background: `radial-gradient(circle at top right, ${p.color}40, transparent 70%)`,
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        style={{
+          position: "relative", display: "flex", justifyContent: "space-between",
+          marginBottom: 16, fontFamily: "var(--mono)", fontSize: 11,
+          color: hover && p.banner ? "var(--fg-muted)" : "var(--fg-dim)",
+          textShadow: hover && p.banner ? "0 1px 6px rgba(0,0,0,0.55)" : "none",
+        }}
+      >
+        <span>0{i + 1} · {p.year}</span>
+        <span style={{ color: p.color }}>●</span>
+      </div>
+      <h3
+        style={{
+          position: "relative",
+          fontFamily: "var(--serif)", fontSize: 18, fontWeight: 500,
+          margin: "0 0 6px", letterSpacing: "-0.01em", lineHeight: 1.2,
+          color: "var(--fg)",
+          textShadow: hover && p.banner ? "0 1px 8px rgba(0,0,0,0.6)" : "none",
+        }}
+      >
+        {p.subTitle}
+      </h3>
+      <div
+        style={{
+          position: "relative",
+          fontSize: 13, marginBottom: 18, lineHeight: 1.5,
+          color: hover && p.banner ? "var(--fg)" : "var(--fg-muted)",
+          textShadow: hover && p.banner ? "0 1px 6px rgba(0,0,0,0.55)" : "none",
+        }}
+      >
+        {p.subtitle ?? p.summary.slice(0, 60) + "…"}
+      </div>
+      <div style={{ position: "relative", display: "flex", flexWrap: "wrap", gap: 6 }}>
+        {p.visualTags.map((t) => (
+          <span
+            key={t}
+            style={{
+              fontFamily: "var(--mono)", fontSize: 10, padding: "3px 8px",
+              borderRadius: 999,
+              border: hover && p.banner
+                ? "1px dashed color-mix(in oklab, var(--fg) 70%, transparent)"
+                : "1px dashed var(--border-hi)",
+              color: hover && p.banner ? "var(--fg)" : "var(--fg-muted)",
+              background: hover && p.banner
+                ? "color-mix(in oklab, var(--bg-elevated) 70%, transparent)"
+                : "transparent",
+              backdropFilter: hover && p.banner ? "blur(4px)" : undefined,
+              WebkitBackdropFilter: hover && p.banner ? "blur(4px)" : undefined,
+              transition: "all .3s ease",
+            }}
+          >
+            {t}
+          </span>
+        ))}
+      </div>
+    </Link>
   );
 };
 

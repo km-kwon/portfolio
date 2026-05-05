@@ -109,6 +109,9 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ posts }) => {
         clearTimeout(fadeTimeoutRef.current);
         fadeTimeoutRef.current = null;
       }
+      // Hover 진입이 페이드 도중에 일어나면 콘텐츠가 보이지 않은 채 멈추므로
+      // 효과 정리 단계에서 페이드 상태를 강제로 해제한다.
+      setFading(false);
     };
   }, [hover, posts.length]);
 
@@ -123,7 +126,7 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ posts }) => {
       onMouseLeave={() => setHover(false)}
       style={{
         position: "relative", display: "block",
-        minHeight: 240,
+        height: 280,
         marginBottom: 56, borderRadius: 18,
         border: "1px solid var(--accent)",
         background: "linear-gradient(135deg, var(--accent-soft), transparent 70%)",
@@ -178,8 +181,8 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ posts }) => {
       </div>
       <div
         style={{
-          position: "relative",
-          padding: 48,
+          position: "absolute", inset: 0,
+          padding: 40,
           opacity: fading ? 0 : 1,
           transition: `opacity ${FEATURED_FADE_DURATION}ms ease`,
           display: "grid",
@@ -187,10 +190,10 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ posts }) => {
           gap: 40, alignItems: "end",
         }}
       >
-        <div>
+        <div style={{ minWidth: 0 }}>
           <div
             style={{
-              display: "flex", gap: 12, marginBottom: 18,
+              display: "flex", gap: 12, marginBottom: 16,
               fontFamily: "var(--mono)", fontSize: 11,
               letterSpacing: "0.16em", color: "var(--accent-hi)",
             }}
@@ -204,16 +207,24 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ posts }) => {
           <h2
             style={{
               fontFamily: "var(--serif)", fontSize: "clamp(20px, 2.4vw, 28px)",
-              fontWeight: 500, margin: "0 0 14px", lineHeight: 1.25,
+              fontWeight: 500, margin: "0 0 12px", lineHeight: 1.25,
               letterSpacing: "-0.01em", maxWidth: 720,
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
             }}
           >
             {post.title}
           </h2>
           <div
             style={{
-              fontSize: 15, color: "var(--fg-muted)",
-              maxWidth: 540, lineHeight: 1.6,
+              fontSize: 14, color: "var(--fg-muted)",
+              maxWidth: 540, lineHeight: 1.55,
+              display: "-webkit-box",
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
             }}
           >
             {post.excerpt}
