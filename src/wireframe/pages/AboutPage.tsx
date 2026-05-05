@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { TIMELINE } from "../data";
+import profileImage from "../../assets/profile.jpg";
 
 const AboutPage: React.FC = () => {
   return (
@@ -25,21 +26,29 @@ const AboutPage: React.FC = () => {
             position: "relative", overflow: "hidden",
           }}
         >
-          <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center" }}>
-            <div
-              style={{
-                fontFamily: "var(--serif)", fontSize: 64, fontWeight: 500,
-                color: "var(--accent-hi)", opacity: 0.7, letterSpacing: "-0.03em",
-              }}
-            >
-              K
-            </div>
-          </div>
+          <img
+            src={profileImage}
+            alt="권경민 프로필"
+            style={{
+              position: "absolute", inset: 0,
+              width: "100%", height: "100%",
+              objectFit: "cover", objectPosition: "center top",
+              display: "block",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute", inset: 0,
+              background:
+                "linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.45) 100%)",
+              pointerEvents: "none",
+            }}
+          />
           <div
             style={{
               position: "absolute", left: 18, bottom: 18,
               fontFamily: "var(--mono)", fontSize: 10,
-              color: "var(--fg-dim)", letterSpacing: "0.16em",
+              color: "rgba(255,255,255,0.78)", letterSpacing: "0.16em",
             }}
           >
             [ PORTRAIT · 2026 ]

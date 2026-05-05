@@ -76,9 +76,9 @@ html[data-theme="light"] {
 
   /* Foreground */
   --fg:          #15171c;
-  --fg-muted:    #5b6370;
-  --fg-dimmed:   #8b94a3;
-  --fg-dim:      #8b94a3;
+  --fg-muted:    #3a414c;
+  --fg-dimmed:   #5b6370;
+  --fg-dim:      #5b6370;
 
   /* Accent — Violet (deeper for contrast) */
   --accent:        #5A3AFF;

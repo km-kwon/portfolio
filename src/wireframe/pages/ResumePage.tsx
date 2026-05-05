@@ -1,6 +1,18 @@
 import React from "react";
 import { TIMELINE, SKILLS, PROJECTS } from "../data";
 import { careerData } from "../../component/Body/Home/skills/career/careerData";
+import { openSourceData } from "../../component/Body/Home/skills/opensource/openSourceData";
+
+const ENGINEERING_QUALITY_ITEMS: { label: string; desc: string }[] = [
+  {
+    label: "GitHub Actions CI/CD",
+    desc: "Push·PR 트리거 기반 빌드/테스트/배포 파이프라인 구축. 릴리스 전 회귀 검증 자동화로 휴먼 에러 차단.",
+  },
+  {
+    label: "Vitest 테스트 커버리지 100%",
+    desc: "라이브러리 핵심 로직에 대한 단위/통합 테스트 운영. 커버리지 100% 유지로 리팩토링 안정성 확보.",
+  },
+];
 
 const ResumePage: React.FC = () => {
   const stats: { v: string; d: string }[] = [
@@ -226,6 +238,179 @@ const ResumePage: React.FC = () => {
                     )}
                   </div>
                 ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Open Source & Engineering Quality */}
+      <div style={{ marginBottom: 80 }}>
+        <div className="wf-marker">
+          <span className="num">·</span>
+          <span>Open Source &amp; Engineering Quality</span>
+          <span className="bar" />
+        </div>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: 20,
+            marginBottom: 24,
+          }}
+        >
+          {openSourceData.map((pkg) => (
+            <div
+              key={pkg.id}
+              className="reveal"
+              style={{
+                padding: 24,
+                borderRadius: 12,
+                border: "1px solid var(--border)",
+                background: "var(--bg-elevated)",
+                display: "flex",
+                flexDirection: "column",
+                gap: 12,
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "baseline",
+                  gap: 8,
+                  flexWrap: "wrap",
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "var(--mono)",
+                    fontSize: 13,
+                    fontWeight: 600,
+                    color: "var(--accent-hi)",
+                    letterSpacing: "-0.005em",
+                  }}
+                >
+                  {pkg.name}
+                </div>
+                <div
+                  style={{
+                    fontFamily: "var(--mono)",
+                    fontSize: 10,
+                    color: "var(--fg-muted)",
+                    letterSpacing: "0.08em",
+                  }}
+                >
+                  v{pkg.version}
+                </div>
+              </div>
+              <div
+                style={{
+                  fontSize: 12.5,
+                  color: "var(--fg-muted)",
+                  lineHeight: 1.65,
+                }}
+              >
+                {pkg.description}
+              </div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                {pkg.techStack.map((t) => (
+                  <span
+                    key={t}
+                    style={{
+                      fontFamily: "var(--mono)",
+                      fontSize: 10,
+                      padding: "3px 8px",
+                      borderRadius: 999,
+                      border: "1px solid var(--accent-border)",
+                      background: "var(--accent-soft)",
+                      color: "var(--accent)",
+                      letterSpacing: "0.04em",
+                    }}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+              <div style={{ display: "flex", gap: 12, marginTop: "auto" }}>
+                {pkg.githubUrl && (
+                  <a
+                    href={pkg.githubUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      fontFamily: "var(--mono)",
+                      fontSize: 11,
+                      color: "var(--fg-muted)",
+                      letterSpacing: "0.06em",
+                      textDecoration: "none",
+                      borderBottom: "1px solid var(--border)",
+                      paddingBottom: 2,
+                    }}
+                  >
+                    GITHUB ↗
+                  </a>
+                )}
+                {pkg.npmUrl && (
+                  <a
+                    href={pkg.npmUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      fontFamily: "var(--mono)",
+                      fontSize: 11,
+                      color: "var(--fg-muted)",
+                      letterSpacing: "0.06em",
+                      textDecoration: "none",
+                      borderBottom: "1px solid var(--border)",
+                      paddingBottom: 2,
+                    }}
+                  >
+                    NPM ↗
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gap: 16,
+          }}
+        >
+          {ENGINEERING_QUALITY_ITEMS.map((item) => (
+            <div
+              key={item.label}
+              style={{
+                padding: 20,
+                borderRadius: 10,
+                border: "1px solid var(--border)",
+                background: "var(--bg-soft)",
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "var(--mono)",
+                  fontSize: 10,
+                  letterSpacing: "0.16em",
+                  color: "var(--accent)",
+                  textTransform: "uppercase",
+                  marginBottom: 8,
+                }}
+              >
+                {item.label}
+              </div>
+              <div
+                style={{
+                  fontSize: 13,
+                  color: "var(--fg-muted)",
+                  lineHeight: 1.65,
+                }}
+              >
+                {item.desc}
               </div>
             </div>
           ))}

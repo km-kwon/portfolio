@@ -109,10 +109,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
             alt=""
             style={{
               width: "100%", height: "100%", objectFit: "cover",
-              opacity: hover ? 1 : 0.62,
-              transition: "opacity .4s, transform .6s cubic-bezier(.22,.61,.36,1)",
+              opacity: hover ? 1 : 0.78,
+              transition: "opacity .4s, transform .6s cubic-bezier(.22,.61,.36,1), filter .4s",
               transform: hover ? "scale(1.04)" : "scale(1)",
-              filter: "saturate(1.05)",
+              filter: hover ? "saturate(1.18) brightness(1.04)" : "saturate(1) brightness(0.98)",
             }}
           />
         ) : (
@@ -124,8 +124,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
       <div
         style={{
           position: "absolute", inset: 0, pointerEvents: "none",
+          transition: "background .4s ease",
           background: project.banner
-            ? `linear-gradient(to bottom, color-mix(in oklab, var(--bg-elevated) 25%, transparent) 0%, color-mix(in oklab, var(--bg-elevated) 55%, transparent) 55%, var(--bg-elevated) 95%)`
+            ? hover
+              ? `linear-gradient(to bottom, transparent 0%, transparent 55%, color-mix(in oklab, var(--bg-elevated) 55%, transparent) 78%, var(--bg-elevated) 100%)`
+              : `linear-gradient(to bottom, color-mix(in oklab, var(--bg-elevated) 25%, transparent) 0%, color-mix(in oklab, var(--bg-elevated) 55%, transparent) 55%, var(--bg-elevated) 95%)`
             : "linear-gradient(to bottom, transparent 0%, transparent 30%, var(--bg-elevated) 95%)",
         }}
       />
@@ -151,12 +154,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
             style={{
               fontFamily: "var(--mono)", fontSize: 11, fontWeight: 700,
               letterSpacing: "0.12em",
-              color: `color-mix(in oklab, ${project.color} 55%, white)`,
+              color: `color-mix(in oklab, ${project.color} 60%, var(--fg))`,
               padding: "4px 10px",
               background: "color-mix(in oklab, var(--bg-elevated) 92%, transparent)",
               backdropFilter: "blur(6px)",
               WebkitBackdropFilter: "blur(6px)",
-              border: `1px solid color-mix(in oklab, ${project.color} 70%, white)`,
+              border: `1px solid color-mix(in oklab, ${project.color} 55%, var(--fg))`,
               borderRadius: 999, textTransform: "uppercase",
             }}
           >
