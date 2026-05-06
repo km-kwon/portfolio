@@ -64,7 +64,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ onScrollTo }) => {
 
         <p className="text-[14px] text-fg-muted leading-[1.7] max-w-[560px] mb-7">
           <strong className="text-fg font-semibold">80K logs/sec</strong> 실시간
-          시각화와 대규모 레거시 리팩터링 경험.
+          시각화, 대규모 레거시 리팩터링 경험.
           <br />
           사이버보안 전공의 시각으로 견고하고 사용자 중심의 인터페이스를
           만듭니다.
