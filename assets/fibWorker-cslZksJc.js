@@ -1,0 +1,1 @@
+(function(){"use strict";function t(e){return e<=1?e:t(e-1)+t(e-2)}self.onmessage=e=>{const{type:s,number:n}=e.data;if(s!=="CALCULATE_FIBONACCI")return;const r=performance.now(),o=t(n),c=performance.now(),f={result:o,time:c-r};self.postMessage(f)}})();

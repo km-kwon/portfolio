@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- BASE_URL 붙이는 게 안전 -->
+    <link rel="icon" type="image/svg+xml" href="/portfolio-3D/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>권경민 — Frontend × System × Security</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="text/javascript">
+      (function (l) {
+        if (!l.search) return;
+
+        var q = {};
+        l.search
+          .slice(1)
+          .split("&")
+          .forEach(function (v) {
+            var a = v.split("=");
+            q[a[0]] = a.slice(1).join("=").replace(/~and~/g, "&");
+          });
+
+        if (q.p !== undefined) {
+          // /portfolio/ 처럼 끝에 /가 여러 개여도 다 제거
+          var base = l.pathname.replace(/\/+$/, "");
+          var p = (q.p || "").replace(/\/{2,}/g, "/"); // p 내부도 정규화
+
+          window.history.replaceState(
+            null,
+            null,
+            base + p + (q.q ? "?" + q.q : "") + l.hash
+          );
+        }
+      })(window.location);
+    </script>
+    <script type="module" crossorigin src="/portfolio-3D/assets/index-C5rk87hs.js"></script>
+    <link rel="stylesheet" crossorigin href="/portfolio-3D/assets/index-DjSJ3Iev.css">
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <!-- Vite는 build 시 이 script를 자동으로 dist용으로 바꿉니다 -->
+  </body>
+</html>
