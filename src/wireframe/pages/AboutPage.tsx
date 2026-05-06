@@ -11,6 +11,7 @@ const AboutPage: React.FC = () => {
       </div>
 
       <div
+        className="about-hero-grid"
         style={{
           display: "grid",
           gridTemplateColumns: "minmax(220px, 280px) minmax(0, 1fr)",
@@ -18,7 +19,7 @@ const AboutPage: React.FC = () => {
         }}
       >
         <div
-          className="reveal"
+          className="reveal about-portrait"
           style={{
             aspectRatio: "1/1.2", borderRadius: 14,
             background: "linear-gradient(135deg, var(--accent-soft), var(--bg-elevated))",
@@ -90,7 +91,7 @@ const AboutPage: React.FC = () => {
               평소엔 글을 자주 씁니다. 기술이 도구가 아니라 <em style={{ color: "var(--fg)", fontStyle: "italic" }}>언어</em>가 되도록.
             </p>
           </div>
-          <div className="reveal d3" style={{ display: "flex", gap: 12 }}>
+          <div className="reveal d3 about-cta-row" style={{ display: "flex", gap: 12 }}>
             <Link
               to="/contact"
               style={{
@@ -128,7 +129,7 @@ const AboutPage: React.FC = () => {
         {TIMELINE.map((row, i) => (
           <div
             key={`${row.y}-${row.role}`}
-            className="reveal"
+            className="reveal about-timeline-row"
             style={{
               animationDelay: `${0.06 * i}s`,
               display: "grid",
@@ -162,6 +163,7 @@ const AboutPage: React.FC = () => {
               )}
             </div>
             <div
+              className="about-timeline-org"
               style={{
                 fontSize: 13, color: "var(--fg-muted)", textAlign: "right",
                 fontFamily: "var(--mono)", letterSpacing: "0.06em",
@@ -178,7 +180,7 @@ const AboutPage: React.FC = () => {
         <div className="wf-marker">
           <span className="num">·</span><span>What I care about</span><span className="bar" />
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
+        <div className="about-values-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
           {[
             ["Truth in UI", "복잡한 시스템에 대해 거짓말하지 않는 인터페이스를 만듭니다. 80K logs/sec를 60fps로 유지한다고 말하려면, 진짜로 그래야 합니다."],
             ["Engineered craft", "성능과 보안은 디자인의 일부입니다. 평문 0건을 만들기 위한 RSA/AES 하이브리드 설계도, Web Worker 분리도 — 결국 사용자가 느끼는 견고함입니다."],

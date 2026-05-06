@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 
 type Theme = "light" | "dark";
@@ -31,9 +31,16 @@ const activeStyle: React.CSSProperties = {
 export const WireHeader: React.FC<HeaderProps> = ({ theme, onToggleTheme }) => {
   const location = useLocation();
   const isContact = location.pathname === "/contact";
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const mobileNavItems = [
+    ...PRIMARY,
+    ...SECONDARY,
+    { to: "/contact", label: "Contact" },
+  ];
 
   return (
     <header
+      className="wire-header"
       style={{
         position: "fixed", top: 0, left: 0, right: 0,
         height: "var(--header-h)", zIndex: 100,
@@ -44,6 +51,7 @@ export const WireHeader: React.FC<HeaderProps> = ({ theme, onToggleTheme }) => {
       }}
     >
       <div
+        className="wire-header-inner"
         style={{
           maxWidth: "var(--content-max)", margin: "0 auto",
           height: "100%", padding: "0 24px",
@@ -51,6 +59,7 @@ export const WireHeader: React.FC<HeaderProps> = ({ theme, onToggleTheme }) => {
         }}
       >
         <Link
+          className="wire-header-brand"
           to="/"
           style={{
             fontFamily: "var(--mono)", fontSize: 12, fontWeight: 600,
@@ -63,9 +72,10 @@ export const WireHeader: React.FC<HeaderProps> = ({ theme, onToggleTheme }) => {
           FRONTEND · UX
         </Link>
 
-        <nav style={{ display: "flex", gap: 4, alignItems: "center", fontSize: 13 }}>
+        <nav className="wire-header-nav" style={{ display: "flex", gap: 4, alignItems: "center", fontSize: 13 }}>
           {PRIMARY.map((it) => (
             <NavLink
+              className="wire-header-link"
               key={it.to}
               to={it.to}
               end={it.to === "/"}
@@ -81,6 +91,7 @@ export const WireHeader: React.FC<HeaderProps> = ({ theme, onToggleTheme }) => {
           <span style={{ color: "var(--fg-dim)", margin: "0 4px", opacity: 0.5 }}>·</span>
           {SECONDARY.map((it) => (
             <NavLink
+              className="wire-header-link"
               key={it.to}
               to={it.to}
               style={({ isActive }) => ({
@@ -94,7 +105,7 @@ export const WireHeader: React.FC<HeaderProps> = ({ theme, onToggleTheme }) => {
           ))}
         </nav>
 
-        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+        <div className="wire-header-actions" style={{ display: "flex", gap: 8, alignItems: "center" }}>
           <button
             onClick={onToggleTheme}
             aria-label="Toggle theme"
@@ -116,6 +127,7 @@ export const WireHeader: React.FC<HeaderProps> = ({ theme, onToggleTheme }) => {
             )}
           </button>
           <Link
+            className="wire-header-contact"
             to="/contact"
             style={{
               padding: "8px 16px", borderRadius: 9,
@@ -128,8 +140,45 @@ export const WireHeader: React.FC<HeaderProps> = ({ theme, onToggleTheme }) => {
           >
             Contact →
           </Link>
+          <button
+            className="wire-header-menu-button"
+            type="button"
+            aria-label="Toggle navigation"
+            aria-expanded={isMenuOpen}
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+          >
+            {isMenuOpen ? (
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M6 6l12 12M18 6L6 18" />
+              </svg>
+            ) : (
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M4 7h16M4 12h16M4 17h16" />
+              </svg>
+            )}
+          </button>
         </div>
       </div>
+
+      {isMenuOpen && (
+        <nav className="wire-header-mobile-nav" aria-label="Mobile navigation">
+          {mobileNavItems.map((it) => (
+            <NavLink
+              key={it.to}
+              to={it.to}
+              end={it.to === "/"}
+              onClick={() => setIsMenuOpen(false)}
+              style={({ isActive }) => ({
+                ...linkBase,
+                ...(isActive ? activeStyle : {}),
+                textDecoration: "none",
+              })}
+            >
+              {it.label}
+            </NavLink>
+          ))}
+        </nav>
+      )}
     </header>
   );
 };

@@ -81,17 +81,17 @@ const HomePage: React.FC = () => {
   return (
     <div className="page-fade">
       {/* ── HERO ─────────────────────────────────── */}
-      <section style={styles.hero}>
-        <div style={{ width: "100%" }}>
-          <div className="reveal" style={styles.intro}>
+      <section className="home-profile-hero" style={styles.hero}>
+        <div className="home-profile-shell" style={{ width: "100%" }}>
+          <div className="reveal home-profile-intro" style={styles.intro}>
             <span style={styles.introDot} />
             <span>01 / Identity Profile</span>
-            <span style={{ flex: 1, height: 1, background: "linear-gradient(90deg, var(--border), transparent)", maxWidth: 200 }} />
+            <span className="home-profile-intro-rule" style={{ flex: 1, height: 1, background: "linear-gradient(90deg, var(--border), transparent)", maxWidth: 200 }} />
           </div>
 
-          <div style={styles.grid}>
+          <div className="home-profile-grid" style={styles.grid}>
             <div>
-              <h1 className="reveal d1" style={styles.title}>
+              <h1 className="reveal d1 home-profile-title" style={styles.title}>
                 복잡한 시스템을<br />
                 안전하고 <em style={{ fontStyle: "italic", color: "var(--accent-hi)", fontFamily: "var(--serif)" }}>읽기 쉬운</em><br />
                 인터페이스로 만드는<br />
@@ -102,13 +102,13 @@ const HomePage: React.FC = () => {
                 <span style={{ color: "var(--fg-muted)" }}>.</span>
               </h1>
 
-              <div className="reveal d2" style={styles.tags}>
+              <div className="reveal d2 home-profile-tags" style={styles.tags}>
                 {["Frontend Engineer", "System UI", "Performance", "Security-minded"].map((t) => (
                   <span key={t} style={styles.tag}>{t}</span>
                 ))}
               </div>
 
-              <div className="reveal d3" style={styles.buttonRow}>
+              <div className="reveal d3 home-profile-actions" style={styles.buttonRow}>
                 <Link to="/projects" style={styles.btnPrimary}>
                   프로젝트 보기 →
                 </Link>
@@ -126,9 +126,9 @@ const HomePage: React.FC = () => {
               </div>
             </div>
 
-            <div className="reveal d4" style={styles.rightStream}>
+            <div className="reveal d4 home-profile-stream" style={styles.rightStream}>
               {HERO_STREAM.map(([i, l, v]) => (
-                <div key={l} style={styles.streamRow}>
+                <div key={l} className="home-profile-stream-row" style={styles.streamRow}>
                   <span style={{ color: "var(--accent)" }}>{i}</span>
                   <span style={{ flex: 1, padding: "0 16px", letterSpacing: "0.16em" }}>{l}</span>
                   <span style={{ color: "var(--fg)" }}>{v}</span>
@@ -137,22 +137,22 @@ const HomePage: React.FC = () => {
             </div>
           </div>
 
-          <div style={styles.statsRow}>
-            <div className="reveal d2" style={{ ...styles.stat, ...styles.statFirst }}>
+          <div className="home-profile-stats" style={styles.statsRow}>
+            <div className="reveal d2 home-profile-stat" style={{ ...styles.stat, ...styles.statFirst }}>
               <div>
                 <span style={styles.statValue}>80K</span>
                 <span style={styles.statUnit}>logs/sec</span>
               </div>
               <div style={styles.statDesc}>실시간 로그 시각화 처리량 (CCU2)</div>
             </div>
-            <div className="reveal d3" style={styles.stat}>
+            <div className="reveal d3 home-profile-stat" style={styles.stat}>
               <div>
                 <span style={styles.statValue}>2</span>
                 <span style={styles.statUnit}>sec</span>
               </div>
               <div style={styles.statDesc}>1M 라인 DLT 로그 검색<br />Web Worker · 가상 스크롤 최적화</div>
             </div>
-            <div className="reveal d4" style={styles.stat}>
+            <div className="reveal d4 home-profile-stat" style={styles.stat}>
               <div>
                 <span style={styles.statValue}>0</span>
               </div>
@@ -175,12 +175,20 @@ const HomePage: React.FC = () => {
             ALL →
           </Link>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 24 }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 320px), 1fr))",
+            gridAutoRows: "1fr",
+            gap: 24,
+            alignItems: "stretch",
+          }}
+        >
           {PROJECTS.map((p, i) => (
             <div
               key={p.id}
               className="reveal"
-              style={{ animationDelay: `${0.06 * i}s` }}
+              style={{ animationDelay: `${0.06 * i}s`, height: "100%" }}
             >
               <SelectedWorkCard project={p} index={i} />
             </div>
@@ -280,7 +288,8 @@ const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project: p, index: 
         transform: hover ? "translateY(-3px)" : "translateY(0)",
         boxShadow: hover ? `0 18px 40px ${p.color}33` : "0 0 0 transparent",
         position: "relative", overflow: "hidden",
-        textDecoration: "none", color: "inherit", display: "block",
+        textDecoration: "none", color: "inherit",
+        display: "flex", flexDirection: "column", height: "100%",
       }}
     >
       {p.banner && (
@@ -344,6 +353,7 @@ const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project: p, index: 
           fontSize: 13, marginBottom: 18, lineHeight: 1.5,
           color: hover && p.banner ? "var(--fg)" : "var(--fg-muted)",
           textShadow: hover && p.banner ? "0 1px 6px rgba(0,0,0,0.55)" : "none",
+          flex: 1,
         }}
       >
         {p.subtitle ?? p.summary.slice(0, 60) + "…"}

@@ -83,7 +83,7 @@ const TocSidebar: React.FC<{
 
   return (
     <aside
-      className="hidden min-[1280px]:block fixed top-[calc(var(--header-height)+48px)] right-6 w-[220px] max-h-[calc(100vh-var(--header-height)-96px)] overflow-y-auto overflow-x-hidden"
+      className="hidden min-[1180px]:block fixed top-[calc(var(--header-height)+40px)] left-[calc(50%_+_362px)] [@media_(orientation:landscape)_and_(min-width:1180px)]:left-[calc(50%_+_416px)] [@media_(orientation:landscape)_and_(min-width:1440px)]:left-[calc(50%_+_506px)] [@media_(orientation:landscape)_and_(min-width:1600px)]:left-[calc(50%_+_566px)] z-10 w-[220px] [@media_(orientation:landscape)_and_(min-width:1180px)]:w-[180px] max-h-[calc(100vh-var(--header-height)-80px)] overflow-y-auto overflow-x-hidden"
     >
       <div className="pl-4 pr-2 border-l border-(--border-subtle)">
         <div className="text-[10px] font-mono tracking-[0.16em] uppercase text-fg-dimmed mb-4">
@@ -103,13 +103,14 @@ const TocSidebar: React.FC<{
                     onClick={() => onClickItem(item.id)}
                     className={[
                       "group relative block w-full text-left cursor-pointer",
-                      "text-[13px] leading-[1.65]",
-                      "transition-all duration-200 origin-left",
+                      "text-[13px] leading-[1.65] break-words",
+                      "transition-colors duration-200",
                       "focus:outline-none focus-visible:ring-2 focus-visible:ring-(--accent)/60 focus-visible:ring-offset-2 focus-visible:ring-offset-(--bg-base)",
                       isActive
-                        ? "text-(--fg-base) scale-110"
-                        : "text-gray-500 hover:text-gray-500/80 hover:scale-105",
+                        ? "text-(--fg-base) font-semibold"
+                        : "text-gray-500 hover:text-(--fg-base)",
                     ].join(" ")}
+                    aria-current={isActive ? "location" : undefined}
                   >
                     <span
                       className={[
@@ -492,79 +493,106 @@ const BlogDetailPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-(--bg-base) text-(--fg-base) overflow-x-hidden">
-      <div className="mx-auto max-w-[990px] px-5 md:px-8 pt-[calc(var(--header-height)+48px)] pb-16">
-        <article className="w-full">
-          <button
-            onClick={() => navigate("/blog")}
-            className="relative z-10 mb-5 text-[13px] text-fg-muted hover:text-fg transition-colors flex items-center gap-2"
+      <div className="mx-auto w-full max-w-[1140px] [@media_(orientation:landscape)_and_(min-width:1180px)]:max-w-[1300px] [@media_(orientation:landscape)_and_(min-width:1440px)]:max-w-[1436px] [@media_(orientation:landscape)_and_(min-width:1600px)]:max-w-[1556px] px-5 md:px-8 pt-[calc(var(--header-height)+48px)] pb-16">
+        <div
+          className={[
+            "grid w-full items-start",
+            toc.length
+              ? "min-[1180px]:grid-cols-[minmax(0,900px)_220px] [@media_(orientation:landscape)_and_(min-width:1180px)]:grid-cols-[minmax(0,980px)_180px] [@media_(orientation:landscape)_and_(min-width:1440px)]:grid-cols-[minmax(0,1160px)_180px] [@media_(orientation:landscape)_and_(min-width:1600px)]:grid-cols-[minmax(0,1280px)_180px] min-[1180px]:gap-8 min-[1180px]:justify-center"
+              : "grid-cols-1",
+          ].join(" ")}
+        >
+          <article
+            className={[
+              "w-full min-w-0 max-w-[820px] mx-auto",
+              toc.length
+                ? "min-[1180px]:mx-0 min-[1180px]:max-w-none"
+                : "",
+            ].join(" ")}
           >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+            <button
+              onClick={() => navigate("/blog")}
+              className="relative z-10 mb-5 text-[13px] text-fg-muted hover:text-fg transition-colors flex items-center gap-2"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            목록으로
-          </button>
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              목록으로
+            </button>
 
-          <div className="mb-10">
-            <h1 className="text-[36px] md:text-[42px] font-bold leading-tight mb-4">
-              {post.title}
-            </h1>
+            <div className="mb-10">
+              <h1 className="text-[36px] md:text-[42px] font-bold leading-tight mb-4">
+                {post.title}
+              </h1>
 
-            <div className="w-full flex flex-col md:flex-row md:justify-between md:items-center gap-4">
-              <div className="flex flex-wrap gap-2">
-                {post.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-[13px] text-(--accent) px-2.5 py-1.5"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+              <div className="w-full flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+                <div className="flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-[13px] text-(--accent) px-2.5 py-1.5"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
 
-              <div className="text-[13px] text-fg-muted whitespace-nowrap md:text-right">
-                {post.date}
+                <div className="text-[13px] text-fg-muted whitespace-nowrap md:text-right">
+                  {post.date}
+                </div>
               </div>
             </div>
-          </div>
 
-          {post.cover && (
-            <div className="relative h-[300px] md:h-[400px] rounded-2xl overflow-hidden mb-10 bg-(--bg-soft)">
-              <img
-                src={post.cover}
-                alt={post.title}
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            </div>
-          )}
-
-          <div className="prose prose-invert max-w-none">
-            {content ? (
-              <MarkdownContent content={content} />
-            ) : (
-              <p className="text-fg-muted">콘텐츠가 없습니다.</p>
+            {post.cover && (
+              <div className="relative h-[300px] md:h-[400px] rounded-2xl overflow-hidden mb-10 bg-(--bg-soft)">
+                <img
+                  src={post.cover}
+                  alt={post.title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </div>
             )}
-          </div>
 
-          {/* 이전/다음 게시글 네비게이션 */}
-          <PostNavigation
-            prevPost={prevPost}
-            nextPost={nextPost}
-            onNavigate={(slug) => navigate(`/blog/${slug}`)}
-          />
-        </article>
+            <div className="prose prose-invert max-w-none">
+              {content ? (
+                <MarkdownContent content={content} />
+              ) : (
+                <p className="text-fg-muted">콘텐츠가 없습니다.</p>
+              )}
+            </div>
+
+            {/* 이전/다음 게시글 네비게이션 */}
+            <PostNavigation
+              prevPost={prevPost}
+              nextPost={nextPost}
+              onNavigate={(slug) => navigate(`/blog/${slug}`)}
+            />
+          </article>
+
+          {toc.length ? (
+            <div
+              aria-hidden="true"
+              className="hidden min-[1180px]:block w-[220px] [@media_(orientation:landscape)_and_(min-width:1180px)]:w-[180px]"
+            />
+          ) : null}
+        </div>
       </div>
 
-      <TocSidebar toc={toc} activeId={activeId} onClickItem={handleTocClick} />
+      <TocSidebar
+        toc={toc}
+        activeId={activeId}
+        onClickItem={handleTocClick}
+      />
     </div>
   );
 };
