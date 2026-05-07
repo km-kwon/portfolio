@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, useLocation, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, useNavigate, Link } from "react-router-dom";
 
 import "./App.css";
 import ScrollToTop from "./component/common/ScrollToTop";
@@ -19,7 +19,7 @@ import BlogPage from "./wireframe/pages/BlogPage";
 import ContactPage from "./wireframe/pages/ContactPage";
 
 type Theme = "light" | "dark";
-type StageKey = "home" | "projects" | "detail" | "about" | "contact" | "resume" | "blog";
+type StageKey = "home" | "projects" | "detail" | "about" | "contact" | "resume" | "blog" | "lab";
 
 const pathToStage = (pathname: string): StageKey => {
   if (pathname === "/")                   return "home";
@@ -29,13 +29,15 @@ const pathToStage = (pathname: string): StageKey => {
   if (pathname.startsWith("/resume"))     return "resume";
   if (pathname.startsWith("/blog"))       return "blog";
   if (pathname.startsWith("/contact"))    return "contact";
-  if (pathname.startsWith("/lab"))        return "projects";
+  if (pathname.startsWith("/lab"))        return "lab";
   return "home";
 };
 
 const Shell: React.FC<{ theme: Theme; onToggleTheme: () => void }> = ({ theme, onToggleTheme }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const stage = pathToStage(location.pathname);
+  const isLabRoute = location.pathname.startsWith("/lab");
   const [scrollY, setScrollY] = useState(0);
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
 
@@ -56,18 +58,28 @@ const Shell: React.FC<{ theme: Theme; onToggleTheme: () => void }> = ({ theme, o
     return () => window.removeEventListener("mousemove", onMove);
   }, []);
 
+  const handlePlanetClick = useCallback((target: StageKey) => {
+    navigate(target === "home" ? "/" : `/${target}`);
+  }, [navigate]);
+
   return (
     <>
       <ScrollToTop />
-      <World page={stage} scrollY={scrollY} mouse={mouse} />
+      <World
+        page={stage}
+        scrollY={scrollY}
+        mouse={mouse}
+        onPlanetClick={handlePlanetClick}
+      />
       <WireHeader theme={theme} onToggleTheme={onToggleTheme} />
       <Trail />
 
       <main
         style={{
           position: "relative", zIndex: 2,
-          maxWidth: "var(--content-max)", margin: "0 auto",
-          padding: "calc(var(--header-h) + 32px) 24px 80px",
+          maxWidth: isLabRoute ? "none" : "var(--content-max)",
+          margin: "0 auto",
+          padding: isLabRoute ? "0 0 80px" : "calc(var(--header-h) + 32px) 24px 80px",
         }}
       >
         <Routes>

@@ -275,6 +275,7 @@ const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project: p, index: 
   const [hover, setHover] = useState(false);
   return (
     <Link
+      className="project-gallery-card project-gallery-card-compact"
       to={`/projects/${p.id}`}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -292,6 +293,8 @@ const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project: p, index: 
         display: "flex", flexDirection: "column", height: "100%",
       }}
     >
+      <div className="project-gallery-frame" />
+      <div className="project-card-scanline" />
       {p.banner && (
         <img
           src={p.banner}

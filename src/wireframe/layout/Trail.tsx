@@ -7,7 +7,8 @@ const STOPS = [
   { num: "03", path: "/about",    label: "About"    },
   { num: "04", path: "/resume",   label: "Resume"   },
   { num: "05", path: "/blog",     label: "Writing"  },
-  { num: "06", path: "/contact",  label: "Contact"  },
+  { num: "06", path: "/lab",      label: "Lab"      },
+  { num: "07", path: "/contact",  label: "Contact"  },
 ];
 
 export const Trail: React.FC = () => {

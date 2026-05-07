@@ -13,12 +13,13 @@ const allCategories: (ExperimentCategory | "all")[] = [
 ];
 
 const pageBg =
-  "relative min-h-screen pt-[calc(var(--header-height)+56px)] pb-24 px-5 overflow-hidden";
+  "relative min-h-screen pt-[calc(var(--header-height)+32px)] md:pt-[calc(var(--header-height)+40px)] pb-24 px-5 overflow-hidden";
 
 const bgDecor =
   "pointer-events-none absolute inset-0 " +
-  "bg-[radial-gradient(900px_500px_at_20%_10%,rgba(125,211,252,0.16),transparent_60%),radial-gradient(800px_420px_at_80%_30%,rgba(167,139,250,0.14),transparent_60%),radial-gradient(700px_360px_at_50%_85%,rgba(34,197,94,0.10),transparent_60%)] " +
-  "[mask-image:radial-gradient(70%_60%_at_50%_40%,black,transparent)]";
+  "bg-[linear-gradient(90deg,color-mix(in_oklab,var(--border)_26%,transparent)_1px,transparent_1px),linear-gradient(180deg,color-mix(in_oklab,var(--border)_20%,transparent)_1px,transparent_1px),linear-gradient(135deg,color-mix(in_oklab,var(--accent)_10%,transparent),transparent_42%)] " +
+  "bg-[size:72px_72px,72px_72px,auto] " +
+  "[mask-image:linear-gradient(180deg,black,transparent_86%)]";
 
 const pill =
   "inline-flex items-center rounded-full border border-(--border-subtle) " +
@@ -27,6 +28,43 @@ const pill =
 
 const labelClass =
   "inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-fg-muted";
+
+const labCodeColumns = [
+  ["const", "useState", "=>", "[ok]", "// 🧪", "rAF"],
+  ["> npm run dev", "async", "await", "0.03ms", "WebGL2", "WIP"],
+  ["import", "<canvas />", "shader.vert", "{ ... }", "GLSL", "tick()"],
+  ["playground", "draft", "[warn]", "Promise", "worker", "fps:60"],
+  ["render()", "memo", "event", "commit", "trace", "done"],
+];
+
+const terminalLines = [
+  ["01", "const", " experiment ", "= async () => {"],
+  ["02", "// measure, break, rebuild"],
+  ["03", "await", " draw(canvas);"],
+  ["04", "}"],
+  ["→", "[ok] lab server ready"],
+];
+
+const LabCodeAtmosphere: React.FC = () => (
+  <div className="lab-code-atmosphere" aria-hidden="true">
+    {labCodeColumns.map((column, columnIndex) => (
+      <div
+        key={columnIndex}
+        className={`lab-code-column lab-code-column-${columnIndex + 1}`}
+      >
+        {[...column, ...column, ...column].map((token, tokenIndex) => (
+          <span key={`${token}-${tokenIndex}`}>{token}</span>
+        ))}
+      </div>
+    ))}
+    <div className="lab-scan-line" />
+    <div className="lab-corner lab-corner-tl" />
+    <div className="lab-corner lab-corner-tr" />
+    <div className="lab-corner lab-corner-bl" />
+    <div className="lab-corner lab-corner-br" />
+    <div className="lab-wip-tag">◇ /LAB · WIP</div>
+  </div>
+);
 
 const LabPage: React.FC = () => {
   const [filter, setFilter] = useState<ExperimentCategory | "all">("all");
@@ -42,31 +80,62 @@ const LabPage: React.FC = () => {
   );
 
   return (
-    <main className={pageBg}>
+    <main className={`${pageBg} lab-playground-page`}>
       <div className={bgDecor} />
-      <div className="max-w-(--content-max-w) mx-auto relative">
+      <LabCodeAtmosphere />
+      <div className="max-w-(--content-max-w) mx-auto relative z-10">
         {/* Hero */}
-        <section className="text-center mb-12">
-          <div className="flex justify-center mb-4">
-            <span className={`${pill} gap-2`}>
-              <span className="w-1.5 h-1.5 rounded-full bg-(--accent)" />
-              <span className={labelClass}>Lab</span>
-            </span>
+        <section className="lab-playground-hero mb-12">
+          <div>
+            <div className="mb-4">
+              <span className={`${pill} gap-2`}>
+                <span className="w-1.5 h-1.5 rounded-full bg-(--accent)" />
+                <span className={labelClass}>Lab</span>
+              </span>
+            </div>
+
+            <h1 className="text-[34px] md:text-[48px] font-semibold tracking-[-0.03em] leading-[1.05] mb-4">
+              프론트엔드 실험실
+            </h1>
+
+            <p className="text-[15px] md:text-[16px] text-fg-muted leading-relaxed max-w-xl">
+              &quot;왜?&quot;를 묻고, 직접 만들어보며 답을 찾습니다.
+              각 실험은 원래 크기와 인터랙션을 유지한 채 직접 조작할 수 있습니다.
+            </p>
           </div>
 
-          <h1 className="text-[34px] md:text-[44px] font-semibold tracking-[-0.02em] mb-4">
-            프론트엔드 실험실
-          </h1>
-
-          <p className="text-[15px] md:text-[16px] text-fg-muted leading-relaxed max-w-lg mx-auto">
-            &quot;왜?&quot;를 묻고, 직접 만들어보며 답을 찾습니다.
-            <br className="md:block" />
-            각 실험을 직접 조작해 보세요.
-          </p>
+          <div className="lab-terminal-card" aria-hidden="true">
+            <div className="lab-terminal-chrome">
+              <span />
+              <span />
+              <span />
+              <strong>/lab — playground.tsx</strong>
+            </div>
+            <div className="lab-terminal-body">
+              {terminalLines.map((line, index) => (
+                <div key={index} className="lab-terminal-line">
+                  <span className="lab-line-no">{line[0]}</span>
+                  {line.slice(1).map((part, partIndex) => (
+                    <span
+                      key={`${part}-${partIndex}`}
+                      className={
+                        partIndex === 0 && line.length > 2
+                          ? "lab-token-accent"
+                          : "lab-token-muted"
+                      }
+                    >
+                      {part}
+                    </span>
+                  ))}
+                </div>
+              ))}
+              <span className="lab-terminal-cursor" />
+            </div>
+          </div>
         </section>
 
         {/* Category filter */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
+        <div className="relative z-10 mb-10 flex flex-wrap justify-center gap-2">
           {activeCategories.map((cat) => {
             const isActive = filter === cat;
             const label = cat === "all" ? "전체" : categoryLabels[cat];
@@ -94,9 +163,9 @@ const LabPage: React.FC = () => {
         </div>
 
         {/* Experiment cards */}
-        <div className="grid gap-6 max-w-4xl mx-auto">
-          {filtered.map((experiment) => (
-            <ExperimentCard key={experiment.id} experiment={experiment} />
+        <div className="grid gap-8 max-w-5xl mx-auto">
+          {filtered.map((experiment, index) => (
+            <ExperimentCard key={experiment.id} experiment={experiment} index={index} />
           ))}
         </div>
 

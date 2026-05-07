@@ -90,18 +90,21 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
   const variant = index % 4;
   return (
     <div
+      className="project-gallery-card"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
         position: "relative", aspectRatio: "1 / 1.18",
-        borderRadius: 16, overflow: "hidden",
+        borderRadius: 18, overflow: "hidden",
         border: hover ? "1px solid var(--accent)" : "1px solid var(--border)",
-        background: "var(--bg-elevated)",
+        background: "color-mix(in oklab, var(--bg-elevated) 88%, transparent)",
         cursor: "pointer", transition: "all .4s cubic-bezier(.22,.61,.36,1)",
         transform: hover ? "translateY(-4px)" : "translateY(0)",
         boxShadow: hover ? `0 24px 60px ${project.color}33` : "0 0 0 transparent",
       }}
     >
+      <div className="project-gallery-frame" />
+      <div className="project-card-scanline" />
       <div style={{ position: "absolute", inset: 0, transition: "opacity .4s" }}>
         {project.banner ? (
           <img

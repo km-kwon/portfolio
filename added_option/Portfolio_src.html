@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<title>권경민 — Frontend × System × Security</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0B0C0F;
+    --bg-soft:   #14161B;
+    --bg-elev:   #1A1D23;
+    --fg:        #F1F3F5;
+    --fg-muted:  #9aa3ad;
+    --fg-dim:    #5b6370;
+    --border:    #232830;
+    --border-hi: #353c48;
+    --accent:    #7C5CFF;
+    --accent-hi: #9F87FF;
+    --accent-soft: rgba(124,92,255,0.12);
+    --accent-glow: rgba(124,92,255,0.45);
+    --header-h:  64px;
+    --content-max: 1200px;
+
+    --serif: 'Fraunces', 'Instrument Serif', Georgia, serif;
+    --sans:  'Geist', system-ui, -apple-system, sans-serif;
+    --mono:  'Geist Mono', 'JetBrains Mono', monospace;
+  }
+  [data-theme="light"] {
+    --bg:        #FAFAF7;
+    --bg-soft:   #F1EFE8;
+    --bg-elev:   #FFFFFF;
+    --fg:        #15171c;
+    --fg-muted:  #5b6370;
+    --fg-dim:    #8b94a3;
+    --border:    #E2DFD6;
+    --border-hi: #C8C3B6;
+    --accent:    #5A3AFF;
+    --accent-hi: #7C5CFF;
+    --accent-soft: rgba(90,58,255,0.10);
+    --accent-glow: rgba(90,58,255,0.30);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+  body { overflow-x: hidden; transition: background .6s ease, color .6s ease; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; }
+
+  ::selection { background: var(--accent); color: white; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+
+  /* Sticky 3D world */
+  .world-stage {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0;
+    overflow: hidden;
+  }
+  .world-svg { width: 100%; height: 100%; opacity: 0.95; }
+  .world-grain {
+    position: fixed; inset: 0; pointer-events: none; z-index: 1;
+    opacity: 0.06; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  .world-vignette {
+    position: fixed; inset: 0; pointer-events: none; z-index: 1;
+    background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.55) 100%);
+  }
+  [data-theme="light"] .world-vignette { background: radial-gradient(ellipse at center, transparent 40%, rgba(255,255,255,0.6) 100%); }
+
+  /* Header */
+  .site-header {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: var(--header-h);
+    z-index: 100;
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    background: color-mix(in oklab, var(--bg) 75%, transparent);
+    border-bottom: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+  }
+  .site-header .inner {
+    max-width: var(--content-max); margin: 0 auto;
+    height: 100%; padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .logo { font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-muted); }
+  .logo:hover { color: var(--accent); transition: color .3s; }
+  .navlinks { display: flex; gap: 4px; align-items: center; font-size: 13px; }
+  .navlinks button, .navlinks a { background: none; border: 0; color: var(--fg-muted); padding: 8px 12px; border-radius: 8px; transition: all .25s ease; font-size: 13px; font-family: var(--sans); }
+  .navlinks button:hover, .navlinks a:hover { color: var(--fg); background: var(--bg-soft); }
+  .navlinks .active { color: var(--fg); background: var(--bg-soft); }
+  .navlinks .sep { color: var(--fg-dim); margin: 0 4px; opacity: 0.5; }
+  .header-right { display: flex; gap: 8px; align-items: center; }
+  .icon-btn { width: 36px; height: 36px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--fg-muted); display: grid; place-items: center; transition: all .25s; }
+  .icon-btn:hover { color: var(--fg); border-color: var(--border-hi); background: var(--bg-soft); }
+  .contact-btn { padding: 8px 16px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--fg-muted); font-size: 13px; transition: all .25s; }
+  .contact-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+
+  /* Content layout */
+  main {
+    position: relative; z-index: 2;
+    max-width: var(--content-max);
+    margin: 0 auto;
+    padding: calc(var(--header-h) + 32px) 24px 80px;
+  }
+
+  /* Section markers */
+  .marker {
+    display: flex; align-items: center; gap: 14px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--fg-dim);
+    margin-bottom: 24px;
+  }
+  .marker .num { color: var(--accent); font-weight: 600; }
+  .marker .bar { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+
+  /* Reveal animation */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { animation: fadeUp .8s cubic-bezier(.22,.61,.36,1) both; }
+  .reveal.d1 { animation-delay: .08s; }
+  .reveal.d2 { animation-delay: .16s; }
+  .reveal.d3 { animation-delay: .24s; }
+  .reveal.d4 { animation-delay: .32s; }
+
+  /* Theme transition */
+  body, .site-header, .icon-btn, .contact-btn, .navlinks button, .navlinks a {
+    transition: background .6s ease, color .4s ease, border-color .4s ease;
+  }
+
+  /* Scroll progress trail (left rail) */
+  .trail {
+    position: fixed; left: 24px; top: 50%; transform: translateY(-50%);
+    z-index: 50; display: none;
+    flex-direction: column; gap: 22px;
+  }
+  @media (min-width: 1280px) { .trail { display: flex; } }
+  .trail .stop {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 1px solid var(--border);
+    background: color-mix(in oklab, var(--bg-elev) 90%, transparent);
+    backdrop-filter: blur(8px);
+    color: var(--fg-dim); font-family: var(--mono); font-size: 10px; font-weight: 500;
+    display: grid; place-items: center;
+    transition: all .35s cubic-bezier(.22,.61,.36,1);
+    cursor: pointer;
+    position: relative;
+  }
+  .trail .stop:hover { color: var(--fg); border-color: var(--border-hi); }
+  .trail .stop.on {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent-hi);
+    box-shadow: 0 0 0 4px var(--accent-soft), 0 0 20px var(--accent-glow);
+  }
+  .trail .stop .tip {
+    position: absolute; left: 44px; top: 50%; transform: translateY(-50%);
+    background: var(--bg-elev); border: 1px solid var(--border); padding: 4px 10px;
+    border-radius: 6px; font-family: var(--sans); font-size: 11px; color: var(--fg);
+    white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .2s;
+  }
+  .trail .stop:hover .tip { opacity: 1; }
+
+  /* Cinematic horizontal lines */
+  .cinematic-line {
+    width: 80px; height: 1px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    margin: 0 0 16px;
+  }
+
+  /* Page transition */
+  .page-fade { animation: fadeUp .65s cubic-bezier(.22,.61,.36,1) both; }
+</style>
+</head>
+<body data-theme="dark">
+
+<template id="__bundler_thumbnail" data-bg-color="#0B0C0F">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="g" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#7C5CFF" stop-opacity="0.5"/>
+        <stop offset="100%" stop-color="#7C5CFF" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <rect width="1200" height="800" fill="#0B0C0F"/>
+    <circle cx="600" cy="400" r="380" fill="url(#g)"/>
+    <ellipse cx="600" cy="400" rx="420" ry="140" stroke="#7C5CFF" stroke-width="1.5" fill="none" opacity="0.6"/>
+    <ellipse cx="600" cy="400" rx="300" ry="100" stroke="#9F87FF" stroke-width="1" fill="none" opacity="0.5" stroke-dasharray="3 8"/>
+    <polygon points="600,310 678,374 648,468 552,468 522,374" stroke="#9F87FF" stroke-width="1.6" fill="#7C5CFF" fill-opacity="0.18"/>
+    <circle cx="600" cy="400" r="6" fill="#9F87FF"/>
+    <circle cx="220" cy="480" r="8" fill="#7C5CFF"/>
+    <circle cx="980" cy="320" r="6" fill="#7C5CFF"/>
+    <circle cx="850" cy="540" r="4" fill="#9F87FF"/>
+    <text x="60" y="740" fill="#5b6370" font-family="monospace" font-size="14" letter-spacing="3">PORTFOLIO · 2026</text>
+  </svg>
+</template>
+
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="hifi/world.jsx"></script>
+<script type="text/babel" src="hifi/header.jsx"></script>
+<script type="text/babel" src="hifi/data.jsx"></script>
+<script type="text/babel" src="hifi/home.jsx"></script>
+<script type="text/babel" src="hifi/projects.jsx"></script>
+<script type="text/babel" src="hifi/detail.jsx"></script>
+<script type="text/babel" src="hifi/about.jsx"></script>
+<script type="text/babel" src="hifi/contact.jsx"></script>
+<script type="text/babel" src="hifi/resume.jsx"></script>
+<script type="text/babel" src="hifi/blog.jsx"></script>
+<script type="text/babel" src="hifi/app.jsx"></script>
+
+</body>
+</html>

@@ -17,6 +17,22 @@ const pill =
 const labelClass =
   "inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-fg-muted";
 
+const postcardRows = [
+  ["hello", "안녕하세요", "let's talk", "Seoul, KR"],
+  ["say hi", "coffee?", "remote ok", "open to roles"],
+  ["build something", "reply soon", "kmkwon@", "let me know"],
+];
+
+const postcardSymbols = [
+  { text: "@", left: "8%", top: "20%" },
+  { text: "—", left: "18%", top: "70%" },
+  { text: "→", left: "77%", top: "23%" },
+  { text: "✦", left: "86%", top: "64%" },
+  { text: ".", left: "69%", top: "78%" },
+  { text: "@", left: "42%", top: "14%" },
+  { text: ",", left: "12%", top: "45%" },
+];
+
 /* ── Main Component ── */
 const ContactPage: React.FC = () => {
   const [copied, setCopied] = useState(false);
@@ -31,12 +47,35 @@ const ContactPage: React.FC = () => {
   }, []);
 
   return (
-    <main className={pageBg}>
+    <main className={`${pageBg} contact-postcard-page`}>
       <div className={bgDecor} />
+      <div className="contact-postcard-backdrop" aria-hidden="true">
+        <div className="contact-handline contact-handline-top" />
+        <div className="contact-handline contact-handline-bottom" />
+        {postcardRows.map((row, rowIndex) => (
+          <div
+            key={rowIndex}
+            className={`contact-greeting-row contact-greeting-row-${rowIndex + 1}`}
+          >
+            {[...row, ...row].map((word, wordIndex) => (
+              <span key={`${word}-${wordIndex}`}>{word}</span>
+            ))}
+          </div>
+        ))}
+        {postcardSymbols.map((symbol, index) => (
+          <span
+            key={`${symbol.text}-${index}`}
+            className="contact-postcard-symbol"
+            style={{ left: symbol.left, top: symbol.top }}
+          >
+            {symbol.text}
+          </span>
+        ))}
+      </div>
 
-      <div className="max-w-(--content-max-w) mx-auto relative">
+      <div className="max-w-(--content-max-w) mx-auto relative z-10">
         {/* ── Hero ── */}
-        <section className="text-center mb-14">
+        <section className="contact-postcard-hero text-center mb-14">
           <div className="flex justify-center mb-4">
             <span className={`${pill} gap-2`}>
               <span className="w-1.5 h-1.5 rounded-full bg-(--accent)" />
@@ -44,9 +83,17 @@ const ContactPage: React.FC = () => {
             </span>
           </div>
 
-          <h1 className="text-[34px] md:text-[44px] font-semibold tracking-[-0.02em] mb-4">
-            함께 이야기해요
+          <h1 className="contact-say-hi">
+            say hi
+            <span className="contact-cursor" aria-hidden="true" />
           </h1>
+          <svg
+            className="contact-underline"
+            viewBox="0 0 360 34"
+            aria-hidden="true"
+          >
+            <path d="M18 20 C84 32, 138 10, 196 21 S302 30, 342 14" />
+          </svg>
 
           <p className="text-[15px] md:text-[16px] text-fg-muted leading-relaxed max-w-lg mx-auto">
             프로젝트 제안, 협업, 채용 어떤 주제든 좋습니다.
