@@ -148,11 +148,13 @@ const LabPage: React.FC = () => {
               <button
                 key={cat}
                 onClick={() => setFilter(cat)}
+                aria-pressed={isActive}
                 className={
-                  "px-4 py-2 text-[13px] font-medium rounded-lg transition-all duration-300 border cursor-pointer " +
+                  "px-4 py-2 text-[13px] font-semibold rounded-xl transition-all duration-300 border cursor-pointer " +
+                  "backdrop-blur-md shadow-[0_8px_22px_rgba(0,0,0,0.16)] " +
                   (isActive
-                    ? "bg-(--accent-subtle) text-(--accent) border-(--accent-border)"
-                    : "text-fg-muted border-transparent hover:text-fg hover:bg-(--bg-soft)")
+                    ? "bg-[color-mix(in_oklab,var(--accent)_18%,var(--bg-elevated))] text-(--accent-hi) border-(--accent-border) shadow-[0_0_0_1px_color-mix(in_oklab,var(--accent)_24%,transparent),0_12px_32px_color-mix(in_oklab,var(--accent)_18%,transparent)]"
+                    : "bg-[color-mix(in_oklab,var(--bg-elevated)_74%,transparent)] text-fg-muted border-(--border-subtle) hover:text-fg hover:border-(--border-hover) hover:bg-[color-mix(in_oklab,var(--bg-elevated)_92%,transparent)]")
                 }
               >
                 {label}
