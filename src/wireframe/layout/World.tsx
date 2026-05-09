@@ -727,8 +727,26 @@ export const World: React.FC<WorldProps> = ({
               <stop offset="50%" stopColor="var(--accent-hi)" stopOpacity={0.7 * cam.intensity} />
               <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
             </linearGradient>
-            <filter id="blurSoft"><feGaussianBlur stdDeviation="3" /></filter>
-            <filter id="blurStrong"><feGaussianBlur stdDeviation="8" /></filter>
+            <filter
+              id="blurSoft"
+              x="-120%"
+              y="-120%"
+              width="340%"
+              height="340%"
+              colorInterpolationFilters="sRGB"
+            >
+              <feGaussianBlur stdDeviation="3" />
+            </filter>
+            <filter
+              id="blurStrong"
+              x="-220%"
+              y="-220%"
+              width="540%"
+              height="540%"
+              colorInterpolationFilters="sRGB"
+            >
+              <feGaussianBlur stdDeviation="8" />
+            </filter>
           </defs>
 
           <g>
