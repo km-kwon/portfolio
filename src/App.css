@@ -857,6 +857,209 @@ html[data-theme="light"] .world-vignette {
 .reveal.d4    { animation-delay: .32s; }
 .page-fade    { animation: fadeUp .65s cubic-bezier(.22,.61,.36,1) both; }
 
+/* Blog detail entrance */
+.blog-detail-page {
+  position: relative;
+  isolation: isolate;
+}
+
+.blog-detail-page::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, color-mix(in oklab, var(--accent) 14%, transparent) 1px, transparent 1px),
+    linear-gradient(180deg, color-mix(in oklab, var(--border) 20%, transparent) 1px, transparent 1px);
+  background-size: 84px 84px;
+  opacity: 0;
+  mask-image: linear-gradient(180deg, transparent, black 18%, transparent 78%);
+  animation: blogGridBreathe 1.4s cubic-bezier(.65,0,.35,1) both;
+}
+
+.blog-detail-shell {
+  position: relative;
+  z-index: 1;
+}
+
+.blog-detail-transition {
+  position: fixed;
+  inset: var(--header-h) 0 0;
+  z-index: 90;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent, color-mix(in oklab, var(--accent-hi) 34%, transparent), transparent),
+    linear-gradient(180deg, color-mix(in oklab, var(--bg) 20%, transparent), var(--bg));
+  transform-origin: left center;
+  animation: blogDetailCurtain 1.05s cubic-bezier(.65,0,.35,1) both;
+}
+
+.blog-detail-transition::before {
+  content: "READING BUFFER";
+  position: absolute;
+  left: 24px;
+  top: 24px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: var(--accent-hi);
+  opacity: 0.7;
+}
+
+.blog-detail-transition::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0,
+    transparent 12px,
+    color-mix(in oklab, var(--accent-hi) 16%, transparent) 13px
+  );
+  opacity: 0.45;
+  animation: blogDetailScan 1.05s cubic-bezier(.65,0,.35,1) both;
+}
+
+.blog-detail-article {
+  animation: blogArticleIn .8s cubic-bezier(.22,.61,.36,1) .08s both;
+}
+
+.blog-detail-back,
+.blog-detail-header,
+.blog-detail-cover,
+.blog-detail-prose {
+  will-change: transform, opacity;
+}
+
+.blog-detail-back {
+  animation: blogLineIn .62s cubic-bezier(.22,.61,.36,1) .12s both;
+}
+
+.blog-detail-header {
+  animation: blogHeaderIn .78s cubic-bezier(.22,.61,.36,1) .18s both;
+}
+
+.blog-detail-cover {
+  animation: blogCoverIn .9s cubic-bezier(.22,.61,.36,1) .24s both;
+}
+
+.blog-detail-cover img {
+  animation: blogImageSettle 1.1s cubic-bezier(.22,.61,.36,1) .24s both;
+}
+
+.blog-detail-prose {
+  animation: blogProseIn .86s cubic-bezier(.22,.61,.36,1) .34s both;
+}
+
+@keyframes blogDetailCurtain {
+  0% {
+    opacity: 0.86;
+    transform: scaleX(1);
+  }
+  55% {
+    opacity: 0.62;
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+}
+
+@keyframes blogDetailScan {
+  from { transform: translateY(-42px); }
+  to { transform: translateY(80px); }
+}
+
+@keyframes blogGridBreathe {
+  0% { opacity: 0; transform: scale(1.02); }
+  28% { opacity: 0.34; }
+  100% { opacity: 0.08; transform: scale(1); }
+}
+
+@keyframes blogArticleIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blogLineIn {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes blogHeaderIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes blogCoverIn {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes blogImageSettle {
+  from { transform: scale(1.045); }
+  to { transform: scale(1); }
+}
+
+@keyframes blogProseIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blog-detail-page::before,
+  .blog-detail-transition,
+  .blog-detail-transition::after,
+  .blog-detail-article,
+  .blog-detail-back,
+  .blog-detail-header,
+  .blog-detail-cover,
+  .blog-detail-cover img,
+  .blog-detail-prose {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .blog-detail-transition {
+    display: none;
+  }
+}
+
 /* Wire header responsive navigation */
 .wire-header-menu-button {
   display: none;

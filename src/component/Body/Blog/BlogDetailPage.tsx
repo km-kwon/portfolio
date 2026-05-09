@@ -287,7 +287,10 @@ const MarkdownContent = React.memo(function MarkdownContent({
 }) {
   // content가 바뀔 때만 새 slugger 생성
   // (memo 덕분에 activeId 변경으로는 이 컴포넌트가 리렌더되지 않음)
-  const renderSlug = useMemo(() => createSlugger(), [content]);
+  const renderSlug = useMemo(() => {
+    void content;
+    return createSlugger();
+  }, [content]);
   const remarkPlugins = useMemo(() => [remarkGfm], []);
 
   const components = useMemo(
@@ -492,8 +495,13 @@ const BlogDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-(--bg-base) text-(--fg-base) overflow-x-hidden">
-      <div className="mx-auto w-full max-w-[1140px] [@media_(orientation:landscape)_and_(min-width:1180px)]:max-w-[1300px] [@media_(orientation:landscape)_and_(min-width:1440px)]:max-w-[1436px] [@media_(orientation:landscape)_and_(min-width:1600px)]:max-w-[1556px] px-5 md:px-8 pt-[calc(var(--header-height)+48px)] pb-16">
+    <div
+      key={post.slug}
+      className="blog-detail-page min-h-screen bg-(--bg-base) text-(--fg-base) overflow-x-hidden"
+    >
+      <div className="blog-detail-transition" aria-hidden="true" />
+
+      <div className="blog-detail-shell mx-auto w-full max-w-[1140px] [@media_(orientation:landscape)_and_(min-width:1180px)]:max-w-[1300px] [@media_(orientation:landscape)_and_(min-width:1440px)]:max-w-[1436px] [@media_(orientation:landscape)_and_(min-width:1600px)]:max-w-[1556px] px-5 md:px-8 pt-[calc(var(--header-height)+48px)] pb-16">
         <div
           className={[
             "grid w-full items-start",
@@ -504,6 +512,7 @@ const BlogDetailPage: React.FC = () => {
         >
           <article
             className={[
+              "blog-detail-article",
               "w-full min-w-0 max-w-[820px] mx-auto",
               toc.length
                 ? "min-[1180px]:mx-0 min-[1180px]:max-w-none"
@@ -512,7 +521,7 @@ const BlogDetailPage: React.FC = () => {
           >
             <button
               onClick={() => navigate("/blog")}
-              className="relative z-10 mb-5 text-[13px] text-fg-muted hover:text-fg transition-colors flex items-center gap-2"
+              className="blog-detail-back relative z-10 mb-5 text-[13px] text-fg-muted hover:text-fg transition-colors flex items-center gap-2"
             >
               <svg
                 className="w-4 h-4"
@@ -530,7 +539,7 @@ const BlogDetailPage: React.FC = () => {
               목록으로
             </button>
 
-            <div className="mb-10">
+            <div className="blog-detail-header mb-10">
               <h1 className="text-[36px] md:text-[42px] font-bold leading-tight mb-4">
                 {post.title}
               </h1>
@@ -554,7 +563,7 @@ const BlogDetailPage: React.FC = () => {
             </div>
 
             {post.cover && (
-              <div className="relative h-[300px] md:h-[400px] rounded-2xl overflow-hidden mb-10 bg-(--bg-soft)">
+              <div className="blog-detail-cover relative h-[300px] md:h-[400px] rounded-2xl overflow-hidden mb-10 bg-(--bg-soft)">
                 <img
                   src={post.cover}
                   alt={post.title}
@@ -563,7 +572,7 @@ const BlogDetailPage: React.FC = () => {
               </div>
             )}
 
-            <div className="prose prose-invert max-w-none">
+            <div className="blog-detail-prose prose prose-invert max-w-none">
               {content ? (
                 <MarkdownContent content={content} />
               ) : (
