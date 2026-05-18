@@ -19,7 +19,16 @@ import BlogPage from "./wireframe/pages/BlogPage";
 import ContactPage from "./wireframe/pages/ContactPage";
 
 type Theme = "light" | "dark";
-type StageKey = "home" | "projects" | "detail" | "about" | "contact" | "resume" | "blog" | "lab";
+type StageKey =
+  | "home"
+  | "projects"
+  | "detail"
+  | "about"
+  | "contact"
+  | "resume"
+  | "blog"
+  | "blogDetail"
+  | "lab";
 
 const pathToStage = (pathname: string): StageKey => {
   if (pathname === "/")                   return "home";
@@ -27,6 +36,7 @@ const pathToStage = (pathname: string): StageKey => {
   if (pathname.startsWith("/projects"))   return "projects";
   if (pathname.startsWith("/about"))      return "about";
   if (pathname.startsWith("/resume"))     return "resume";
+  if (pathname.startsWith("/blog/"))      return "blogDetail";
   if (pathname.startsWith("/blog"))       return "blog";
   if (pathname.startsWith("/contact"))    return "contact";
   if (pathname.startsWith("/lab"))        return "lab";

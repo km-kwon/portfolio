@@ -8,6 +8,7 @@ export type StageKey =
   | "contact"
   | "resume"
   | "blog"
+  | "blogDetail"
   | "lab";
 
 type Stage = {
@@ -41,6 +42,7 @@ const STAGES: Record<StageKey, Stage> = {
   contact: { tx: 0, ty: -44, sc: 0.7, rot: -4, intensity: 1.25 },
   resume: { tx: 120, ty: 40, sc: 0.95, rot: 22, intensity: 0.7 },
   blog: { tx: -160, ty: -40, sc: 1.1, rot: -16, intensity: 0.85 },
+  blogDetail: { tx: 120, ty: -34, sc: 0.94, rot: -4, intensity: 0.46 },
   lab: { tx: 60, ty: 20, sc: 1, rot: 4, intensity: 0.95 },
 };
 
@@ -61,7 +63,7 @@ const AMBIENT_STARS = Array.from({ length: 82 }, (_, i) => ({
 }));
 
 const ORBITS: {
-  id: Exclude<StageKey, "home" | "detail" | "lab">;
+  id: Exclude<StageKey, "home" | "detail" | "blogDetail" | "lab">;
   rx: number;
   ry: number;
   period: number;
@@ -535,6 +537,92 @@ const SceneBlog: React.FC<SceneProps> = ({ t, intensity }) => (
   </g>
 );
 
+const SceneBlogDetail: React.FC<SceneProps> = ({ t, intensity }) => {
+  const readingLines = Array.from({ length: 13 }, (_, i) => {
+    const y = -250 + i * 42;
+    const phase = Math.sin(t * 0.45 + i * 0.52) * 0.5 + 0.5;
+    return {
+      y,
+      width: 460 + (i % 4) * 78 + phase * 34,
+      opacity: 0.16 + phase * 0.12,
+    };
+  });
+
+  return (
+    <g>
+      <rect
+        x="-430"
+        y="-310"
+        width="860"
+        height="620"
+        rx="18"
+        fill="var(--bg-elev)"
+        fillOpacity={0.06 * intensity}
+        stroke="var(--accent)"
+        strokeWidth="0.7"
+        opacity={0.24 * intensity}
+      />
+      <line
+        x1="-320"
+        y1="-270"
+        x2="-320"
+        y2="270"
+        stroke="var(--accent-hi)"
+        strokeWidth="0.7"
+        opacity={0.08 * intensity}
+      />
+      {readingLines.map((line, i) => (
+        <line
+          key={`blog-detail-line-${i}`}
+          x1="-250"
+          y1={line.y}
+          x2={-250 + line.width}
+          y2={line.y}
+          stroke={i % 5 === 0 ? "var(--accent-hi)" : "var(--accent)"}
+          strokeWidth={i % 5 === 0 ? "1.1" : "0.8"}
+          opacity={line.opacity * 0.38 * intensity}
+          strokeLinecap="round"
+        />
+      ))}
+      {Array.from({ length: 8 }).map((_, i) => {
+        const y = -238 + i * 70;
+        const pulse = Math.sin(t * 0.65 + i) * 0.5 + 0.5;
+        return (
+          <g key={`blog-detail-note-${i}`} opacity={(0.05 + pulse * 0.05) * intensity}>
+            <circle cx="-360" cy={y} r="2.2" fill="var(--accent-hi)" />
+            <line
+              x1="-350"
+              y1={y}
+              x2="-322"
+              y2={y}
+              stroke="var(--accent-hi)"
+              strokeWidth="0.7"
+              strokeLinecap="round"
+            />
+          </g>
+        );
+      })}
+      <line
+        x1="-430"
+        y1={-310 + ((t * 28) % 620)}
+        x2="430"
+        y2={-310 + ((t * 28) % 620)}
+        stroke="var(--accent-hi)"
+        strokeWidth="0.7"
+        opacity={0.06 * intensity}
+      />
+      <circle
+        cx="260"
+        cy="-210"
+        r={70 + Math.sin(t * 0.7) * 8}
+        fill="var(--accent)"
+        opacity={0.035 * intensity}
+        filter="url(#blurSoft)"
+      />
+    </g>
+  );
+};
+
 const LAB_TOKENS = [
   "const", "=>", "useState", "// experimenting",
   "> npm run dev", "{ ... }", "async", "await",
@@ -619,6 +707,7 @@ const SCENES: Record<StageKey, React.FC<SceneProps>> = {
   contact: SceneContact,
   resume: SceneResume,
   blog: SceneBlog,
+  blogDetail: SceneBlogDetail,
   lab: SceneLab,
 };
 
