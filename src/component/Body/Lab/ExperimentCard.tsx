@@ -37,6 +37,7 @@ const ExperimentCard: React.FC<ExperimentCardProps> = ({ experiment, index = 0 }
       }
       style={{
         boxShadow: `inset 0 1px 0 rgba(255,255,255,0.04), 0 18px 54px color-mix(in oklab, ${accent} 10%, transparent)`,
+        animationDelay: `${Math.min(index, 6) * 70 + 260}ms`,
       }}
     >
       <div

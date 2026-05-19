@@ -425,6 +425,76 @@ html[data-theme="light"] .world-vignette {
     linear-gradient(180deg, transparent 66%, color-mix(in oklab, var(--bg) 78%, transparent) 100%);
 }
 
+.lab-playground-page::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 16% 12%, color-mix(in oklab, #7dd3fc 12%, transparent), transparent 26%),
+    radial-gradient(circle at 78% 18%, color-mix(in oklab, #34d399 12%, transparent), transparent 28%),
+    radial-gradient(circle at 50% 0%, color-mix(in oklab, var(--accent) 16%, transparent), transparent 38%);
+  opacity: 0;
+  transform: scale(1.015);
+  animation: labAmbientIn 1.2s cubic-bezier(.22,.61,.36,1) both;
+}
+
+.lab-page-shell {
+  animation: labShellIn .66s cubic-bezier(.22,.61,.36,1) .04s both;
+}
+
+.lab-page-transition {
+  position: fixed;
+  inset: var(--header-h) 0 0;
+  z-index: 90;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 18%, color-mix(in oklab, var(--accent) 18%, transparent), transparent 34%),
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--bg) 92%, transparent) 0%,
+      color-mix(in oklab, var(--bg) 52%, transparent) 42%,
+      transparent 100%
+    );
+  backdrop-filter: blur(9px) saturate(110%);
+  -webkit-backdrop-filter: blur(9px) saturate(110%);
+  animation: labPageVeil .64s cubic-bezier(.22,.61,.36,1) both;
+}
+
+.lab-page-transition::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(780px, 74vw);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #7dd3fc, var(--accent-hi), #34d399, transparent);
+  opacity: 0;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  animation: labPageRule .58s cubic-bezier(.22,.61,.36,1) .04s both;
+}
+
+.lab-page-transition::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 44%;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--accent-hi) 13%, transparent) 0 1px,
+      transparent 1px 8px
+    ),
+    linear-gradient(180deg, color-mix(in oklab, #7dd3fc 12%, transparent), transparent);
+  opacity: 0;
+  transform: translateY(-36%);
+  animation: labPageScan .66s cubic-bezier(.22,.61,.36,1) .06s both;
+}
+
 .contact-postcard-backdrop {
   position: absolute;
   inset: 0;
@@ -590,6 +660,7 @@ html[data-theme="light"] .project-detail-page::before {
   pointer-events: none;
   overflow: hidden;
   font-family: var(--mono);
+  animation: labAtmosphereIn 1.05s cubic-bezier(.22,.61,.36,1) .06s both;
 }
 
 .lab-code-column {
@@ -655,6 +726,8 @@ html[data-theme="light"] .project-detail-page::before {
   grid-template-columns: minmax(0, 1fr) minmax(320px, 440px);
   gap: 48px;
   align-items: center;
+  will-change: transform, opacity;
+  animation: labHeroIn .72s cubic-bezier(.22,.61,.36,1) .08s both;
 }
 
 .lab-terminal-card {
@@ -666,6 +739,8 @@ html[data-theme="light"] .project-detail-page::before {
   box-shadow: 0 24px 68px rgba(0,0,0,0.24), inset 0 1px 0 rgba(255,255,255,0.05);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
+  will-change: transform, opacity, clip-path;
+  animation: labTerminalIn .78s cubic-bezier(.22,.61,.36,1) .18s both;
 }
 
 .lab-terminal-card::after {
@@ -737,6 +812,11 @@ html[data-theme="light"] .project-detail-page::before {
   animation: contactBlink 1s steps(1) infinite;
 }
 
+.lab-filter-enter {
+  will-change: transform, opacity;
+  animation: labFilterIn .58s cubic-bezier(.22,.61,.36,1) .2s both;
+}
+
 .lab-experiment-card {
   isolation: isolate;
 }
@@ -756,6 +836,7 @@ html[data-theme="light"] .project-detail-page::before {
   position: relative;
   z-index: 1;
   row-gap: clamp(44px, 5vw, 64px);
+  animation: labGridIn .72s cubic-bezier(.22,.61,.36,1) .22s both;
 }
 
 .lab-experiment-grid::before {
@@ -781,6 +862,8 @@ html[data-theme="light"] .project-detail-page::before {
   position: relative;
   z-index: 1;
   width: min(100%, 920px);
+  will-change: transform, opacity;
+  animation: labCardIn .66s cubic-bezier(.22,.61,.36,1) both;
 }
 
 .lab-experiment-grid > .lab-experiment-card:nth-child(odd) {
@@ -789,6 +872,137 @@ html[data-theme="light"] .project-detail-page::before {
 
 .lab-experiment-grid > .lab-experiment-card:nth-child(even) {
   justify-self: end;
+}
+
+@keyframes labPageVeil {
+  0% {
+    opacity: 0.54;
+    transform: translateY(0);
+  }
+  58% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes labPageRule {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scaleX(0);
+  }
+  42% {
+    opacity: 0.72;
+    transform: translateX(-50%) scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scaleX(1);
+  }
+}
+
+@keyframes labPageScan {
+  0% {
+    opacity: 0;
+    transform: translateY(-36%);
+  }
+  42% {
+    opacity: 0.28;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(20%);
+  }
+}
+
+@keyframes labAmbientIn {
+  to {
+    opacity: 0.34;
+    transform: scale(1);
+  }
+}
+
+@keyframes labAtmosphereIn {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes labShellIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes labHeroIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes labTerminalIn {
+  from {
+    opacity: 0;
+    clip-path: inset(8% 0 0 0 round 14px);
+    transform: translateY(18px) scale(0.992);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0 round 14px);
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes labFilterIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes labGridIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes labCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.992);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes labRain {
@@ -905,6 +1119,17 @@ html[data-theme="light"] .project-detail-page::before {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .lab-playground-page::after,
+  .lab-page-transition,
+  .lab-page-transition::before,
+  .lab-page-transition::after,
+  .lab-code-atmosphere,
+  .lab-page-shell,
+  .lab-playground-hero,
+  .lab-terminal-card,
+  .lab-filter-enter,
+  .lab-experiment-grid,
+  .lab-experiment-grid > .lab-experiment-card,
   .contact-greeting-row,
   .contact-postcard-symbol,
   .contact-cursor,
@@ -913,6 +1138,14 @@ html[data-theme="light"] .project-detail-page::before {
   .lab-terminal-cursor,
   .project-gallery-card:hover .project-card-scanline {
     animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+  }
+
+  .lab-page-transition {
+    display: none;
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import ExperimentCard from "./ExperimentCard";
 import { experiments } from "./experiments";
 import type { ExperimentCategory } from "./types";
@@ -66,13 +66,28 @@ const LabCodeAtmosphere: React.FC = () => (
   </div>
 );
 
+function shuffleExperiments<T>(items: T[]): T[] {
+  const shuffled = [...items];
+
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled;
+}
+
 const LabPage: React.FC = () => {
   const [filter, setFilter] = useState<ExperimentCategory | "all">("all");
+  const randomizedExperiments = useMemo(
+    () => shuffleExperiments(experiments),
+    []
+  );
 
   const filtered =
     filter === "all"
-      ? experiments
-      : experiments.filter((e) => e.category === filter);
+      ? randomizedExperiments
+      : randomizedExperiments.filter((e) => e.category === filter);
 
   // Only show categories that have experiments
   const activeCategories = allCategories.filter(
@@ -82,8 +97,9 @@ const LabPage: React.FC = () => {
   return (
     <main className={`${pageBg} lab-playground-page`}>
       <div className={bgDecor} />
+      <div className="lab-page-transition" aria-hidden="true" />
       <LabCodeAtmosphere />
-      <div className="max-w-(--content-max-w) mx-auto relative z-10">
+      <div className="lab-page-shell max-w-(--content-max-w) mx-auto relative z-10">
         {/* Hero */}
         <section className="lab-playground-hero mb-12">
           <div>
@@ -135,7 +151,7 @@ const LabPage: React.FC = () => {
         </section>
 
         {/* Category filter */}
-        <div className="relative z-10 mb-10 flex flex-wrap justify-center gap-2">
+        <div className="lab-filter-enter relative z-10 mb-10 flex flex-wrap justify-center gap-2">
           {activeCategories.map((cat) => {
             const isActive = filter === cat;
             const label = cat === "all" ? "전체" : categoryLabels[cat];
