@@ -325,17 +325,35 @@ const DetailPage: React.FC = () => {
       {/* Next case */}
       <Link
         to={`/projects/${next.id}`}
+        className="project-next-card"
         style={{
-          padding: "44px 48px", borderRadius: 16,
-          border: "1px solid var(--border)", background: "var(--bg-elevated)",
-          cursor: "pointer", transition: "all .35s",
-          display: "flex", justifyContent: "space-between", alignItems: "center",
           textDecoration: "none", color: "inherit",
+          boxShadow: "none",
         }}
-        onMouseEnter={(e) => { e.currentTarget.style.borderColor = next.color; }}
-        onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--border)"; }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.borderColor = next.color;
+          e.currentTarget.style.boxShadow = `0 24px 70px ${next.color}22`;
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor = "var(--border)";
+          e.currentTarget.style.boxShadow = "none";
+        }}
       >
-        <div>
+        <div className="project-next-card-media">
+          {next.banner ? (
+            <img src={next.banner} alt="" />
+          ) : (
+            <MiniThumb color={next.color} variant={(safeIdx + 1) % 4} />
+          )}
+        </div>
+        <div
+          className="project-next-card-overlay"
+          style={{
+            background:
+              `linear-gradient(90deg, color-mix(in oklab, var(--bg-elevated) 96%, transparent) 0%, color-mix(in oklab, var(--bg-elevated) 72%, transparent) 44%, color-mix(in oklab, var(--bg-elevated) 38%, transparent) 100%), radial-gradient(circle at 86% 18%, ${next.color}44, transparent 48%)`,
+          }}
+        />
+        <div className="project-next-card-content">
           <div
             style={{
               fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.16em",
@@ -348,7 +366,7 @@ const DetailPage: React.FC = () => {
             {next.subTitle}
           </div>
         </div>
-        <div style={{ fontSize: 32, color: next.color }}>→</div>
+        <div className="project-next-card-arrow" style={{ color: next.color }}>-&gt;</div>
       </Link>
     </div>
   );
