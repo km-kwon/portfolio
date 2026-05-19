@@ -204,18 +204,21 @@ const HomePage: React.FC = () => {
           <span className="bar" />
         </div>
         <div
+          className="home-skills-grid"
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-            gap: 1, background: "var(--border)",
-            border: "1px solid var(--border)", borderRadius: 14, overflow: "hidden",
+            gap: 12,
           }}
         >
           {SKILLS.map((s, i) => (
             <div
               key={s.group}
-              className="reveal"
-              style={{ animationDelay: `${0.05 * i}s`, padding: 24, background: "var(--bg-elevated)" }}
+              className="reveal home-skills-card"
+              style={{
+                animationDelay: `${0.05 * i}s`,
+                padding: 24,
+                background: "color-mix(in oklab, var(--bg-elevated) 92%, transparent)",
+              }}
             >
               <div
                 style={{

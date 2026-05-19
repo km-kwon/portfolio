@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation, useNavigate, Link } from "react-router-dom";
 
 import "./App.css";
+import Analytics from "./analytics/Analytics";
 import ScrollToTop from "./component/common/ScrollToTop";
 import BlogDetailPage from "./component/Body/Blog/BlogDetailPage";
 import LabPage from "./component/Body/Lab/LabPage";
@@ -74,6 +75,7 @@ const Shell: React.FC<{ theme: Theme; onToggleTheme: () => void }> = ({ theme, o
 
   return (
     <>
+      <Analytics />
       <ScrollToTop />
       <World
         page={stage}

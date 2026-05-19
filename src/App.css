@@ -13,8 +13,8 @@
   /* Foreground */
   --fg:          #F1F3F5;
   --fg-muted:    #9aa3ad;
-  --fg-dimmed:   #5b6370;
-  --fg-dim:      #5b6370;
+  --fg-dimmed:   #77818e;
+  --fg-dim:      #77818e;
 
   /* Accent — Violet */
   --accent:        #7C5CFF;
@@ -39,9 +39,10 @@
   --radius-card: 16px;
 
   /* Type families */
-  --serif: "Fraunces", "Instrument Serif", Georgia, serif;
-  --sans:  "Geist", "Pretendard Variable", "Pretendard", system-ui, sans-serif;
-  --mono:  "Geist Mono", "JetBrains Mono", monospace;
+  --display: "Geist", "Pretendard Variable", "Pretendard", "SUIT Variable", "SUIT", system-ui, sans-serif;
+  --serif: "Geist", "Pretendard Variable", "Pretendard", "SUIT Variable", "SUIT", system-ui, sans-serif;
+  --sans:  "Geist", "Pretendard Variable", "Pretendard", "SUIT Variable", "SUIT", system-ui, sans-serif;
+  --mono:  "Geist Mono", "Cascadia Code", "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
 
   /* Modal */
   --modal-backdrop: rgba(0, 0, 0, 0.5);
@@ -131,6 +132,7 @@ body {
   min-width: 320px;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
   transition: background-color 0.6s ease, color 0.4s ease;
 }
 
@@ -200,16 +202,12 @@ html {
 }
 
 
-/* ───────────────────────────────────────────────
-   Typography — Display font (영문 헤드라인)
-   Google Fonts: Outfit 또는 Sora
-   ─────────────────────────────────────────────── */
 .font-display {
-  font-family: "Outfit", "Sora", "Pretendard Variable", sans-serif;
+  font-family: var(--display);
 }
 
 .font-mono {
-  font-family: "JetBrains Mono", "Fira Code", "Consolas", monospace;
+  font-family: var(--mono);
 }
 
 
@@ -279,7 +277,7 @@ html {
   padding: 0.2em 0.4em;
   border-radius: 6px;
   font-size: 0.875em;
-  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-family: var(--mono);
 }
 
 .prose pre {
@@ -353,7 +351,7 @@ html {
 /* ───────────────────────────────────────────────
    Wireframe — typography + layout primitives
    ─────────────────────────────────────────────── */
-.font-serif { font-family: var(--serif); font-feature-settings: "ss01"; }
+.font-serif { font-family: var(--serif); }
 .font-sans  { font-family: var(--sans); }
 .font-mono  { font-family: var(--mono); }
 
@@ -550,6 +548,41 @@ html[data-theme="light"] .world-vignette {
 }
 
 /* Lab terminal/playground tone */
+.project-detail-page {
+  position: relative;
+  isolation: isolate;
+}
+
+.project-detail-page::before {
+  content: "";
+  position: fixed;
+  inset: calc(var(--header-h) + 12px) max(18px, calc((100vw - var(--content-max)) / 2)) 28px;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--bg) 48%, transparent) 0%,
+      color-mix(in oklab, var(--bg) 40%, transparent) 45%,
+      color-mix(in oklab, var(--bg) 54%, transparent) 100%
+    );
+  backdrop-filter: blur(1px) saturate(1.02);
+  -webkit-backdrop-filter: blur(1px) saturate(1.02);
+}
+
+html[data-theme="light"] .project-detail-page::before {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--bg) 78%, transparent) 0%,
+      color-mix(in oklab, var(--bg) 72%, transparent) 48%,
+      color-mix(in oklab, var(--bg) 82%, transparent) 100%
+    );
+  backdrop-filter: blur(2px) saturate(0.96);
+  -webkit-backdrop-filter: blur(2px) saturate(0.96);
+}
+
 .lab-code-atmosphere {
   position: absolute;
   inset: 0;
@@ -717,6 +750,45 @@ html[data-theme="light"] .world-vignette {
   border: 1px solid color-mix(in oklab, var(--border-hi) 55%, transparent);
   border-radius: 14px;
   opacity: 0.28;
+}
+
+.lab-experiment-grid {
+  position: relative;
+  z-index: 1;
+  row-gap: clamp(44px, 5vw, 64px);
+}
+
+.lab-experiment-grid::before {
+  content: "";
+  position: absolute;
+  inset: -32px max(-64px, calc((100% - 100vw) / 2));
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in oklab, var(--accent-hi) 7%, transparent) 15%,
+      transparent 36%,
+      transparent 64%,
+      color-mix(in oklab, var(--accent) 7%, transparent) 85%,
+      transparent 100%
+    );
+  opacity: 0.9;
+}
+
+.lab-experiment-grid > .lab-experiment-card {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 920px);
+}
+
+.lab-experiment-grid > .lab-experiment-card:nth-child(odd) {
+  justify-self: start;
+}
+
+.lab-experiment-grid > .lab-experiment-card:nth-child(even) {
+  justify-self: end;
 }
 
 @keyframes labRain {
@@ -1186,6 +1258,47 @@ html[data-theme="light"] .world-vignette {
 }
 
 /* Profile page responsive hero */
+.home-skills-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: stretch;
+}
+
+.home-skills-card {
+  min-width: 0;
+  border: 1px solid color-mix(in oklab, var(--border) 82%, transparent);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+@media (max-width: 1120px) {
+  .home-skills-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .home-skills-card {
+    grid-column: span 2;
+  }
+
+  .home-skills-card:nth-child(4) {
+    grid-column: 2 / span 2;
+  }
+
+  .home-skills-card:nth-child(5) {
+    grid-column: 4 / span 2;
+  }
+}
+
+@media (max-width: 680px) {
+  .home-skills-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .home-skills-card {
+    grid-column: auto;
+  }
+}
+
 @media (max-width: 920px) {
   .home-profile-hero {
     min-height: auto !important;

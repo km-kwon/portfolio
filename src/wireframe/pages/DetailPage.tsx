@@ -22,7 +22,7 @@ const DetailPage: React.FC = () => {
   }
 
   return (
-    <div className="page-fade">
+    <div className="project-detail-page page-fade">
       <Link
         to="/projects"
         style={{
@@ -50,7 +50,7 @@ const DetailPage: React.FC = () => {
             style={{
               position: "absolute", inset: 0,
               width: "100%", height: "100%", objectFit: "cover",
-              opacity: 0.4, filter: "saturate(1.1)",
+              opacity: 0.58, filter: "saturate(1.16) brightness(1.1) contrast(1.03)",
             }}
           />
         ) : (

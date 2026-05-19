@@ -165,7 +165,7 @@ const LabPage: React.FC = () => {
         </div>
 
         {/* Experiment cards */}
-        <div className="grid gap-8 max-w-5xl mx-auto">
+        <div className="lab-experiment-grid grid gap-8 max-w-6xl mx-auto">
           {filtered.map((experiment, index) => (
             <ExperimentCard key={experiment.id} experiment={experiment} index={index} />
           ))}

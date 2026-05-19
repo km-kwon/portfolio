@@ -99,6 +99,23 @@ VITE_ENABLE_3D=false
 
 또한 `prefers-reduced-motion` 사용자는 3D 연출 대신 fallback UI가 렌더링됩니다.
 
+## 방문 분석 설정
+
+프로덕션 빌드에서 아래 환경 변수를 설정하면 방문 분석 스크립트가 자동으로 로드됩니다. 값이 비어 있으면 해당 서비스는 비활성화됩니다.
+
+```bash
+VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+VITE_CLOUDFLARE_ANALYTICS_TOKEN=your-cloudflare-web-analytics-token
+```
+
+로컬 개발 서버에서 스크립트 로드를 확인하려면 다음 값을 추가합니다.
+
+```bash
+VITE_ANALYTICS_DEBUG=true
+```
+
+Google Analytics는 React Router 페이지 이동 시 `page_view`가 다시 전송되도록 처리되어 있습니다. Vercel Analytics는 Vercel 프로젝트에 연결해 배포할 때 `@vercel/analytics` 패키지로 추가하는 편이 가장 안정적입니다.
+
 ## 프로젝트 구조
 
 ```text

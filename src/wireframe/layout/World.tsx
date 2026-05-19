@@ -895,7 +895,7 @@ export const World: React.FC<WorldProps> = ({
                     className="world-hotspot"
                     cx={x}
                     cy={y}
-                    r={Math.max(26, o.size * 5)}
+                    r={Math.max(48, o.size * 8)}
                     fill="transparent"
                     onClick={() => onPlanetClick?.(o.id)}
                     onMouseEnter={() => setHoverOrbit(o.id)}
