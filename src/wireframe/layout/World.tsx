@@ -887,7 +887,6 @@ export const World: React.FC<WorldProps> = ({
               const angle = o.phase + (t * Math.PI * 2) / o.period;
               const x = Math.cos(angle) * o.rx;
               const y = Math.sin(angle) * o.ry;
-              const isHover = hoverOrbit === o.id;
 
               return (
                 <g key={`home-hotspot-${o.id}`}>
@@ -901,19 +900,6 @@ export const World: React.FC<WorldProps> = ({
                     onMouseEnter={() => setHoverOrbit(o.id)}
                     onMouseLeave={() => setHoverOrbit(null)}
                   />
-                  {isHover && (
-                    <text
-                      x={x + o.size * 2 + 8}
-                      y={y - o.size * 2}
-                      fill="var(--accent-hi)"
-                      fontSize="10"
-                      fontFamily="var(--mono)"
-                      letterSpacing="2"
-                      opacity="0.95"
-                    >
-                      {`-> ${o.label}`}
-                    </text>
-                  )}
                 </g>
               );
             })}

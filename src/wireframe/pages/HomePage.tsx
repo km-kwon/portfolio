@@ -221,12 +221,15 @@ const HomePage: React.FC = () => {
               }}
             >
               <div
+                className="home-skills-label"
                 style={{
                   fontFamily: "var(--mono)", fontSize: 10, letterSpacing: "0.18em",
                   textTransform: "uppercase", color: "var(--accent)", marginBottom: 14,
                 }}
               >
-                0{i + 1} · {s.group}
+                <span>0{i + 1}</span>
+                <span>·</span>
+                <span>{s.group}</span>
               </div>
               <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
                 {s.items.map((it) => (

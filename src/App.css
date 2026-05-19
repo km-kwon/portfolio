@@ -888,6 +888,22 @@ html[data-theme="light"] .project-detail-page::before {
   }
 }
 
+.resume-stats-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 960px) {
+  .resume-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .resume-stats-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .contact-greeting-row,
   .contact-postcard-symbol,
@@ -1271,31 +1287,77 @@ html[data-theme="light"] .project-detail-page::before {
   -webkit-backdrop-filter: blur(8px);
 }
 
+.home-skills-label {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35em 0.65em;
+  align-items: baseline;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
 @media (max-width: 1120px) {
   .home-skills-grid {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-  }
-
-  .home-skills-card {
-    grid-column: span 2;
-  }
-
-  .home-skills-card:nth-child(4) {
-    grid-column: 2 / span 2;
-  }
-
-  .home-skills-card:nth-child(5) {
-    grid-column: 4 / span 2;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 680px) {
+@media (max-width: 760px) {
   .home-skills-grid {
     grid-template-columns: minmax(0, 1fr);
+    gap: 0 !important;
+    border: 1px solid color-mix(in oklab, var(--border) 86%, transparent);
+    border-radius: 12px;
+    overflow: hidden;
+    background: color-mix(in oklab, var(--bg-elevated) 92%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
 
   .home-skills-card {
-    grid-column: auto;
+    border: 0;
+    border-radius: 0;
+    border-top: 1px solid color-mix(in oklab, var(--border) 76%, transparent);
+    background: transparent !important;
+    padding: 18px !important;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .home-skills-card:first-child {
+    border-top: 0;
+  }
+
+  .home-skills-card > div:first-child {
+    margin-bottom: 12px !important;
+    line-height: 1.45;
+  }
+
+  .home-skills-label {
+    gap: 0.35em 0.7em;
+    letter-spacing: 0.14em !important;
+    max-width: none;
+    white-space: normal;
+  }
+
+  .home-skills-card ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px 8px;
+  }
+
+  .home-skills-card li {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 !important;
+    line-height: 1.35;
+    font-size: 12px !important;
+    color: var(--fg-muted) !important;
+    white-space: nowrap;
+  }
+
+  .home-skills-card li span {
+    margin-right: 6px !important;
   }
 }
 

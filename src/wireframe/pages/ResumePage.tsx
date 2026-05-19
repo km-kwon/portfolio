@@ -84,10 +84,9 @@ const ResumePage: React.FC = () => {
 
       {/* Stats */}
       <div
-        className="reveal d2"
+        className="reveal d2 resume-stats-grid"
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
           gap: 16, marginBottom: 80,
         }}
       >
