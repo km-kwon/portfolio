@@ -64,7 +64,7 @@ const ProjectsPage: React.FC = () => {
         ))}
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 20 }}>
+      <div className="project-list-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 20 }}>
         {visible.map((p, i) => (
           <Link
             key={p.id}
