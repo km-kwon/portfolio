@@ -94,7 +94,7 @@ const HomePage: React.FC = () => {
               <h1 className="reveal d1 home-profile-title" style={styles.title}>
                 복잡한 시스템을<br />
                 안전하고 <em style={{ fontStyle: "italic", color: "var(--accent-hi)", fontFamily: "var(--serif)" }}>읽기 쉬운</em><br />
-                인터페이스로 만드는<br />
+                인터페이스로 정리하는<br />
                 <span style={{ color: "var(--fg-muted)", fontSize: "0.6em", fontFamily: "var(--sans)", fontWeight: 300, letterSpacing: "-0.01em" }}>
                   프론트엔드 엔지니어,
                 </span><br />
@@ -110,7 +110,7 @@ const HomePage: React.FC = () => {
 
               <div className="reveal d3 home-profile-actions" style={styles.buttonRow}>
                 <Link to="/projects" style={styles.btnPrimary}>
-                  프로젝트 보기 →
+                  작업 보기 →
                 </Link>
                 <a
                   href={`${import.meta.env.BASE_URL}resume.pdf`}
@@ -143,20 +143,20 @@ const HomePage: React.FC = () => {
                 <span style={styles.statValue}>80K</span>
                 <span style={styles.statUnit}>logs/sec</span>
               </div>
-              <div style={styles.statDesc}>실시간 로그 시각화 처리량 (CCU2)</div>
+              <div style={styles.statDesc}>차량 제어 로그 실시간 시각화 처리량</div>
             </div>
             <div className="reveal d3 home-profile-stat" style={styles.stat}>
               <div>
                 <span style={styles.statValue}>2</span>
                 <span style={styles.statUnit}>sec</span>
               </div>
-              <div style={styles.statDesc}>1M 라인 DLT 로그 검색<br />Web Worker · 가상 스크롤 최적화</div>
+              <div style={styles.statDesc}>1M 라인 DLT 로그 탐색<br />Web Worker · Virtual Scroll</div>
             </div>
             <div className="reveal d4 home-profile-stat" style={styles.stat}>
               <div>
                 <span style={styles.statValue}>0</span>
               </div>
-              <div style={styles.statDesc}>Wireshark 평문 노출<br />RSA-2048 + AES-256 하이브리드 설계</div>
+              <div style={styles.statDesc}>Wireshark 기준 평문 노출<br />RSA-2048 + AES-256 설계</div>
             </div>
           </div>
         </div>
@@ -256,10 +256,10 @@ const HomePage: React.FC = () => {
             maxWidth: 720, margin: "0 auto", textWrap: "balance" as React.CSSProperties["textWrap"],
           }}
         >
-          좋은 인터페이스는 <em style={{ color: "var(--accent-hi)" }}>복잡한 시스템에 대해</em> 거짓말하지 않는다.
+          좋은 인터페이스는 <em style={{ color: "var(--accent-hi)" }}>복잡함을 숨기지 않고</em>,
           <br />
           <span style={{ color: "var(--fg-muted)" }}>
-            그저 그것을 <em style={{ color: "var(--fg)" }}>읽을 수 있게</em> 만들 뿐이다.
+            사용자가 판단할 수 있는 <em style={{ color: "var(--fg)" }}>구조</em>로 정리합니다.
           </span>
         </p>
         <div style={{ marginTop: 36 }}>

@@ -5,7 +5,7 @@ export const openSourceData: OpenSourcePackage[] = [
     id: "pkg-1",
     name: "@broadcast-event-system",
     description:
-      "“React 애플리케이션을 위한 타입 안전(Type-safe) 이벤트 버스 및 브로드캐스트 서비스입니다. React 훅을 사용할 때만 React가 필요하고, 그 외에는 의존성이 전혀 없는 순수 TypeScript(Zero dependencies)입니다.”",
+      "React 앱에서 Prop Drilling 없이 이벤트를 전달하기 위해 만든 타입 안전 이벤트 버스입니다. React 훅은 선택적으로 제공하고, 핵심 로직은 의존성 없는 TypeScript로 구성했습니다.",
     version: "1.0.3",
     // downloads: "358",
     githubUrl: "https://github.com/km-kwon/broadcast-event-system",
@@ -16,7 +16,7 @@ export const openSourceData: OpenSourcePackage[] = [
     id: "pkg-2",
     name: "@circular-queue-react",
     description:
-      "TypeScript와 React를 위한 고성능 원형 버퍼/큐입니다. 의존성은 없고(React는 선택 사항), 로그 처리, 스트리밍 데이터, 롤링 윈도우, 실시간 UI 업데이트에 좋습니다.",
+      "로그·스트리밍 데이터처럼 오래된 값을 밀어내며 최신 상태를 유지해야 하는 UI를 위해 만든 원형 큐입니다. React 사용 여부와 관계없이 쓸 수 있도록 자료구조 로직을 분리했습니다.",
     version: "1.0.2",
     // downloads: "255",
     githubUrl: "https://github.com/km-kwon/react-circular-queue",

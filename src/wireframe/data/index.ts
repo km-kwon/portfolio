@@ -71,7 +71,7 @@ export const PROJECTS: WireProject[] = PROJECT_ORDER
       stack,
       metrics: metrics.length > 0
         ? metrics
-        : [{ v: "—", d: "highlight 데이터 없음" }],
+        : [{ v: "—", d: "핵심 지표 준비 중" }],
     } satisfies WireProject;
   });
 
@@ -154,6 +154,6 @@ export const SOCIAL_LINKS = [
 export const HERO_STREAM = [
   ["01", "LOG STREAM",  "80K/sec"],
   ["02", "WORKER INDEX", "1M rows"],
-  ["03", "SECURE LAYER", "0 plain"],
+  ["03", "SECURE LAYER", "0 plain text"],
   ["04", "RENDER FRAME", "60fps"],
 ] as const;

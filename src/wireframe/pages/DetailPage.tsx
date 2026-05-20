@@ -13,7 +13,7 @@ const DetailPage: React.FC = () => {
   if (!p) {
     return (
       <div style={{ paddingTop: 80 }}>
-        프로젝트를 찾을 수 없습니다.
+        프로젝트 정보를 찾을 수 없습니다.
         <Link to="/projects" style={{ color: "var(--accent)", marginLeft: 8 }}>
           ← 목록으로
         </Link>
@@ -140,7 +140,7 @@ const DetailPage: React.FC = () => {
               margin: "0 0 4px", letterSpacing: "-0.01em",
             }}
           >
-            왜 이 프로젝트인가
+            Project context
           </h2>
           <div style={{ width: 60, height: 1, background: "var(--accent)", marginTop: 16 }} />
         </div>
@@ -162,7 +162,7 @@ const DetailPage: React.FC = () => {
         <div style={{ marginBottom: 80 }}>
           <div className="wf-marker">
             <span className="num">·</span>
-            <span>Role · 수행 역할 ({p.roleDetail.percentage})</span>
+            <span>Role · 기여 범위 ({p.roleDetail.percentage})</span>
             <span className="bar" />
           </div>
           <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
@@ -233,7 +233,7 @@ const DetailPage: React.FC = () => {
       {/* Results */}
       <div style={{ marginBottom: 100 }}>
         <div className="wf-marker">
-          <span className="num">04</span><span>Result</span><span className="bar" />
+          <span className="num">04</span><span>Outcomes</span><span className="bar" />
         </div>
         <div style={{ display: "grid", gridTemplateColumns: `repeat(auto-fit, minmax(240px, 1fr))`, gap: 24, marginBottom: 32 }}>
           {p.metrics.map((m, i) => (

@@ -33,16 +33,16 @@ const ProjectsPage: React.FC = () => {
           margin: "0 0 12px", lineHeight: 1.15,
         }}
       >
-        <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>Six</em> projects,
+        <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>Selected</em> systems,
         <br />
-        <span style={{ color: "var(--fg-muted)" }}>one obsession.</span>
+        <span style={{ color: "var(--fg-muted)" }}>measured outcomes.</span>
       </h1>
       <p
         className="reveal d1"
         style={{ fontSize: 15, color: "var(--fg-muted)", maxWidth: 540, lineHeight: 1.65, marginBottom: 48 }}
       >
-        시스템 UI, 성능, 보안 — 세 축에서 만들어 온 작업들.
-        각 카드를 클릭하면 케이스 스터디로 이동합니다.
+        복잡한 데이터를 다루는 UI, 성능 최적화, 보안 기반 설계를 중심으로 정리한 작업입니다.
+        각 카드는 문제 정의, 역할, 결과를 케이스 스터디 형식으로 보여줍니다.
       </p>
 
       <div className="reveal d2" style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 40 }}>
@@ -188,7 +188,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
               color: hover ? project.color : "var(--fg-muted)", transition: "color .3s",
             }}
           >
-            View case →
+            Case study →
           </div>
         </div>
       </div>

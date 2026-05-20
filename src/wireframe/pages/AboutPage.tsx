@@ -65,9 +65,9 @@ const AboutPage: React.FC = () => {
               lineHeight: 1.2, margin: "0 0 24px",
             }}
           >
-            안녕하세요,{" "}
-            <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>권경민</em>
-            입니다.
+            시스템의 복잡도를{" "}
+            <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>읽기 쉬운 인터페이스</em>
+            로 정리합니다.
           </h1>
           <div
             className="reveal d2"
@@ -77,18 +77,20 @@ const AboutPage: React.FC = () => {
             }}
           >
             <p style={{ margin: "0 0 18px" }}>
-              저는 사이버보안 전공의 시각으로 시스템과 인터페이스를 설계하는 프론트엔드
-              엔지니어입니다. 차량용 로그 분석기, 보안 통신 채팅, AI 시뮬레이션 — 도메인은
-              달라도 모든 작업의 중심은 <em style={{ color: "var(--fg)", fontStyle: "italic" }}>"읽을 수 있는 시스템"</em>입니다.
+              저는 사이버보안 전공을 바탕으로 시스템의 복잡도를 인터페이스로 정리하는
+              프론트엔드 엔지니어 권경민입니다. 차량 로그 분석기, 보안 통신 도구, AI
+              시뮬레이션 환경처럼 신뢰성과 성능이 중요한 도메인에서 데이터를 다루는 UI를
+              만들어 왔습니다.
             </p>
             <p style={{ margin: "0 0 18px" }}>
-              초당 8만 건 이상의 차량 로그를 UI Freezing 없이 실시간 시각화하고, 100만
-              라인을 2초 안에 검색하는 도구를 만들면서 — 성능과 보안은 디자인의 일부라는
-              생각이 단단해졌습니다. 지금은 자율주행 시뮬레이션 도메인으로 영역을 확장하고
-              있습니다.
+              초당 8만 건 이상의 차량 로그를 UI 멈춤 없이 시각화하고, 100만 라인 이상의
+              로그를 빠르게 탐색하는 도구를 만들며 성능과 보안이 사용자 경험의 일부라는
+              기준을 세웠습니다. 지금은 CARLA 기반 자율주행 시뮬레이션과 AI 모델 검증
+              환경으로 경험을 확장하고 있습니다.
             </p>
             <p style={{ margin: 0 }}>
-              평소엔 글을 자주 씁니다. 기술이 도구가 아니라 <em style={{ color: "var(--fg)", fontStyle: "italic" }}>언어</em>가 되도록.
+              구현한 내용을 팀이 다시 읽고 확장할 수 있도록 문서와 글로 남기는 일에도
+              관심이 많습니다.
             </p>
           </div>
           <div className="reveal d3 about-cta-row" style={{ display: "flex", gap: 12 }}>
@@ -100,7 +102,7 @@ const AboutPage: React.FC = () => {
                 fontSize: 13, fontWeight: 600, textDecoration: "none",
               }}
             >
-              같이 일하기 →
+              연락하기 →
             </Link>
             <Link
               to="/blog"
@@ -182,9 +184,9 @@ const AboutPage: React.FC = () => {
         </div>
         <div className="about-values-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
           {[
-            ["Truth in UI", "복잡한 시스템에 대해 거짓말하지 않는 인터페이스를 만듭니다. 80K logs/sec를 60fps로 유지한다고 말하려면, 진짜로 그래야 합니다."],
-            ["Engineered craft", "성능과 보안은 디자인의 일부입니다. 평문 0건을 만들기 위한 RSA/AES 하이브리드 설계도, Web Worker 분리도 — 결국 사용자가 느끼는 견고함입니다."],
-            ["Plain language", "코드도, 글도, 인터페이스도 — 읽히는 게 우선입니다. DDD 기반 도메인 슬라이스로 코드베이스를 30% 경량화한 이유도 같습니다."],
+            ["Evidence in UI", "인터페이스가 보여주는 수치와 상태는 실제 동작을 설명해야 한다고 생각합니다. 80K logs/sec처럼 큰 수치일수록 측정 기준과 재현 가능한 흐름을 함께 남깁니다."],
+            ["Performance as UX", "성능과 보안은 별도의 체크리스트가 아니라 사용자가 느끼는 신뢰감입니다. Web Worker 분리, 가상 스크롤, RSA/AES 설계를 그런 관점에서 선택했습니다."],
+            ["Readable systems", "코드, 문서, 화면은 결국 다시 읽히기 위해 존재합니다. 도메인 단위로 구조를 정리하고 구현 의도를 문장으로 남기는 일을 중요하게 봅니다."],
           ].map(([t, d], i) => (
             <div
               key={t}
