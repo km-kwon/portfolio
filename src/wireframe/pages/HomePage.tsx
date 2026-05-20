@@ -110,7 +110,7 @@ const HomePage: React.FC = () => {
 
               <div className="reveal d3 home-profile-actions" style={styles.buttonRow}>
                 <Link to="/projects" style={styles.btnPrimary}>
-                  작업 보기 →
+                  프로젝트 보기 →
                 </Link>
                 <a
                   href={`${import.meta.env.BASE_URL}resume.pdf`}

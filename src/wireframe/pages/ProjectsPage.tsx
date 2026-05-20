@@ -33,15 +33,15 @@ const ProjectsPage: React.FC = () => {
           margin: "0 0 12px", lineHeight: 1.15,
         }}
       >
-        <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>Selected</em> systems,
+        <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>Selected</em> projects,
         <br />
-        <span style={{ color: "var(--fg-muted)" }}>measured outcomes.</span>
+        <span style={{ color: "var(--fg-muted)" }}>measurable outcomes.</span>
       </h1>
       <p
         className="reveal d1"
         style={{ fontSize: 15, color: "var(--fg-muted)", maxWidth: 540, lineHeight: 1.65, marginBottom: 48 }}
       >
-        복잡한 데이터를 다루는 UI, 성능 최적화, 보안 기반 설계를 중심으로 정리한 작업입니다.
+        복잡한 데이터를 다루는 UI, 성능 최적화, 보안 기반 설계를 중심으로 선별한 프로젝트입니다.
         각 카드는 문제 정의, 역할, 결과를 케이스 스터디 형식으로 보여줍니다.
       </p>
 
