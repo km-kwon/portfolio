@@ -2,24 +2,27 @@ import React, { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 
 type Theme = "light" | "dark";
+type NavIconKind = "profile" | "projects" | "about" | "resume" | "blog" | "lab" | "contact";
+type NavItem = { to: string; label: string; icon: NavIconKind };
 
 interface HeaderProps {
   theme: Theme;
   onToggleTheme: () => void;
 }
 
-const PRIMARY = [
-  { to: "/",         label: "Profile" },
-  { to: "/projects", label: "Projects" },
-  { to: "/about",    label: "About" },
-  { to: "/resume",   label: "Resume" },
+const PRIMARY: NavItem[] = [
+  { to: "/",         label: "Profile",  icon: "profile" },
+  { to: "/projects", label: "Projects", icon: "projects" },
+  { to: "/about",    label: "About",    icon: "about" },
+  { to: "/resume",   label: "Resume",   icon: "resume" },
 ];
-const SECONDARY = [
-  { to: "/blog", label: "Blog" },
-  { to: "/lab",  label: "Lab" },
+const SECONDARY: NavItem[] = [
+  { to: "/blog", label: "Blog", icon: "blog" },
+  { to: "/lab",  label: "Lab",  icon: "lab" },
 ];
 
 const linkBase: React.CSSProperties = {
+  display: "inline-flex", alignItems: "center", gap: 7, whiteSpace: "nowrap",
   background: "none", border: 0, padding: "8px 12px", borderRadius: 8,
   fontSize: 13, fontFamily: "var(--sans)", color: "var(--fg-muted)",
   cursor: "pointer", transition: "all .25s ease",
@@ -32,10 +35,10 @@ export const WireHeader: React.FC<HeaderProps> = ({ theme, onToggleTheme }) => {
   const location = useLocation();
   const isContact = location.pathname === "/contact";
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const mobileNavItems = [
+  const mobileNavItems: NavItem[] = [
     ...PRIMARY,
     ...SECONDARY,
-    { to: "/contact", label: "Contact" },
+    { to: "/contact", label: "Contact", icon: "contact" },
   ];
 
   return (
@@ -85,7 +88,8 @@ export const WireHeader: React.FC<HeaderProps> = ({ theme, onToggleTheme }) => {
                 textDecoration: "none",
               })}
             >
-              {it.label}
+              <NavIcon kind={it.icon} />
+              <span>{it.label}</span>
             </NavLink>
           ))}
           <span style={{ color: "var(--fg-dim)", margin: "0 4px", opacity: 0.5 }}>·</span>
@@ -100,7 +104,8 @@ export const WireHeader: React.FC<HeaderProps> = ({ theme, onToggleTheme }) => {
                 textDecoration: "none",
               })}
             >
-              {it.label}
+              <NavIcon kind={it.icon} />
+              <span>{it.label}</span>
             </NavLink>
           ))}
         </nav>
@@ -136,9 +141,12 @@ export const WireHeader: React.FC<HeaderProps> = ({ theme, onToggleTheme }) => {
               color: isContact ? "var(--accent)" : "var(--fg-muted)",
               borderColor: isContact ? "var(--accent)" : "var(--border)",
               fontSize: 13, transition: "all .25s", textDecoration: "none",
+              display: "inline-flex", alignItems: "center", gap: 7, whiteSpace: "nowrap",
             }}
           >
-            Contact →
+            <NavIcon kind="contact" />
+            <span>Contact</span>
+            <span aria-hidden="true">→</span>
           </Link>
           <button
             className="wire-header-menu-button"
@@ -174,13 +182,89 @@ export const WireHeader: React.FC<HeaderProps> = ({ theme, onToggleTheme }) => {
                 textDecoration: "none",
               })}
             >
-              {it.label}
+              <NavIcon kind={it.icon} />
+              <span>{it.label}</span>
             </NavLink>
           ))}
         </nav>
       )}
     </header>
   );
+};
+
+const NavIcon: React.FC<{ kind: NavIconKind; size?: number }> = ({ kind, size = 14 }) => {
+  const iconProps: React.SVGProps<SVGSVGElement> = {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.8,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    style: { flex: "0 0 auto", opacity: 0.84 },
+    "aria-hidden": true,
+    focusable: false,
+  };
+
+  switch (kind) {
+    case "profile":
+      return (
+        <svg {...iconProps}>
+          <circle cx="12" cy="8" r="3.2" />
+          <path d="M5.5 20a6.5 6.5 0 0 1 13 0" />
+        </svg>
+      );
+    case "projects":
+      return (
+        <svg {...iconProps}>
+          <path d="M4 7.5A2.5 2.5 0 0 1 6.5 5h3l2 2h6A2.5 2.5 0 0 1 20 9.5v7A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z" />
+          <path d="m9 13 2 2-2 2" />
+          <path d="m15 13-2 4" />
+        </svg>
+      );
+    case "about":
+      return (
+        <svg {...iconProps}>
+          <circle cx="12" cy="12" r="8.5" />
+          <path d="M12 8h.01" />
+          <path d="M11 12h1v4h1" />
+        </svg>
+      );
+    case "resume":
+      return (
+        <svg {...iconProps}>
+          <path d="M7 3.5h6l4 4V20a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 7 20z" />
+          <path d="M13 3.5v4h4" />
+          <path d="M9.5 12h5" />
+          <path d="M9.5 16h5" />
+        </svg>
+      );
+    case "blog":
+      return (
+        <svg {...iconProps}>
+          <path d="m4.5 19.5 4.2-1 9.6-9.6a2.1 2.1 0 0 0-3-3l-9.6 9.6z" />
+          <path d="m14.7 6.5 2.8 2.8" />
+        </svg>
+      );
+    case "lab":
+      return (
+        <svg {...iconProps}>
+          <path d="M9 3.5h6" />
+          <path d="M10 3.5v5.2l-4.8 8.4A2.4 2.4 0 0 0 7.3 20.7h9.4a2.4 2.4 0 0 0 2.1-3.6L14 8.7V3.5" />
+          <path d="M8 14h8" />
+        </svg>
+      );
+    case "contact":
+      return (
+        <svg {...iconProps}>
+          <path d="M4 6.5h16v11H4z" />
+          <path d="m4 8 8 5.5L20 8" />
+        </svg>
+      );
+    default:
+      return null;
+  }
 };
 
 export default WireHeader;
