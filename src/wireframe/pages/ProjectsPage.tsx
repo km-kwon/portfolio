@@ -33,16 +33,18 @@ const ProjectsPage: React.FC = () => {
           margin: "0 0 12px", lineHeight: 1.15,
         }}
       >
-        <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>Selected</em> projects,
+        문제에서 시작한{" "}
+        <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>프로젝트</em>,
         <br />
-        <span style={{ color: "var(--fg-muted)" }}>measurable outcomes.</span>
+        <span style={{ color: "var(--fg-muted)" }}>측정 가능한 결과까지.</span>
       </h1>
       <p
         className="reveal d1"
         style={{ fontSize: 15, color: "var(--fg-muted)", maxWidth: 540, lineHeight: 1.65, marginBottom: 48 }}
       >
-        복잡한 데이터를 다루는 UI, 성능 최적화, 보안 기반 설계를 중심으로 선별한 프로젝트입니다.
-        각 카드는 문제 정의, 역할, 결과를 케이스 스터디 형식으로 보여줍니다.
+        대용량 데이터 탐색, 렌더링 병목, 상태 구조, 보안 통신처럼 사용자가 기다리거나
+        우회하던 지점을 프론트엔드 선택으로 줄인 사례입니다. 각 상세에는 문제, 판단,
+        해결, 기여, 결과를 남겼습니다.
       </p>
 
       <div className="reveal d2" style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 40 }}>

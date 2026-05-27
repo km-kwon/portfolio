@@ -92,9 +92,10 @@ const HomePage: React.FC = () => {
           <div className="home-profile-grid" style={styles.grid}>
             <div>
               <h1 className="reveal d1 home-profile-title" style={styles.title}>
-                복잡한 시스템을<br />
-                안전하고 <em style={{ fontStyle: "italic", color: "var(--accent-hi)", fontFamily: "var(--serif)" }}>읽기 쉬운</em><br />
-                인터페이스로 정리하는<br />
+                복잡한 데이터와<br />
+                상태 흐름을<br />
+                <em style={{ fontStyle: "italic", color: "var(--accent-hi)", fontFamily: "var(--serif)" }}>사용자가 다룰 수 있는</em><br />
+                프론트엔드 구조로 바꾸는<br />
                 <span style={{ color: "var(--fg-muted)", fontSize: "0.6em", fontFamily: "var(--sans)", fontWeight: 300, letterSpacing: "-0.01em" }}>
                   프론트엔드 엔지니어,
                 </span><br />
@@ -103,7 +104,7 @@ const HomePage: React.FC = () => {
               </h1>
 
               <div className="reveal d2 home-profile-tags" style={styles.tags}>
-                {["Frontend Engineer", "System UI", "Performance", "Security-minded"].map((t) => (
+                {["대용량 데이터 UI", "상태 구조 개선", "렌더링 성능", "워크플로우 최적화"].map((t) => (
                   <span key={t} style={styles.tag}>{t}</span>
                 ))}
               </div>
@@ -143,14 +144,14 @@ const HomePage: React.FC = () => {
                 <span style={styles.statValue}>80K</span>
                 <span style={styles.statUnit}>logs/sec</span>
               </div>
-              <div style={styles.statDesc}>차량 제어 로그 실시간 시각화 처리량</div>
+              <div style={styles.statDesc}>UI 멈춤 없는 차량 로그 실시간 시각화 처리량</div>
             </div>
             <div className="reveal d3 home-profile-stat" style={styles.stat}>
               <div>
                 <span style={styles.statValue}>2</span>
                 <span style={styles.statUnit}>sec</span>
               </div>
-              <div style={styles.statDesc}>1M 라인 DLT 로그 탐색<br />Web Worker · Virtual Scroll</div>
+              <div style={styles.statDesc}>100만 라인 DLT 로그 탐색<br />Web Worker · Virtual Scroll</div>
             </div>
             <div className="reveal d4 home-profile-stat" style={styles.stat}>
               <div>
@@ -256,10 +257,10 @@ const HomePage: React.FC = () => {
             maxWidth: 720, margin: "0 auto", textWrap: "balance" as React.CSSProperties["textWrap"],
           }}
         >
-          좋은 인터페이스는 <em style={{ color: "var(--accent-hi)" }}>복잡함을 숨기지 않고</em>,
+          좋은 프론트엔드는 <em style={{ color: "var(--accent-hi)" }}>사용자가 기다리는 지점</em>을 찾고,
           <br />
           <span style={{ color: "var(--fg-muted)" }}>
-            사용자가 판단할 수 있는 <em style={{ color: "var(--fg)" }}>구조</em>로 정리합니다.
+            상태 구조와 렌더링 경로를 바꿔 <em style={{ color: "var(--fg)" }}>흐름</em>을 줄입니다.
           </span>
         </p>
         <div style={{ marginTop: 36 }}>

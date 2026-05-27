@@ -4,11 +4,11 @@ import banner from "./banner.png";
 export const ssangsangProjects: Project = {
   id: "ssangsang",
   banner,
-  title: "쌍상 (봉사 매칭 서비스)",
-  subTitle: "쌍상",
-  subtitle: "자원봉사자-수요자 매칭 크로스 플랫폼 웹앱",
+  title: "봉사 신청·운영 흐름 웹앱화",
+  subTitle: "100+명 봉사 운영 흐름 개선",
+  subtitle: "신청, 권한, 관리 화면을 하나의 React 웹앱으로 정리",
   summary:
-    "100+명의 동아리 회원이 사용하는 봉사 매칭 서비스입니다. React 웹앱으로 신청·관리 흐름을 정리하고, 운영 피드백을 반영해 주 단위로 개선했습니다.",
+    "100+명의 동아리 회원이 사용하는 봉사 매칭 서비스입니다. 신청, 목록, 권한, 운영자 관리 흐름을 React 웹앱으로 정리하고 운영 피드백을 주 단위로 반영했습니다.",
   tags: [
     "React.js",
     "TypeScript",
@@ -23,16 +23,16 @@ export const ssangsangProjects: Project = {
   period: "2023.01 ~ 현재 운영중",
   team: "Frontend 2명, Backend 1명",
   overview:
-    "자원봉사자와 봉사 수요자를 연결하기 위한 웹/앱 크로스 플랫폼 서비스입니다. 100명 이상의 동아리 회원이 봉사 신청과 관리에 사용하도록 신청 흐름, 권한 처리, 운영자 관리 화면을 중심으로 구현했습니다.",
+    "봉사 운영은 신청자, 수요자, 운영자가 서로 다른 화면과 권한을 오가야 하는 흐름이었습니다. 100명 이상의 동아리 회원이 봉사 신청과 관리를 한 웹앱에서 처리하도록 신청 흐름, 권한 처리, 운영자 관리 화면을 구현했습니다.",
 
   why: [
     {
       title: "Why React?",
-      desc: "신청, 목록, 관리 화면처럼 반복되는 UI가 많아 컴포넌트 단위로 재사용성과 유지보수성을 확보하기에 적합했습니다. 상태 변화에 따라 화면을 예측 가능하게 구성할 수 있다는 점도 중요했습니다.",
+      desc: "신청, 목록, 관리 화면처럼 반복되는 UI가 많아 컴포넌트 단위로 재사용성을 확보하기에 적합했습니다. 권한과 신청 상태 변화에 따라 화면을 예측 가능하게 구성할 수 있다는 점도 중요했습니다.",
     },
     {
       title: "Why WebApp?",
-      desc: "봉사 일정과 신청 흐름은 자주 바뀌기 때문에 빠르게 배포하고 수정할 수 있는 웹앱이 적합했습니다. 하나의 코드로 데스크톱과 모바일 접근성을 함께 확보했습니다.",
+      desc: "봉사 일정과 신청 정책은 자주 바뀌기 때문에 빠르게 배포하고 수정할 수 있는 웹앱이 적합했습니다. 하나의 코드로 데스크톱과 모바일 접근성을 함께 확보했습니다.",
     },
   ],
 
@@ -40,7 +40,7 @@ export const ssangsangProjects: Project = {
     percentage: "60%",
     tasks: [
       "React Router 기반 SPA 페이지 전환 및 사용자 권한별 접근 제어(Protected Route) 구현",
-      "Percentage Loading Indicator, Infinite Scroll, Skeleton UI 적용으로 신청·탐색 흐름 개선",
+      "Percentage Loading Indicator, Infinite Scroll, Skeleton UI 적용으로 신청·탐색 대기감 완화",
       "viewport width 기준 rem/flex layout으로 다양한 디바이스 대응",
       "Axios Interceptor를 활용한 Access Token 자동 갱신 및 공통 에러 핸들링 로직 구현",
       "GitHub/Jira/Notion 기반의 애자일 스프린트 운영 및 코드 리뷰 주도",
@@ -75,7 +75,7 @@ export const ssangsangProjects: Project = {
   results: [
     "2023 동아리 콘테스트 금상 수상 (교내 2위)",
     "2023년 6월 우수지역사회봉사단 선정 (VMS 인증)",
-    "실사용자 100+명 확보 및 주 단위 기능 개선 사이클 정착",
+    "실사용자 100+명의 신청·관리 피드백을 주 단위 개선 사이클로 반영",
   ],
 
   images: [
@@ -91,7 +91,7 @@ export const ssangsangProjects: Project = {
   ],
 
   techDecisions: [
-    { tech: "React.js", reason: "신청·목록·관리 화면을 컴포넌트 단위로 나누고 상태 흐름을 예측 가능하게 관리" },
+    { tech: "React.js", reason: "신청, 목록, 관리 화면을 컴포넌트 단위로 나누고 권한별 상태 흐름을 관리" },
     { tech: "Progressive Web App", reason: "웹/모바일을 하나의 코드로 대응하고 운영 피드백을 빠르게 배포" },
   ],
 };

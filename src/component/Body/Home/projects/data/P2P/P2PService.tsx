@@ -4,11 +4,11 @@ import banner from "./banner.png";
 export const p2pProject: Project = {
   id: "p2p-service",
   banner,
-  title: "Multi-Client FTP Server",
-  subTitle: "P2P Service",
-  subtitle: "리눅스 시스템 콜 기반의 동시성 파일 전송 서버",
+  title: "동시 파일 전송 서버 무결성 설계",
+  subTitle: "동시 전송 무결성 보장",
+  subtitle: "fork·flock으로 다중 클라이언트 Race Condition 제어",
   summary:
-    "C와 리눅스 시스템 콜로 다중 접속 파일 전송 서버를 구현했습니다. fork 기반 멀티프로세싱과 flock 파일 잠금을 적용해 동시 접근 상황에서도 데이터 무결성을 유지하도록 설계했습니다.",
+    "여러 클라이언트가 같은 파일을 동시에 다룰 때 데이터가 손상되는 문제를 C와 Linux 시스템 콜로 해결했습니다. fork로 세션을 분리하고 flock으로 읽기/쓰기 경계를 나눠 파일 무결성을 보장했습니다.",
   tags: ["C", "Linux", "Socket Programming", "System Call", "Multi-Processing"],
   links: [
     // { label: "Github", href: "#" }, // 실제 링크 입력 필요
@@ -16,17 +16,17 @@ export const p2pProject: Project = {
   period: "2023.09 ~ 2023.12", // 기간 수정 필요 (예: 2023.09 – 2023.12)
   team: "Individual (100%)",
   overview:
-    "소켓 통신, 프로세스, 파일 I/O를 직접 다루며 네트워크 서버의 기본 동작을 구현한 프로젝트입니다. 여러 클라이언트가 동시에 파일을 업로드·다운로드하는 상황을 만들고, 경쟁 상태를 제어하기 위한 동기화 메커니즘까지 함께 설계했습니다.",
+    "다중 클라이언트가 파일을 업로드·다운로드·삭제하는 과정에서 같은 파일에 동시에 접근하면 데이터가 쉽게 깨질 수 있습니다. 소켓 연결, 프로세스 생명주기, 파일 I/O를 직접 구현하고, 경쟁 상태를 제어하는 동기화 경계를 함께 설계했습니다.",
 
   // ❔ Why System Programming?
   why: [
     {
-      title: "Why Low-Level Implementation?",
-      desc: "고수준 라이브러리보다 `open`, `read`, `write`, `socket` 같은 시스템 콜을 직접 사용해 OS가 I/O와 네트워크 요청을 처리하는 흐름을 확인하고자 했습니다.",
+      title: "Why 시스템 콜 직접 구현?",
+      desc: "파일 전송 오류의 원인을 추적하려면 `open`, `read`, `write`, `socket`이 실제 I/O 흐름에서 어디서 막히는지 알아야 했습니다. 고수준 라이브러리보다 시스템 콜을 직접 사용해 병목과 실패 지점을 확인했습니다.",
     },
     {
-      title: "Why Multi-Processing?",
-      desc: "다수의 클라이언트 요청을 병렬적으로 처리하기 위해 `fork()` 기반 자식 프로세스 모델을 적용했습니다. 각 클라이언트 세션을 분리해 요청 처리 중 서로 간섭하지 않도록 구성했습니다.",
+      title: "Why fork + flock?",
+      desc: "동시 접속은 세션을 분리하고, 파일 충돌은 접근 경계를 잠가야 했습니다. `fork()`로 클라이언트별 요청 흐름을 나누고 `flock()`으로 읽기/쓰기 임계 구역을 제어했습니다.",
     },
   ],
 
@@ -34,11 +34,11 @@ export const p2pProject: Project = {
   role: {
     percentage: "100% (Individual)",
     tasks: [
-        "TCP/IP 기반 연결 흐름 구현: Bind, Listen, Accept, Connect 단계별 서버·클라이언트 통신 구성",
-        "`fork()` 기반 다중 클라이언트 접속 처리 및 `waitpid`를 활용한 자식 프로세스 회수",
-        "`flock` 기반 Reader/Writer Lock으로 동시 파일 접근 시 데이터 손상 방지",
-        "로그인, 파일 목록 조회, 업로드·다운로드·삭제 등 커스텀 FTP 명령어 처리 로직 개발",
-        "`SIGINT` 등 시그널 핸들링으로 서버·클라이언트 종료 흐름 안정화",
+        "TCP/IP 연결 흐름(Bind, Listen, Accept, Connect)과 커스텀 FTP 명령어 처리 구현",
+        "`fork()` 기반 다중 클라이언트 세션 분리 및 `waitpid`를 활용한 자식 프로세스 회수",
+        "`flock` Reader/Writer Lock으로 동시 파일 접근 시 데이터 손상 방지",
+        "로그인, 파일 목록 조회, 업로드·다운로드·삭제 흐름을 서버 명령 단위로 분리",
+        "`SIGINT`, `SIGCHLD` 핸들링으로 종료와 예외 흐름 안정화",
     ],
   },
 
@@ -70,22 +70,22 @@ export const p2pProject: Project = {
 
   // ✨ 결과
   results: [
-    "다중 클라이언트 환경에서 안정적인 파일 업로드/다운로드/삭제 기능 구현 완료",
-    "flock 적용 후 동시 접근 시 데이터 오염 없이 파일 무결성 유지",
-    "로그인과 접근 제어 로직을 포함한 기본 보안 파일 서버 구축",
+    "다중 클라이언트 업로드·다운로드·삭제 흐름에서 데이터 손상 0건 유지",
+    "동시 파일 접근 문제를 Reader/Writer Lock 구조로 분리해 재현 가능한 해결 방식 확보",
+    "자식 프로세스 회수와 시그널 핸들링으로 서버 종료·예외 흐름 안정화",
   ],
 
   images: [], // 필요 시 시연 스크린샷 추가
 
   highlights: [
     { value: "10+", label: "동시 접속 처리" },
-    { value: "100%", label: "전송 성공률" },
+    { value: "100%", label: "개인 구현" },
     { value: "0건", label: "데이터 손상" },
   ],
 
   techDecisions: [
-    { tech: "C", reason: "시스템 콜과 메모리·파일 I/O 흐름을 직접 제어하기 위해 선택" },
-    { tech: "Linux", reason: "POSIX 시스템 콜(fork, flock, signal)을 활용한 서버 프로그래밍에 적합" },
-    { tech: "Socket Programming", reason: "TCP/IP 연결 수립부터 데이터 전송까지 네트워크 흐름을 직접 구현" },
+    { tech: "C", reason: "파일 I/O와 메모리 흐름을 직접 제어해 동시 접근 문제를 추적하기 위해 선택" },
+    { tech: "Linux", reason: "fork, flock, signal 등 POSIX 도구로 프로세스와 파일 잠금을 직접 설계" },
+    { tech: "Socket Programming", reason: "TCP/IP 연결 수립부터 데이터 전송 실패 지점까지 네트워크 흐름을 직접 확인" },
   ],
 };

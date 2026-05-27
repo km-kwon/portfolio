@@ -65,9 +65,9 @@ const AboutPage: React.FC = () => {
               lineHeight: 1.2, margin: "0 0 24px",
             }}
           >
-            복잡한 시스템을{" "}
-            <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>읽기 쉬운 인터페이스</em>
-            로 정리합니다.
+            사용자가 기다리거나 우회하는{" "}
+            <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>흐름</em>
+            을 줄입니다.
           </h1>
           <div
             className="reveal d2"
@@ -77,20 +77,18 @@ const AboutPage: React.FC = () => {
             }}
           >
             <p style={{ margin: "0 0 18px" }}>
-              저는 사이버보안 전공을 바탕으로 복잡한 시스템을 인터페이스로 풀어내는
-              프론트엔드 엔지니어 권경민입니다. 차량 로그 분석기, 보안 통신 도구, AI
-              시뮬레이션 환경처럼 신뢰성과 성능이 중요한 도메인에서 데이터를 다루는 UI를
-              만들어 왔습니다.
+              사용자 흐름에서 막히는 지점을 먼저 봅니다. 대용량 로그 분석기, 보안 통신
+              도구, 강의 비교 서비스에서 기다림, 반복 클릭, 외부 도구 이동을 줄이는
+              프론트엔드를 만들어 왔습니다.
             </p>
             <p style={{ margin: "0 0 18px" }}>
-              초당 8만 건 이상의 차량 로그를 UI 멈춤 없이 시각화하고, 100만 라인 이상의
-              로그를 빠르게 탐색하는 도구를 만들며 성능과 보안이 사용자 경험의 일부라는
-              기준을 세웠습니다. 지금은 CARLA 기반 자율주행 시뮬레이션과 AI 모델 검증
-              환경으로 경험을 확장하고 있습니다.
+              병목은 감으로 정하지 않습니다. 렌더링 시간, 메모리, 이벤트 호출, 상태
+              의존도를 확인하고 Web Worker, Virtual Scroll, Stream API, Local State 전환처럼
+              선택 근거가 분명한 구조를 적용합니다.
             </p>
             <p style={{ margin: 0 }}>
-              구현한 내용을 팀이 다시 읽고 확장할 수 있도록 문서와 글로 남기는 일에도
-              관심이 많습니다.
+              해결은 팀이 재현할 수 있어야 오래 갑니다. 트러블슈팅 과정과 상태 구조를
+              문서화하고, 회귀 검증 가능한 단위로 남기는 방식을 선호합니다.
             </p>
           </div>
           <div className="reveal d3 about-cta-row" style={{ display: "flex", gap: 12 }}>
@@ -184,9 +182,9 @@ const AboutPage: React.FC = () => {
         </div>
         <div className="about-values-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
           {[
-            ["Evidence in UI", "인터페이스가 보여주는 수치와 상태는 실제 동작을 설명해야 한다고 생각합니다. 80K logs/sec처럼 큰 수치일수록 측정 기준과 재현 가능한 흐름을 함께 남깁니다."],
-            ["Performance as UX", "성능과 보안은 별도의 체크리스트가 아니라 사용자가 느끼는 신뢰감입니다. Web Worker 분리, 가상 스크롤, RSA/AES 설계를 그런 관점에서 선택했습니다."],
-            ["Readable systems", "코드, 문서, 화면은 결국 다시 읽히기 위해 존재합니다. 도메인 단위로 구조를 정리하고 구현 의도를 문장으로 남기는 일을 중요하게 봅니다."],
+            ["User Flow First", "사용자가 기다리거나 우회하는 순간을 먼저 찾습니다. 분석 시간, 클릭 수, 외부 도구 이동처럼 흐름을 끊는 지점을 프론트엔드 문제로 봅니다."],
+            ["Bottleneck Evidence", "렌더링 시간, 메모리 사용량, 중복 호출, 상태 의존도를 확인한 뒤 기술을 고릅니다. 성능 개선은 측정 가능한 기준과 함께 남깁니다."],
+            ["Reproducible Structure", "임시 패치보다 팀이 반복 적용할 수 있는 구조를 선호합니다. 상태 경계, 도메인 단위, 트러블슈팅 문서로 해결 방식을 재현 가능하게 만듭니다."],
           ].map(([t, d], i) => (
             <div
               key={t}

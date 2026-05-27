@@ -4,11 +4,11 @@ import banner from "./banner.png";
 export const mogangProject: Project = {
   id: "mogang",
   banner,
-  title: "모강(SW 강의용 다나와 서비스)",
-  subTitle: "모강",
-  subtitle: "SW 강의용 다나와 서비스 (강의 비교 플랫폼)",
+  title: "1000+ 강의 탐색·비교 UX 최적화",
+  subTitle: "1000+ 강의 비교 흐름 개선",
+  subtitle: "SSR 검색성과 추천 UI로 강의 선택 정보를 빠르게 좁히기",
   summary:
-    "SW 강의를 비교·탐색할 수 있도록 1000+개의 강의 데이터를 수집해 만든 추천 플랫폼입니다. Next.js 기반 SSR과 검색/추천 UI를 구현하고, 교내 사용자 50+명을 대상으로 베타 테스트를 진행했습니다.",
+    "흩어진 SW 강의 정보를 한 화면에서 비교하기 위해 1000+개 강의 데이터를 수집한 추천 플랫폼입니다. Next.js SSR, 검색/추천 UI, 비교 화면을 구현하고 교내 사용자 50+명에게 베타 테스트를 진행했습니다.",
   tags: ["Next.js", "TypeScript", "SSR", "Styled-Components"],
   links: [
     // { label: "Github", href: "#" }, // 실제 링크 입력 필요
@@ -16,17 +16,17 @@ export const mogangProject: Project = {
   period: "2023.9 ~ 2024.03",
   team: "Frontend 1명, Backend 1명, 기획 2명, Designer 1명",
   overview:
-    "소프트웨어 강의 선택에 필요한 정보를 한 화면에서 비교할 수 있도록 만든 서비스입니다. 1000개 이상의 강의 데이터를 빠르게 탐색할 수 있도록 Next.js SSR을 도입하고, 사용자 조건에 맞춘 추천 리스트와 상세 비교 흐름을 설계했습니다.",
+    "강의 선택 과정에서 사용자는 여러 사이트와 후기를 오가며 정보를 비교해야 했습니다. 1000개 이상의 강의 데이터를 한 화면에서 탐색하도록 모으고, 조건 기반 추천 리스트와 상세 비교 흐름으로 판단에 필요한 정보를 먼저 보여줬습니다.",
 
   // ❔ Why Next.js?
   why: [
     {
-      title: "Why Next.js? (SSR 도입)",
-      desc: "강의 목록과 상세 정보를 검색 가능한 형태로 제공해야 했기 때문에 SSR을 적용했습니다. 초기 로딩 속도와 SEO, 공유 링크 미리보기까지 고려해 Next.js를 선택했습니다.",
+      title: "Why Next.js SSR?",
+      desc: "강의 목록과 상세 정보를 검색 가능한 페이지로 제공해야 했습니다. 초기 로딩 속도, SEO, 공유 링크 미리보기를 함께 고려해 Next.js SSR을 선택했습니다.",
     },
     {
       title: "Why Recommendation UI?",
-      desc: "사용자는 단순 목록보다 자신에게 맞는 강의를 빠르게 좁혀보는 흐름이 필요했습니다. 프로필과 탐색 로그를 기준으로 추천 리스트를 구성하고, 비교 화면에서 판단에 필요한 정보를 우선 노출했습니다.",
+      desc: "사용자는 단순 목록보다 자신에게 맞는 강의를 빠르게 좁혀보는 흐름이 필요했습니다. 프로필과 탐색 로그를 기준으로 추천 리스트를 구성하고, 비교 화면에는 판단에 필요한 정보를 우선 노출했습니다.",
     },
   ],
 
@@ -34,10 +34,10 @@ export const mogangProject: Project = {
   role: {
     percentage: "100% (Frontend Lead)",
     tasks: [
-      "Next.js 기반 SSR 아키텍처 설계 및 초기 렌더링 성능·SEO 최적화",
+      "Next.js 기반 SSR 아키텍처 설계 및 초기 렌더링 성능·검색 노출 개선",
       "getServerSideProps, next/head, dynamic import, next/image를 활용한 메타 정보와 로딩 성능 개선",
       "사용자 프로필·탐색 로그 기반 추천 리스트 UI 구현 및 Context API로 전역 상태 관리",
-      "Skeleton UI, Framer Motion, 컴포넌트 분리로 탐색·비교 화면의 사용성 개선",
+      "Skeleton UI, Framer Motion, 컴포넌트 분리로 탐색·비교 흐름의 대기감 완화",
       "Styled-Components와 viewport-units-buggyfill을 활용한 모바일 뷰포트 대응",
     ],
   },
@@ -61,7 +61,7 @@ export const mogangProject: Project = {
   results: [
     "2023년 창업 동아리 캡스톤 디자인 평가 5위 (전체 25개 팀 중)",
     "교내 소학회 내 소스코드 오픈 및 웹 개발 스터디 교재로 활용 (지식 공유)",
-    "교내 사용자 50+명 대상 베타 테스트 진행 및 피드백 수집",
+    "교내 사용자 50+명 대상 베타 테스트로 추천·비교 화면 피드백 수집",
   ],
 
   images: [], // 필요 시 이미지 경로 추가
@@ -73,8 +73,8 @@ export const mogangProject: Project = {
   ],
 
   techDecisions: [
-    { tech: "Next.js", reason: "1000+ 강의 데이터를 검색 가능한 페이지로 제공하고 초기 로딩 속도를 개선" },
-    { tech: "TypeScript", reason: "강의·사용자·추천 데이터의 타입을 명확히 관리" },
-    { tech: "SSR", reason: "검색 엔진 노출과 공유 링크 미리보기, 초기 렌더링 안정성 확보" },
+    { tech: "Next.js", reason: "1000+ 강의 데이터를 검색 가능한 페이지로 제공하고 초기 렌더링을 안정화" },
+    { tech: "TypeScript", reason: "강의, 사용자, 추천 데이터의 타입을 명확히 관리해 비교 UI 오류를 줄임" },
+    { tech: "SSR", reason: "검색 엔진 노출, 공유 링크 미리보기, 첫 화면 렌더링 기준을 함께 충족" },
   ],
 };

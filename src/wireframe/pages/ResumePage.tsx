@@ -6,20 +6,20 @@ import { openSourceData } from "../../component/Body/Home/skills/opensource/open
 const ENGINEERING_QUALITY_ITEMS: { label: string; desc: string }[] = [
   {
     label: "GitHub Actions CI/CD",
-    desc: "Push·PR 기준 빌드/테스트/배포 흐름을 자동화하고, 릴리스 전 기본 회귀 검증을 파이프라인에서 확인하도록 구성했습니다.",
+    desc: "Push·PR마다 빌드와 테스트 기준을 고정해, 배포 전 회귀 가능성을 파이프라인에서 먼저 확인하도록 구성했습니다.",
   },
   {
     label: "Vitest 테스트 커버리지 100%",
-    desc: "핵심 로직 단위/통합 테스트와 커버리지 기준을 운영해, 리팩토링 이후에도 동작을 빠르게 검증할 수 있게 했습니다.",
+    desc: "이벤트 전달과 큐 동작 같은 핵심 로직을 테스트로 고정해, 리팩터링 뒤에도 같은 문제를 팀이 재현하고 검증할 수 있게 했습니다.",
   },
 ];
 
 const ResumePage: React.FC = () => {
   const stats: { v: string; d: string }[] = [
-    { v: "3y+",  d: "Frontend Engineering" },
-    { v: `${PROJECTS.length}`, d: "Selected Projects" },
-    { v: "80K/s", d: "Peak Throughput" },
-    { v: "0",     d: "Plaintext Exposure" },
+    { v: "3y+",  d: "프론트엔드 경력" },
+    { v: `${PROJECTS.length}`, d: "대표 문제 해결 사례" },
+    { v: "80K/s", d: "최대 로그 처리량" },
+    { v: "0",     d: "평문 노출" },
   ];
 
   return (
@@ -77,9 +77,9 @@ const ResumePage: React.FC = () => {
       <div className="reveal d1" style={{ fontSize: 14, color: "var(--fg-muted)", marginBottom: 56 }}>
         <em style={{ fontFamily: "var(--serif)", fontStyle: "italic", color: "var(--accent-hi)" }}>Frontend</em>
         {" × "}
-        <em style={{ fontFamily: "var(--serif)", fontStyle: "italic", color: "var(--accent-hi)" }}>System UI</em>
+        <em style={{ fontFamily: "var(--serif)", fontStyle: "italic", color: "var(--accent-hi)" }}>Data-heavy UI</em>
         {" × "}
-        <em style={{ fontFamily: "var(--serif)", fontStyle: "italic", color: "var(--accent-hi)" }}>Security-minded</em>
+        <em style={{ fontFamily: "var(--serif)", fontStyle: "italic", color: "var(--accent-hi)" }}>State / Rendering</em>
       </div>
 
       {/* Stats */}

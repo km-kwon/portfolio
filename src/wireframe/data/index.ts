@@ -18,12 +18,12 @@ const PROJECT_ORDER = [
 ];
 
 const PROJECT_VISUAL: Record<string, { year: string; role: string; tags: string[]; color: string }> = {
-  "p2p-service":   { year: "2023", role: "System Engineer",      tags: ["System UI", "Performance"], color: "#7C5CFF" },
-  "secure-chat":   { year: "2023", role: "Frontend Architect",   tags: ["Security", "Architecture"], color: "#19E6A6" },
-  "vary-recycle":  { year: "2023", role: "Frontend Engineer",    tags: ["AI/ML", "Mobile"],           color: "#F5C518" },
-  "llm-lstm-bert": { year: "2022", role: "Data Engineer",        tags: ["AI/ML", "Data"],             color: "#FF4D2E" },
-  "mogang":        { year: "2024", role: "Frontend Lead",        tags: ["Tooling", "Performance"],    color: "#7C5CFF" },
-  "ssangsang":     { year: "2023", role: "Frontend Engineer",    tags: ["Service", "Mobile"],         color: "#19E6A6" },
+  "p2p-service":   { year: "2023", role: "System Engineer",    tags: ["동시성", "무결성"],       color: "#7C5CFF" },
+  "secure-chat":   { year: "2023", role: "Frontend Architect", tags: ["보안 통신", "구조 설계"], color: "#19E6A6" },
+  "vary-recycle":  { year: "2023", role: "Frontend Engineer",  tags: ["사용자 흐름", "AI 연동"], color: "#F5C518" },
+  "llm-lstm-bert": { year: "2022", role: "Data Engineer",      tags: ["데이터 파이프라인", "AI"], color: "#FF4D2E" },
+  "mogang":        { year: "2024", role: "Frontend Lead",      tags: ["탐색 UX", "SSR"],         color: "#7C5CFF" },
+  "ssangsang":     { year: "2023", role: "Frontend Engineer",  tags: ["운영 흐름", "모바일 웹"], color: "#19E6A6" },
 };
 
 export type WireProject = Omit<Project, "role"> & {
@@ -152,8 +152,8 @@ export const SOCIAL_LINKS = [
 ];
 
 export const HERO_STREAM = [
-  ["01", "LOG STREAM",  "80K/sec"],
-  ["02", "WORKER INDEX", "1M rows"],
-  ["03", "SECURE LAYER", "0 plain text"],
-  ["04", "RENDER FRAME", "60fps"],
+  ["01", "LOG STREAM", "80K/s"],
+  ["02", "1M SEARCH", "2s"],
+  ["03", "ANALYSIS FLOW", "5m→30s"],
+  ["04", "EXPORT MEMORY", "-60%"],
 ] as const;

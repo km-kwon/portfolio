@@ -4,11 +4,11 @@ import banner from "./banner.png";
 export const llmProject: Project = {
   id: "llm-lstm-bert",
   banner,
-  title: "리뷰 왓수다 (감성 분석 & 평점 예측)",
-  subTitle: "리뷰 왓수다",
-  subtitle: "SNS/포털 영화 리뷰 감성 분석 및 평점 예측 AI 서비스",
+  title: "20만 리뷰 데이터 감성 분석 파이프라인",
+  subTitle: "20만 리뷰 감성 분석",
+  subtitle: "한국어 리뷰 전처리와 LSTM/BERT 비교로 평점 예측",
   summary:
-    "SNS와 포털 영화 리뷰를 수집해 감성 분류와 평점 예측 모델을 구축했습니다. LSTM 기반 베이스라인과 BERT 모델을 비교하며 한국어 리뷰 데이터의 전처리, 불균형, OOV 문제를 다뤘습니다.",
+    "별점만으로는 읽기 어려운 리뷰 맥락을 정량화하기 위해 20만 건 이상의 영화 리뷰를 수집·정제했습니다. LSTM 베이스라인과 BERT를 비교하며 한국어 전처리, 데이터 불균형, OOV 문제를 해결했습니다.",
   tags: ["Python", "TensorFlow", "KoNLPy", "BERT", "Selenium"],
   links: [
     // { label: "Github", href: "#" }, // 실제 링크 필요
@@ -17,17 +17,17 @@ export const llmProject: Project = {
   period: "2022.09 – 2022.12", // 예상 기간 (수정 가능)
   team: "AI Developer 2명, Data Analyst 1명",
   overview:
-    "별점만으로는 파악하기 어려운 영화 리뷰의 맥락을 분석하기 위해 시작한 프로젝트입니다. 네이버 영화 리뷰와 유튜브·인스타그램 텍스트 리뷰를 수집하고, LSTM과 BERT 모델로 감성 분류 및 예상 평점 도출 흐름을 구축했습니다.",
+    "사용자는 별점만으로 리뷰의 구체적인 감정과 이유를 파악하기 어렵습니다. 네이버 영화 리뷰와 유튜브·인스타그램 텍스트를 수집하고, 전처리부터 학습, 감성 분류, 예상 평점 도출까지 이어지는 데이터 파이프라인을 구축했습니다.",
 
   // ❔ Why NLP & Deep Learning?
   why: [
     {
-      title: "Why NLP? (KoNLPy & Okt)",
-      desc: "한국어 리뷰는 조사와 어미, 신조어가 많아 단순 띄어쓰기 토큰화만으로는 의미가 잘 보존되지 않았습니다. Okt 기반 형태소 분석과 불용어 처리를 적용해 모델 입력 품질을 높였습니다.",
+      title: "Why KoNLPy & Okt?",
+      desc: "한국어 리뷰는 조사, 어미, 신조어가 많아 단순 띄어쓰기 토큰화로는 의미가 잘 보존되지 않았습니다. Okt 기반 형태소 분석과 불용어 처리로 모델 입력 품질을 높였습니다.",
     },
     {
-      title: "Why Hybrid Model? (LSTM & BERT)",
-      desc: "LSTM으로 가벼운 베이스라인을 먼저 만들고, 문맥 양방향 이해에 강한 BERT 계열 모델을 비교했습니다. 모델 구조보다 데이터 품질과 분포가 성능에 미치는 영향을 함께 확인했습니다.",
+      title: "Why LSTM + BERT 비교?",
+      desc: "가벼운 LSTM 베이스라인을 먼저 만든 뒤, 문맥 이해에 강한 BERT 계열 모델을 비교했습니다. 모델 구조뿐 아니라 데이터 품질과 라벨 분포가 성능에 미치는 영향을 함께 확인했습니다.",
     },
   ],
 
@@ -35,7 +35,7 @@ export const llmProject: Project = {
   role: {
     percentage: "40% (Data Engineering & Model Training)",
     tasks: [
-      "Selenium 기반 네이버 영화/SNS 리뷰 크롤링 및 CSV 데이터셋(200,000+) 구축",
+      "Selenium 기반 네이버 영화/SNS 리뷰 크롤링 및 200,000+ CSV 데이터셋 구축",
       "중복·결측치 제거, 정규식 기반 특수문자 정제, KoNLPy 형태소 분석 및 불용어 처리",
       "Keras Tokenizer, Padding, Embedding, LSTM 레이어를 활용한 베이스라인 모델 설계 및 학습",
       "리뷰 길이 분포 기반 max_len 설정, Dropout·Early Stopping 적용으로 과적합 완화",
@@ -71,8 +71,8 @@ export const llmProject: Project = {
   // ✨ 결과
   results: [
     "LSTM 모델 정확도 85% 달성 (기존 베이스라인 대비 15% 향상)",
-    "평점 없는 SNS 텍스트 리뷰를 1~5점 척도로 정량화하는 모델 구축",
-    "비정형 댓글 데이터를 정량화해 리뷰 흐름을 비교·시각화할 수 있는 가능성 확인",
+    "평점 없는 SNS 텍스트 리뷰를 1~5점 척도로 정량화하는 흐름 구축",
+    "비정형 댓글을 정제된 데이터셋으로 바꿔 리뷰 흐름을 비교·시각화할 기반 확보",
   ],
 
   images: [], // 필요 시 아키텍처 다이어그램 추가
@@ -84,8 +84,8 @@ export const llmProject: Project = {
   ],
 
   techDecisions: [
-    { tech: "Python", reason: "TensorFlow, KoNLPy, 데이터 전처리 라이브러리를 활용한 모델링에 적합" },
-    { tech: "BERT", reason: "구어체 리뷰의 앞뒤 문맥을 함께 반영해 감성 분류 품질을 높이기 위해 선택" },
-    { tech: "Selenium", reason: "네이버·유튜브·인스타그램 등 동적 페이지의 리뷰 데이터를 수집" },
+    { tech: "Python", reason: "수집, 전처리, 학습을 하나의 데이터 파이프라인으로 연결하기 위해 선택" },
+    { tech: "BERT", reason: "구어체 리뷰의 앞뒤 문맥을 함께 반영해 감성 분류 품질을 높이기 위해 적용" },
+    { tech: "Selenium", reason: "네이버, 유튜브, 인스타그램 등 동적 페이지의 리뷰 데이터를 수집" },
   ],
 };
