@@ -79,6 +79,8 @@ const ORBITS: {
   { id: "contact", rx: 600, ry: 210, period: 64, phase: 5.7, size: 5, color: "var(--accent-hi)", label: "CONTACT" },
 ];
 
+const HOME_HOTSPOT_SCROLL_LIMIT = 360;
+
 const SceneHome: React.FC<SceneProps> = ({
   t,
   intensity,
@@ -795,6 +797,7 @@ export const World: React.FC<WorldProps> = ({
   const toOpacity = sceneState.progress;
   const FromScene = sceneState.from ? SCENES[sceneState.from] : null;
   const ToScene = SCENES[sceneState.to] || SceneHome;
+  const isProfileHotspotActive = page === "home" && scrollY < HOME_HOTSPOT_SCROLL_LIMIT;
 
   return (
     <>
@@ -881,7 +884,12 @@ export const World: React.FC<WorldProps> = ({
         </svg>
       </div>
       {page === "home" && (
-        <svg className="world-hotspot-layer" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <svg
+          className={`world-hotspot-layer${isProfileHotspotActive ? " is-profile-hotspot-active" : ""}`}
+          viewBox="0 0 1600 900"
+          preserveAspectRatio="xMidYMid slice"
+          aria-hidden="true"
+        >
           <g transform={`translate(${800 + tx}, ${450 + ty}) scale(${cam.sc * dollyScale}) rotate(${rot})`}>
             {ORBITS.map((o) => {
               const angle = o.phase + (t * Math.PI * 2) / o.period;
