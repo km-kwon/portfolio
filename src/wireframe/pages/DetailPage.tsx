@@ -3,6 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import { PROJECTS } from "../data";
 import MiniThumb from "../layout/MiniThumb";
 
+type Project = typeof PROJECTS[number];
+
 const DetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const idx = PROJECTS.findIndex((p) => p.id === id);
@@ -86,11 +88,13 @@ const DetailPage: React.FC = () => {
               style={{
                 fontFamily: "var(--serif)", fontSize: "clamp(26px, 3.2vw, 44px)",
                 fontWeight: 400, letterSpacing: "-0.015em", lineHeight: 1.1, margin: 0,
+                color: "var(--fg)",
+                textShadow: "0 2px 30px rgba(0,0,0,0.72)",
               }}
             >
               {p.title}
             </h1>
-            <div className="project-detail-subtitle" style={{ marginTop: 14, fontSize: 14, color: "var(--fg-muted)", maxWidth: 620, lineHeight: 1.55 }}>
+            <div className="project-detail-subtitle" style={{ marginTop: 14, fontSize: 14, color: "var(--fg)", maxWidth: 620, lineHeight: 1.55, textShadow: "0 1px 18px rgba(0,0,0,0.65)" }}>
               {p.subtitle ?? p.summary}
             </div>
           </div>
@@ -148,7 +152,7 @@ const DetailPage: React.FC = () => {
           </h2>
           <div style={{ width: 60, height: 1, background: "var(--accent)", marginTop: 16 }} />
         </div>
-        <div className="reveal d1 project-detail-copy" style={{ fontSize: 16, lineHeight: 1.75, color: "var(--fg-muted)" }}>
+        <div className="reveal d1 project-detail-copy" style={{ fontSize: 16, lineHeight: 1.75, color: "var(--fg)" }}>
           <p style={{ margin: "0 0 24px" }}>{p.overview ?? p.summary}</p>
           {p.why?.map((w, i) => (
             <div key={i} className="project-detail-why-item" style={{ marginBottom: 24 }}>
@@ -160,6 +164,79 @@ const DetailPage: React.FC = () => {
           ))}
         </div>
       </div>
+
+      {(p.problem || p.constraints || p.technicalJudgement) && (
+        <div className="project-detail-section" style={{ marginBottom: 80 }}>
+          <div className="wf-marker">
+            <span className="num">·</span>
+            <span>Problem · Constraint · Decision</span>
+            <span className="bar" />
+          </div>
+          <div className="project-detail-context-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 18 }}>
+            {p.problem && (
+              <ContextCard
+                label="Problem"
+                title="문제 상황"
+                value={p.problem}
+                color={p.color}
+              />
+            )}
+            {p.constraints && (
+              <ContextCard
+                label="Constraint"
+                title="제약 조건"
+                value={p.constraints}
+                color={p.color}
+              />
+            )}
+            {p.technicalJudgement && (
+              <ContextCard
+                label="Decision"
+                title="기술적 판단"
+                value={p.technicalJudgement}
+                color={p.color}
+              />
+            )}
+          </div>
+        </div>
+      )}
+
+      {p.implementation && p.implementation.length > 0 && (
+        <div className="project-detail-section" style={{ marginBottom: 80 }}>
+          <div className="wf-marker">
+            <span className="num">·</span>
+            <span>Implementation</span>
+            <span className="bar" />
+          </div>
+          <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
+            {p.implementation.map((item, i) => (
+              <li
+                key={item}
+                className="reveal project-detail-task-row"
+                style={{
+                  animationDelay: `${0.04 * i}s`,
+                  display: "flex", gap: 16, alignItems: "flex-start",
+                  padding: "18px 0", borderTop: "1px solid var(--border)",
+                  fontSize: 14, color: "var(--fg-muted)", lineHeight: 1.7,
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "var(--mono)", fontSize: 11,
+                    color: p.color, letterSpacing: "0.12em",
+                    flexShrink: 0, marginTop: 4,
+                  }}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <LearningSection project={p} />
 
       {/* Role */}
       {p.roleDetail && (
@@ -329,6 +406,38 @@ const DetailPage: React.FC = () => {
         )}
       </div>
 
+      {p.links.length > 0 && (
+        <div className="project-detail-section" style={{ marginBottom: 100 }}>
+          <div className="wf-marker">
+            <span className="num">·</span>
+            <span>Code · README · Package</span>
+            <span className="bar" />
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+            {p.links.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  padding: "11px 16px",
+                  borderRadius: 10,
+                  border: `1px solid ${p.color}66`,
+                  background: "var(--bg-elevated)",
+                  color: "var(--fg)",
+                  textDecoration: "none",
+                  fontSize: 13,
+                  fontWeight: 600,
+                }}
+              >
+                {link.label}에서 검증하기 →
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Next case */}
       <Link
         to={`/projects/${next.id}`}
@@ -379,6 +488,62 @@ const DetailPage: React.FC = () => {
   );
 };
 
+const LearningSection: React.FC<{ project: Project }> = ({ project }) => {
+  if (!project.learning && (!project.interviewQuestions || project.interviewQuestions.length === 0)) {
+    return null;
+  }
+
+  return (
+    <div className="project-detail-section" style={{ marginBottom: 80 }}>
+      <div className="wf-marker">
+        <span className="num">·</span>
+        <span>Learning · Interview Questions</span>
+        <span className="bar" />
+      </div>
+      <div className="project-detail-learning-grid" style={{ display: "grid", gridTemplateColumns: "minmax(0, 0.9fr) minmax(0, 1.1fr)", gap: 28 }}>
+        {project.learning && (
+          <div
+            className="reveal"
+            style={{
+              padding: 28,
+              borderRadius: 14,
+              border: "1px solid var(--border)",
+              background: "var(--bg-elevated)",
+            }}
+          >
+            <div style={{ fontFamily: "var(--mono)", fontSize: 10, letterSpacing: "0.16em", color: project.color, textTransform: "uppercase", marginBottom: 12 }}>
+              Learned
+            </div>
+            <div style={{ fontSize: 14, color: "var(--fg)", lineHeight: 1.7 }}>{project.learning}</div>
+          </div>
+        )}
+        {project.interviewQuestions && project.interviewQuestions.length > 0 && (
+          <div
+            className="reveal d1"
+            style={{
+              padding: 28,
+              borderRadius: 14,
+              border: "1px solid var(--border)",
+              background: "var(--bg-elevated)",
+            }}
+          >
+            <div style={{ fontFamily: "var(--mono)", fontSize: 10, letterSpacing: "0.16em", color: project.color, textTransform: "uppercase", marginBottom: 12 }}>
+              실무자가 물어볼 질문
+            </div>
+            <ol style={{ margin: 0, paddingLeft: 18 }}>
+              {project.interviewQuestions.map((q) => (
+                <li key={q} style={{ fontSize: 13, color: "var(--fg-muted)", lineHeight: 1.7, padding: "3px 0" }}>
+                  {q}
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const DetailRow: React.FC<{ label: string; value: string; color: string; last?: boolean }> = ({
   label, value, color, last,
 }) => (
@@ -394,6 +559,33 @@ const DetailRow: React.FC<{ label: string; value: string; color: string; last?: 
       {label}
     </div>
     <div className="project-detail-detail-value" style={{ fontSize: 14, color, lineHeight: 1.65 }}>{value}</div>
+  </div>
+);
+
+const ContextCard: React.FC<{ label: string; title: string; value: string; color: string }> = ({
+  label,
+  title,
+  value,
+  color,
+}) => (
+  <div
+    className="reveal"
+    style={{
+      padding: 24,
+      borderRadius: 14,
+      border: "1px solid var(--border)",
+      background: "var(--bg-elevated)",
+    }}
+  >
+    <div style={{ fontFamily: "var(--mono)", fontSize: 10, letterSpacing: "0.16em", color, textTransform: "uppercase", marginBottom: 10 }}>
+      {label}
+    </div>
+    <div style={{ fontFamily: "var(--serif)", fontSize: 17, fontWeight: 500, letterSpacing: "-0.005em", marginBottom: 10 }}>
+      {title}
+    </div>
+    <div style={{ fontSize: 13.5, color: "var(--fg)", lineHeight: 1.7 }}>
+      {value}
+    </div>
   </div>
 );
 

@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { PROJECTS, SKILLS, HERO_STREAM, type WireProject } from "../data";
+import {
+  PROFESSIONAL_PROJECTS,
+  INDEPENDENT_PROJECTS,
+  SKILLS,
+  HERO_STREAM,
+  type WireProject,
+} from "../data";
 
 const styles = {
   hero: {
@@ -17,6 +23,8 @@ const styles = {
     fontSize: "clamp(26px, 3.2vw, 44px)", fontWeight: 400,
     lineHeight: 1.15, letterSpacing: "-0.015em",
     margin: "0 0 24px",
+    color: "var(--fg)",
+    textShadow: "0 2px 30px rgba(0,0,0,0.72)",
     fontVariationSettings: "'opsz' 60",
   } as React.CSSProperties,
   intro: {
@@ -33,8 +41,8 @@ const styles = {
   tag: {
     fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.06em",
     padding: "5px 12px", borderRadius: 999,
-    border: "1px solid var(--border)", color: "var(--fg-muted)",
-    background: "color-mix(in oklab, var(--bg-elevated) 50%, transparent)",
+    border: "1px solid var(--border-hi)", color: "var(--fg)",
+    background: "color-mix(in oklab, var(--bg-elevated) 82%, transparent)",
     backdropFilter: "blur(6px)",
   } as React.CSSProperties,
   buttonRow: { display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap" as const },
@@ -71,13 +79,17 @@ const styles = {
   statValue: {
     fontFamily: "var(--serif)", fontSize: 32, fontWeight: 500,
     color: "var(--accent-hi)", lineHeight: 1, letterSpacing: "-0.015em",
+    textShadow: "0 2px 24px rgba(0,0,0,0.62)",
     fontVariationSettings: "'opsz' 60",
   } as React.CSSProperties,
   statUnit: { fontFamily: "var(--mono)", fontSize: 12, color: "var(--accent)", marginLeft: 6 },
-  statDesc: { marginTop: 12, fontSize: 12, color: "var(--fg-dim)", lineHeight: 1.5 },
+  statDesc: { marginTop: 12, fontSize: 12, color: "var(--fg-muted)", lineHeight: 1.5 },
 };
 
 const HomePage: React.FC = () => {
+  const professionalProjects = PROFESSIONAL_PROJECTS;
+  const independentProjects = INDEPENDENT_PROJECTS;
+
   return (
     <div className="page-fade">
       {/* ── HERO ─────────────────────────────────── */}
@@ -92,9 +104,9 @@ const HomePage: React.FC = () => {
           <div className="home-profile-grid" style={styles.grid}>
             <div>
               <h1 className="reveal d1 home-profile-title" style={styles.title}>
-                복잡한 시스템을<br />
-                안전하고 <em style={{ fontStyle: "italic", color: "var(--accent-hi)", fontFamily: "var(--serif)" }}>읽기 쉬운</em><br />
-                인터페이스로 정리하는<br />
+                사용자 작업 흐름과<br />
+                기술적 병목 사이에서<br />
+                <em style={{ fontStyle: "italic", color: "var(--accent-hi)", fontFamily: "var(--serif)" }}>문제를 찾고 해결하는</em><br />
                 <span style={{ color: "var(--fg-muted)", fontSize: "0.6em", fontFamily: "var(--sans)", fontWeight: 300, letterSpacing: "-0.01em" }}>
                   프론트엔드 엔지니어,
                 </span><br />
@@ -103,14 +115,14 @@ const HomePage: React.FC = () => {
               </h1>
 
               <div className="reveal d2 home-profile-tags" style={styles.tags}>
-                {["Frontend Engineer", "System UI", "Performance", "Security-minded"].map((t) => (
+                {["Frontend Engineer", "Large Data UX", "State Architecture", "Performance UI"].map((t) => (
                   <span key={t} style={styles.tag}>{t}</span>
                 ))}
               </div>
 
               <div className="reveal d3 home-profile-actions" style={styles.buttonRow}>
                 <Link to="/projects" style={styles.btnPrimary}>
-                  프로젝트 보기 →
+                  문제 해결 과정 보기 →
                 </Link>
                 <a
                   href={`${import.meta.env.BASE_URL}resume.pdf`}
@@ -121,7 +133,7 @@ const HomePage: React.FC = () => {
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M12 4v12m0 0l-4-4m4 4l4-4M4 17v2a1 1 0 001 1h14a1 1 0 001-1v-2"/>
                   </svg>
-                  이력서 (PDF)
+                  PDF 이력서 보기
                 </a>
               </div>
             </div>
@@ -147,34 +159,41 @@ const HomePage: React.FC = () => {
             </div>
             <div className="reveal d3 home-profile-stat" style={styles.stat}>
               <div>
-                <span style={styles.statValue}>2</span>
-                <span style={styles.statUnit}>sec</span>
+                <span style={styles.statValue}>1M</span>
+                <span style={styles.statUnit}>rows</span>
               </div>
-              <div style={styles.statDesc}>1M 라인 DLT 로그 탐색<br />Web Worker · Virtual Scroll</div>
+              <div style={styles.statDesc}>CSV Export 3초 처리<br />메모리 사용량 60% 절감</div>
             </div>
             <div className="reveal d4 home-profile-stat" style={styles.stat}>
               <div>
-                <span style={styles.statValue}>0</span>
+                <span style={styles.statValue}>80%</span>
               </div>
-              <div style={styles.statDesc}>Wireshark 기준 평문 노출<br />RSA-2048 + AES-256 설계</div>
+              <div style={styles.statDesc}>Global State 재정리 후<br />리렌더링 감소</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Selected Work ─────────────────────────── */}
+      {/* ── Professional Work ─────────────────────── */}
       <section style={{ marginTop: 120 }}>
         <div className="wf-marker">
           <span className="num">02</span>
-          <span>Selected Work</span>
+          <span>Professional Case Studies</span>
           <span className="bar" />
           <Link
             to="/projects"
             style={{ color: "var(--fg-muted)", fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.16em", textDecoration: "none" }}
           >
-            ALL →
+            ALL CASES →
           </Link>
         </div>
+        <p
+          className="reveal d1"
+          style={{ fontSize: 14, color: "var(--fg-muted)", maxWidth: 620, lineHeight: 1.65, margin: "0 0 28px" }}
+        >
+          회사 프로젝트는 검증 가능한 규모와 결과를 먼저 보여줍니다.
+          대용량 데이터 처리, 상태 구조 개선, 실시간 검증처럼 실무자가 바로 물어볼 만한 사례만 앞에 두었습니다.
+        </p>
         <div
           style={{
             display: "grid",
@@ -184,7 +203,7 @@ const HomePage: React.FC = () => {
             alignItems: "stretch",
           }}
         >
-          {PROJECTS.map((p, i) => (
+          {professionalProjects.map((p, i) => (
             <div
               key={p.id}
               className="reveal"
@@ -196,11 +215,46 @@ const HomePage: React.FC = () => {
         </div>
       </section>
 
+      {/* ── Independent Work ──────────────────────── */}
+      <section style={{ marginTop: 96 }}>
+        <div className="wf-marker">
+          <span className="num">03</span>
+          <span>Independent Projects · Decision Logs</span>
+          <span className="bar" />
+        </div>
+        <p
+          className="reveal d1"
+          style={{ fontSize: 14, color: "var(--fg-muted)", maxWidth: 660, lineHeight: 1.65, margin: "0 0 28px" }}
+        >
+          개인·대외 프로젝트는 숫자보다 판단 기준을 더 강하게 보여줍니다.
+          왜 이 기술을 골랐는지, 어디서 사용자가 막혔는지, 다음 프로젝트에서 무엇을 다르게 보게 됐는지를 중심으로 정리했습니다.
+        </p>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 280px), 1fr))",
+            gridAutoRows: "1fr",
+            gap: 20,
+            alignItems: "stretch",
+          }}
+        >
+          {independentProjects.map((p, i) => (
+            <div
+              key={p.id}
+              className="reveal"
+              style={{ animationDelay: `${0.05 * i}s`, height: "100%" }}
+            >
+              <SelectedWorkCard project={p} index={i} compact />
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ── Skills ──────────────────────────────────── */}
       <section style={{ marginTop: 120 }}>
         <div className="wf-marker">
-          <span className="num">03</span>
-          <span>Skills · Stack</span>
+          <span className="num">04</span>
+          <span>Skills by Problem</span>
           <span className="bar" />
         </div>
         <div
@@ -259,12 +313,12 @@ const HomePage: React.FC = () => {
           좋은 인터페이스는 <em style={{ color: "var(--accent-hi)" }}>복잡함을 숨기지 않고</em>,
           <br />
           <span style={{ color: "var(--fg-muted)" }}>
-            사용자가 판단할 수 있는 <em style={{ color: "var(--fg)" }}>구조</em>로 정리합니다.
+            사용자가 다음 판단으로 넘어갈 수 있는 <em style={{ color: "var(--fg)" }}>구조</em>로 정리합니다.
           </span>
         </p>
         <div style={{ marginTop: 36 }}>
           <Link to="/about" style={styles.btnGhost}>
-            About me →
+            작업 기준 더 보기 →
           </Link>
         </div>
       </section>
@@ -275,9 +329,10 @@ const HomePage: React.FC = () => {
 interface SelectedWorkCardProps {
   project: WireProject;
   index: number;
+  compact?: boolean;
 }
 
-const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project: p, index: i }) => {
+const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project: p, index: i, compact = false }) => {
   const [hover, setHover] = useState(false);
   return (
     <Link
@@ -286,7 +341,7 @@ const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project: p, index: 
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
-        padding: 28, borderRadius: 14,
+        padding: compact ? 22 : 28, borderRadius: 14,
         border: hover ? "1px solid var(--accent)" : "1px solid var(--border)",
         background: "color-mix(in oklab, var(--bg-elevated) 60%, transparent)",
         backdropFilter: "blur(12px)",
@@ -348,7 +403,7 @@ const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project: p, index: 
       <h3
         style={{
           position: "relative",
-          fontFamily: "var(--serif)", fontSize: 18, fontWeight: 500,
+          fontFamily: "var(--serif)", fontSize: compact ? 16 : 18, fontWeight: 500,
           margin: "0 0 6px", letterSpacing: "-0.01em", lineHeight: 1.2,
           color: "var(--fg)",
           textShadow: hover && p.banner ? "0 1px 8px rgba(0,0,0,0.6)" : "none",
@@ -359,13 +414,33 @@ const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project: p, index: 
       <div
         style={{
           position: "relative",
-          fontSize: 13, marginBottom: 18, lineHeight: 1.5,
+          fontSize: compact ? 12.5 : 13, marginBottom: compact ? 14 : 18, lineHeight: 1.5,
           color: hover && p.banner ? "var(--fg)" : "var(--fg-muted)",
           textShadow: hover && p.banner ? "0 1px 6px rgba(0,0,0,0.55)" : "none",
           flex: 1,
+          display: "-webkit-box",
+          WebkitLineClamp: compact ? 3 : 4,
+          WebkitBoxOrient: "vertical",
+          overflow: "hidden",
         }}
       >
-        {p.subtitle ?? p.summary.slice(0, 60) + "…"}
+        {p.summary}
+      </div>
+      <div style={{ position: "relative", display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 12 }}>
+        {p.metrics.slice(0, 2).map((m) => (
+          <span
+            key={`${m.v}-${m.d}`}
+            style={{
+              fontFamily: "var(--mono)", fontSize: 10, padding: "3px 8px",
+              borderRadius: 999,
+              color: p.color,
+              background: "color-mix(in oklab, var(--bg-elevated) 82%, transparent)",
+              border: `1px solid ${p.color}66`,
+            }}
+          >
+            {m.v} · {m.d}
+          </span>
+        ))}
       </div>
       <div style={{ position: "relative", display: "flex", flexWrap: "wrap", gap: 6 }}>
         {p.visualTags.map((t) => (

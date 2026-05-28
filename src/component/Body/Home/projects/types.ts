@@ -28,4 +28,11 @@ export interface Project {
   // 신규 필드 (옵셔널)
   highlights?: { value: string; label: string }[];
   techDecisions?: { tech: string; reason: string }[];
+  problem?: string;
+  constraints?: string;
+  technicalJudgement?: string;
+  implementation?: string[];
+  outcome?: string;
+  learning?: string;
+  interviewQuestions?: string[];
 }

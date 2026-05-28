@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { PROJECTS } from "../data";
+import { PROJECTS, PROFESSIONAL_PROJECTS, INDEPENDENT_PROJECTS } from "../data";
 import MiniThumb from "../layout/MiniThumb";
 
 const ProjectsPage: React.FC = () => {
@@ -18,7 +18,7 @@ const ProjectsPage: React.FC = () => {
     <div className="page-fade">
       <div className="wf-marker">
         <span className="num">02</span>
-        <span>Selected Work · 2022 — 2025</span>
+        <span>Selected Work · 2022 — 2026</span>
         <span className="bar" />
         <span style={{ fontFamily: "var(--mono)", fontSize: 11 }}>
           {visible.length} / {PROJECTS.length}
@@ -33,16 +33,16 @@ const ProjectsPage: React.FC = () => {
           margin: "0 0 12px", lineHeight: 1.15,
         }}
       >
-        <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>Selected</em> projects,
+        <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>Problem-solving</em> cases,
         <br />
-        <span style={{ color: "var(--fg-muted)" }}>measurable outcomes.</span>
+        <span style={{ color: "var(--fg-muted)" }}>professional and independent.</span>
       </h1>
       <p
         className="reveal d1"
-        style={{ fontSize: 15, color: "var(--fg-muted)", maxWidth: 540, lineHeight: 1.65, marginBottom: 48 }}
+        style={{ fontSize: 15, color: "var(--fg-muted)", maxWidth: 570, lineHeight: 1.65, marginBottom: 48 }}
       >
-        복잡한 데이터를 다루는 UI, 성능 최적화, 보안 기반 설계를 중심으로 선별한 프로젝트입니다.
-        각 카드는 문제 정의, 역할, 결과를 케이스 스터디 형식으로 보여줍니다.
+        회사 프로젝트는 검증된 규모와 결과를, 개인·대외 프로젝트는 판단 기준과 배운 점을 보여줍니다.
+        같은 문제 해결이라도 어디에서 증명됐는지 분리해 볼 수 있게 정리했습니다.
       </p>
 
       <div className="reveal d2" style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 40 }}>
@@ -64,18 +64,35 @@ const ProjectsPage: React.FC = () => {
         ))}
       </div>
 
-      <div className="project-list-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 20 }}>
-        {visible.map((p, i) => (
-          <Link
-            key={p.id}
-            to={`/projects/${p.id}`}
-            className="reveal"
-            style={{ animationDelay: `${0.05 * i}s`, textDecoration: "none", color: "inherit" }}
-          >
-            <ProjectCard project={p} index={i} />
-          </Link>
-        ))}
-      </div>
+      {filter === "All" ? (
+        <div style={{ display: "grid", gap: 72 }}>
+          <ProjectSection
+            title="Professional Case Studies"
+            intro="회사 프로젝트에서는 성능, 상태 구조, 대용량 데이터, 실시간 검증처럼 실무에서 바로 검증되는 문제를 중심으로 정리했습니다."
+            projects={PROFESSIONAL_PROJECTS}
+            startIndex={0}
+          />
+          <ProjectSection
+            title="Independent Projects"
+            intro="개인·대외 프로젝트에서는 기술 선택의 이유, 사용자 흐름에서 배운 점, 다음 프로젝트로 이어진 판단 기준을 더 강하게 드러냈습니다."
+            projects={INDEPENDENT_PROJECTS}
+            startIndex={PROFESSIONAL_PROJECTS.length}
+          />
+        </div>
+      ) : (
+        <div className="project-list-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 20 }}>
+          {visible.map((p, i) => (
+            <Link
+              key={p.id}
+              to={`/projects/${p.id}`}
+              className="reveal"
+              style={{ animationDelay: `${0.05 * i}s`, textDecoration: "none", color: "inherit" }}
+            >
+              <ProjectCard project={p} index={i} />
+            </Link>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
@@ -178,8 +195,37 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
           >
             {project.subTitle}
           </h3>
-          <div style={{ fontSize: 12, color: "var(--fg-muted)", marginBottom: 12, lineHeight: 1.4 }}>
-            {project.subtitle ?? project.summary.slice(0, 60) + "…"}
+          <div
+            style={{
+              fontSize: 12,
+              color: "var(--fg-muted)",
+              marginBottom: 12,
+              lineHeight: 1.4,
+              display: "-webkit-box",
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }}
+          >
+            {project.summary}
+          </div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 12 }}>
+            {project.metrics.slice(0, 2).map((m) => (
+              <span
+                key={`${m.v}-${m.d}`}
+                style={{
+                  fontFamily: "var(--mono)",
+                  fontSize: 10,
+                  padding: "3px 8px",
+                  borderRadius: 999,
+                  color: project.color,
+                  background: "color-mix(in oklab, var(--bg-elevated) 88%, transparent)",
+                  border: `1px solid ${project.color}66`,
+                }}
+              >
+                {m.v} · {m.d}
+              </span>
+            ))}
           </div>
           <div
             style={{
@@ -188,12 +234,68 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
               color: hover ? project.color : "var(--fg-muted)", transition: "color .3s",
             }}
           >
-            Case study →
+            문제 해결 과정 보기 →
           </div>
         </div>
       </div>
     </div>
   );
 };
+
+interface ProjectSectionProps {
+  title: string;
+  intro: string;
+  projects: typeof PROJECTS;
+  startIndex: number;
+}
+
+const ProjectSection: React.FC<ProjectSectionProps> = ({
+  title,
+  intro,
+  projects,
+  startIndex,
+}) => (
+  <section>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "baseline",
+        gap: 16,
+        marginBottom: 12,
+      }}
+    >
+      <h2
+        style={{
+          fontFamily: "var(--serif)",
+          fontSize: 24,
+          fontWeight: 500,
+          letterSpacing: "-0.01em",
+          margin: 0,
+        }}
+      >
+        {title}
+      </h2>
+      <span style={{ fontFamily: "var(--mono)", fontSize: 11, color: "var(--fg-dim)", letterSpacing: "0.12em" }}>
+        {projects.length} CASES
+      </span>
+    </div>
+    <p style={{ fontSize: 14, color: "var(--fg-muted)", maxWidth: 680, lineHeight: 1.65, margin: "0 0 24px" }}>
+      {intro}
+    </p>
+    <div className="project-list-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 20 }}>
+      {projects.map((p, i) => (
+        <Link
+          key={p.id}
+          to={`/projects/${p.id}`}
+          className="reveal"
+          style={{ animationDelay: `${0.05 * i}s`, textDecoration: "none", color: "inherit" }}
+        >
+          <ProjectCard project={p} index={startIndex + i} />
+        </Link>
+      ))}
+    </div>
+  </section>
+);
 
 export default ProjectsPage;

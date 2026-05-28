@@ -87,6 +87,7 @@ const Shell: React.FC<{ theme: Theme; onToggleTheme: () => void }> = ({ theme, o
       <Trail />
 
       <main
+        className={`app-shell-main${isLabRoute ? " app-shell-main-lab" : ""}`}
         style={{
           position: "relative", zIndex: 2,
           maxWidth: isLabRoute ? "none" : "var(--content-max)",
@@ -108,6 +109,7 @@ const Shell: React.FC<{ theme: Theme; onToggleTheme: () => void }> = ({ theme, o
       </main>
 
       <footer
+        className="app-shell-footer"
         style={{
           position: "relative", zIndex: 2,
           maxWidth: "var(--content-max)", margin: "0 auto",

@@ -65,32 +65,32 @@ const AboutPage: React.FC = () => {
               lineHeight: 1.2, margin: "0 0 24px",
             }}
           >
-            복잡한 시스템을{" "}
-            <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>읽기 쉬운 인터페이스</em>
-            로 정리합니다.
+            복잡한 데이터 흐름과 사용자 작업 흐름 사이의{" "}
+            <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>병목</em>
+            을 찾습니다.
           </h1>
           <div
-            className="reveal d2"
+            className="reveal d2 about-copy"
             style={{
               fontSize: 16, lineHeight: 1.75, color: "var(--fg-muted)",
               maxWidth: 620, marginBottom: 28,
             }}
           >
             <p style={{ margin: "0 0 18px" }}>
-              저는 사이버보안 전공을 바탕으로 복잡한 시스템을 인터페이스로 풀어내는
-              프론트엔드 엔지니어 권경민입니다. 차량 로그 분석기, 보안 통신 도구, AI
-              시뮬레이션 환경처럼 신뢰성과 성능이 중요한 도메인에서 데이터를 다루는 UI를
-              만들어 왔습니다.
+              저는 복잡한 데이터 흐름을 사용자가 판단하기 쉬운 인터페이스로 정리하는
+              프론트엔드 엔지니어 권경민입니다. 차량 로그 분석 도구에서 초당 80,000건
+              로그를 UI 멈춤 없이 시각화했고, 100만 행 CSV Export를 3초 안에 처리하며
+              메모리 사용량을 60% 줄였습니다.
             </p>
             <p style={{ margin: "0 0 18px" }}>
-              초당 8만 건 이상의 차량 로그를 UI 멈춤 없이 시각화하고, 100만 라인 이상의
-              로그를 빠르게 탐색하는 도구를 만들며 성능과 보안이 사용자 경험의 일부라는
-              기준을 세웠습니다. 지금은 CARLA 기반 자율주행 시뮬레이션과 AI 모델 검증
-              환경으로 경험을 확장하고 있습니다.
+              단순히 빠르게 만드는 것보다, 사용자가 분석 맥락을 잃지 않고 다음 판단으로
+              넘어가게 만드는 구조를 중요하게 봅니다. Global State를 Local State와
+              도메인 단위 구조로 재정리해 리렌더링을 줄였고, 반복되는 로직은 npm 패키지와
+              테스트 가능한 모듈로 분리했습니다.
             </p>
             <p style={{ margin: 0 }}>
-              구현한 내용을 팀이 다시 읽고 확장할 수 있도록 문서와 글로 남기는 일에도
-              관심이 많습니다.
+              기술을 도입할 때는 먼저 "굳이 이 방식이 맞나?"를 묻습니다. 성능, 유지보수성,
+              테스트 가능성, 그리고 실제 사용자가 헤매지 않는 흐름을 함께 봅니다.
             </p>
           </div>
           <div className="reveal d3 about-cta-row" style={{ display: "flex", gap: 12 }}>
@@ -102,7 +102,7 @@ const AboutPage: React.FC = () => {
                 fontSize: 13, fontWeight: 600, textDecoration: "none",
               }}
             >
-              연락하기 →
+              대화 시작하기 →
             </Link>
             <Link
               to="/blog"
@@ -112,7 +112,7 @@ const AboutPage: React.FC = () => {
                 border: "1px solid var(--border)", fontSize: 13, textDecoration: "none",
               }}
             >
-              글 읽기
+              기술 글 보기
             </Link>
           </div>
         </div>
@@ -184,9 +184,9 @@ const AboutPage: React.FC = () => {
         </div>
         <div className="about-values-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
           {[
-            ["Evidence in UI", "인터페이스가 보여주는 수치와 상태는 실제 동작을 설명해야 한다고 생각합니다. 80K logs/sec처럼 큰 수치일수록 측정 기준과 재현 가능한 흐름을 함께 남깁니다."],
-            ["Performance as UX", "성능과 보안은 별도의 체크리스트가 아니라 사용자가 느끼는 신뢰감입니다. Web Worker 분리, 가상 스크롤, RSA/AES 설계를 그런 관점에서 선택했습니다."],
-            ["Readable systems", "코드, 문서, 화면은 결국 다시 읽히기 위해 존재합니다. 도메인 단위로 구조를 정리하고 구현 의도를 문장으로 남기는 일을 중요하게 봅니다."],
+            ["Workflow first", "성능 수치가 좋아져도 사용자가 다음 판단으로 넘어가지 못하면 개선이 부족하다고 봅니다. 분석 흐름, 패널 배치, Export 실패 리스크까지 작업 단위로 봅니다."],
+            ["State boundaries", "모든 상태를 전역으로 올리지 않습니다. 변경 영향 범위와 리렌더링 비용을 기준으로 Local State, Domain State, Store의 경계를 나눕니다."],
+            ["Reusable proof", "반복되는 로직은 사내 유틸에만 두지 않고 테스트 가능한 모듈로 분리합니다. npm 패키지와 CI/CD는 그런 기준을 검증한 결과입니다."],
           ].map(([t, d], i) => (
             <div
               key={t}

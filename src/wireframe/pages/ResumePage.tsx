@@ -19,7 +19,7 @@ const ResumePage: React.FC = () => {
     { v: "3y+",  d: "Frontend Engineering" },
     { v: `${PROJECTS.length}`, d: "Selected Projects" },
     { v: "80K/s", d: "Peak Throughput" },
-    { v: "0",     d: "Plaintext Exposure" },
+    { v: "60%", d: "Export Memory Reduced" },
   ];
 
   return (
@@ -49,7 +49,7 @@ const ResumePage: React.FC = () => {
               fontSize: 12, fontWeight: 600, textDecoration: "none",
             }}
           >
-            ↓ PDF
+            PDF 이력서
           </a>
           <button
             style={{
@@ -77,9 +77,9 @@ const ResumePage: React.FC = () => {
       <div className="reveal d1" style={{ fontSize: 14, color: "var(--fg-muted)", marginBottom: 56 }}>
         <em style={{ fontFamily: "var(--serif)", fontStyle: "italic", color: "var(--accent-hi)" }}>Frontend</em>
         {" × "}
-        <em style={{ fontFamily: "var(--serif)", fontStyle: "italic", color: "var(--accent-hi)" }}>System UI</em>
+        <em style={{ fontFamily: "var(--serif)", fontStyle: "italic", color: "var(--accent-hi)" }}>Large Data UX</em>
         {" × "}
-        <em style={{ fontFamily: "var(--serif)", fontStyle: "italic", color: "var(--accent-hi)" }}>Security-minded</em>
+        <em style={{ fontFamily: "var(--serif)", fontStyle: "italic", color: "var(--accent-hi)" }}>State Architecture</em>
       </div>
 
       {/* Stats */}
