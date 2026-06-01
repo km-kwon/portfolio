@@ -230,15 +230,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
               </span>
             ))}
           </div>
-          <div
-            style={{
-              display: "flex", alignItems: "center", gap: 6,
-              fontFamily: "var(--sans)", fontSize: 12, fontWeight: 650,
-              color: hover ? "var(--fg)" : "var(--fg-muted)", transition: "color .3s",
-            }}
-          >
-            문제에서 결과까지 보기 →
-          </div>
+         
         </div>
       </div>
     </div>
