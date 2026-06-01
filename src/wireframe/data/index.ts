@@ -480,7 +480,7 @@ const CAREER_CASE_STUDIES: Project[] = [
     links: [
       { label: "broadcast-event-system", href: "https://github.com/km-kwon/broadcast-event-system" },
       { label: "circular-queue-react", href: "https://github.com/km-kwon/react-circular-queue" },
-      { label: "npm", href: "https://www.npmjs.com/~km-kwon" },
+      { label: "npm", href: "https://www.npmjs.com/~kwon-kyoungmin" },
     ],
     period: "2025",
     team: "Personal Open Source",
