@@ -65,14 +65,14 @@ export const WireHeader: React.FC<HeaderProps> = ({ theme, onToggleTheme }) => {
           className="wire-header-brand"
           to="/"
           style={{
-            fontFamily: "var(--mono)", fontSize: 12, fontWeight: 600,
-            letterSpacing: "0.16em", textTransform: "uppercase",
+            fontFamily: "var(--sans)", fontSize: 13, fontWeight: 700,
+            letterSpacing: "0.01em",
             color: "var(--fg-muted)", textDecoration: "none",
           }}
           onMouseEnter={(e) => (e.currentTarget.style.color = "var(--accent)")}
           onMouseLeave={(e) => (e.currentTarget.style.color = "var(--fg-muted)")}
         >
-          FRONTEND · UX
+          Frontend · UX
         </Link>
 
         <nav className="wire-header-nav" style={{ display: "flex", gap: 4, alignItems: "center", fontSize: 13 }}>

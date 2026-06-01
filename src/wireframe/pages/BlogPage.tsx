@@ -26,12 +26,12 @@ const BlogPage: React.FC = () => {
       <h1
         className="reveal"
         style={{
-          fontFamily: "var(--serif)", fontSize: "clamp(28px, 3.2vw, 44px)",
-          fontWeight: 400, letterSpacing: "-0.015em",
+          fontFamily: "var(--display)", fontSize: "clamp(28px, 3.2vw, 44px)",
+          fontWeight: 720, letterSpacing: 0,
           margin: "0 0 32px", lineHeight: 1.15,
         }}
       >
-        <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>Words</em>,
+        <em style={{ color: "var(--accent-hi)", fontStyle: "normal" }}>Words</em>,
         <br />
         <span style={{ color: "var(--fg-muted)" }}>not just code.</span>
       </h1>
@@ -47,11 +47,11 @@ const BlogPage: React.FC = () => {
             key={t}
             onClick={() => setFilter(t)}
             style={{
-              fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.06em",
-              padding: "7px 14px", borderRadius: 999,
+              fontFamily: "var(--sans)", fontSize: 12, fontWeight: 650, letterSpacing: 0,
+              padding: "8px 14px", borderRadius: 8,
               border: filter === t ? "1px solid var(--accent)" : "1px solid var(--border)",
-              background: filter === t ? "var(--accent-soft)" : "transparent",
-              color: filter === t ? "var(--accent-hi)" : "var(--fg-muted)",
+              background: filter === t ? "var(--accent-soft)" : "color-mix(in oklab, var(--bg-elevated) 55%, transparent)",
+              color: filter === t ? "var(--fg)" : "var(--fg-muted)",
               transition: "all .25s", cursor: "pointer",
             }}
           >
@@ -194,8 +194,8 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ posts }) => {
           <div
             style={{
               display: "flex", gap: 12, marginBottom: 16,
-              fontFamily: "var(--mono)", fontSize: 11,
-              letterSpacing: "0.16em", color: "var(--accent-hi)",
+              fontFamily: "var(--sans)", fontSize: 12, fontWeight: 650,
+              letterSpacing: 0, color: "var(--accent-hi)",
             }}
           >
             <span>★ FEATURED</span>
@@ -206,9 +206,9 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ posts }) => {
           </div>
           <h2
             style={{
-              fontFamily: "var(--serif)", fontSize: "clamp(20px, 2.4vw, 28px)",
-              fontWeight: 500, margin: "0 0 12px", lineHeight: 1.25,
-              letterSpacing: "-0.01em", maxWidth: 720,
+              fontFamily: "var(--sans)", fontSize: "clamp(20px, 2.4vw, 28px)",
+              fontWeight: 700, margin: "0 0 12px", lineHeight: 1.25,
+              letterSpacing: 0, maxWidth: 720,
               display: "-webkit-box",
               WebkitLineClamp: 2,
               WebkitBoxOrient: "vertical",
@@ -232,7 +232,7 @@ const FeaturedCard: React.FC<FeaturedCardProps> = ({ posts }) => {
         </div>
         <div
           style={{
-            fontFamily: "var(--serif)", fontSize: 48,
+            fontFamily: "var(--display)", fontSize: 48,
             color: "var(--accent)", lineHeight: 1, paddingLeft: 16,
             transition: "transform .3s ease",
             transform: hover ? "translateX(6px)" : "translateX(0)",
@@ -302,14 +302,14 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ post, index }) => {
         style={{
           position: "relative",
           display: "flex", justifyContent: "space-between", alignItems: "center",
-          fontFamily: "var(--mono)", fontSize: 10,
-          color: "var(--fg)", letterSpacing: "0.1em",
+          fontFamily: "var(--sans)", fontSize: 11,
+          color: "var(--fg)", letterSpacing: 0,
         }}
       >
         <span
           style={{
-            fontWeight: 500, fontSize: 10, letterSpacing: "0.1em",
-            padding: "3px 8px", borderRadius: 999,
+            fontWeight: 650, fontSize: 11, letterSpacing: 0,
+            padding: "5px 9px", borderRadius: 8,
             background: "color-mix(in oklab, var(--bg-elevated) 75%, transparent)",
             border: "1px solid var(--border)",
             backdropFilter: "blur(6px)",
@@ -321,11 +321,11 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ post, index }) => {
         </span>
         <span
           style={{
-            fontWeight: 600, fontSize: 11, letterSpacing: "0.12em",
-            padding: "4px 10px", borderRadius: 999,
-            color: "color-mix(in oklab, var(--accent) 65%, var(--fg))",
-            background: "color-mix(in oklab, var(--bg-elevated) 92%, transparent)",
-            border: "1px solid color-mix(in oklab, var(--accent) 55%, var(--fg))",
+            fontWeight: 700, fontSize: 12, letterSpacing: 0,
+            padding: "5px 10px", borderRadius: 8,
+            color: "var(--fg)",
+            background: "var(--accent-soft)",
+            border: "1px solid var(--accent-border)",
             backdropFilter: "blur(6px)",
             WebkitBackdropFilter: "blur(6px)",
           }}
@@ -337,8 +337,8 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ post, index }) => {
       <h3
         style={{
           position: "relative",
-          fontFamily: "var(--serif)", fontSize: 17, fontWeight: 600,
-          margin: 0, lineHeight: 1.3, letterSpacing: "-0.01em",
+          fontFamily: "var(--sans)", fontSize: 17, fontWeight: 700,
+          margin: 0, lineHeight: 1.3, letterSpacing: 0,
           color: "var(--fg)",
         }}
       >
@@ -348,8 +348,8 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ post, index }) => {
         style={{
           position: "relative",
           display: "flex", justifyContent: "space-between",
-          fontFamily: "var(--mono)", fontSize: 10,
-          color: "var(--fg-dim)", letterSpacing: "0.06em",
+          fontFamily: "var(--sans)", fontSize: 11, fontWeight: 600,
+          color: "var(--fg-dim)", letterSpacing: 0,
         }}
       >
         <span>{post.date}</span>

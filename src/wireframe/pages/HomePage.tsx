@@ -19,16 +19,16 @@ const styles = {
     gap: 64, alignItems: "center",
   } as React.CSSProperties,
   title: {
-    fontFamily: "var(--serif)",
-    fontSize: "clamp(26px, 3.2vw, 44px)", fontWeight: 400,
-    lineHeight: 1.15, letterSpacing: "-0.015em",
+    fontFamily: "var(--display)",
+    fontSize: "clamp(26px, 3.2vw, 44px)", fontWeight: 680,
+    lineHeight: 1.12, letterSpacing: 0,
     margin: "0 0 24px",
     color: "var(--fg)",
     textShadow: "0 2px 30px rgba(0,0,0,0.72)",
     fontVariationSettings: "'opsz' 60",
   } as React.CSSProperties,
   intro: {
-    fontFamily: "var(--mono)", fontSize: 12, letterSpacing: "0.16em",
+    fontFamily: "var(--sans)", fontSize: 12, fontWeight: 650, letterSpacing: "0.03em",
     textTransform: "uppercase" as const, color: "var(--fg-dim)",
     marginBottom: 32,
     display: "flex", alignItems: "center", gap: 12,
@@ -39,8 +39,8 @@ const styles = {
   } as React.CSSProperties,
   tags: { display: "flex", flexWrap: "wrap" as const, gap: 8, marginBottom: 36 },
   tag: {
-    fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.06em",
-    padding: "5px 12px", borderRadius: 999,
+    fontFamily: "var(--sans)", fontSize: 12, fontWeight: 650, letterSpacing: 0,
+    padding: "6px 12px", borderRadius: 8,
     border: "1px solid var(--border-hi)", color: "var(--fg)",
     background: "color-mix(in oklab, var(--bg-elevated) 82%, transparent)",
     backdropFilter: "blur(6px)",
@@ -63,7 +63,7 @@ const styles = {
   } as React.CSSProperties,
   rightStream: {
     display: "flex", flexDirection: "column" as const, gap: 0,
-    fontFamily: "var(--mono)", fontSize: 11,
+    fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600,
   },
   streamRow: {
     display: "flex", justifyContent: "space-between", alignItems: "center",
@@ -77,12 +77,12 @@ const styles = {
   stat: { padding: "0 32px", borderLeft: "1px solid var(--border)" } as React.CSSProperties,
   statFirst: { padding: "0 32px 0 0", borderLeft: 0 } as React.CSSProperties,
   statValue: {
-    fontFamily: "var(--serif)", fontSize: 32, fontWeight: 500,
-    color: "var(--accent-hi)", lineHeight: 1, letterSpacing: "-0.015em",
+    fontFamily: "var(--display)", fontSize: 32, fontWeight: 720,
+    color: "var(--accent-hi)", lineHeight: 1, letterSpacing: 0,
     textShadow: "0 2px 24px rgba(0,0,0,0.62)",
     fontVariationSettings: "'opsz' 60",
   } as React.CSSProperties,
-  statUnit: { fontFamily: "var(--mono)", fontSize: 12, color: "var(--accent)", marginLeft: 6 },
+  statUnit: { fontFamily: "var(--sans)", fontSize: 12, fontWeight: 650, color: "var(--accent)", marginLeft: 6 },
   statDesc: { marginTop: 12, fontSize: 12, color: "var(--fg-muted)", lineHeight: 1.5 },
 };
 
@@ -104,25 +104,37 @@ const HomePage: React.FC = () => {
           <div className="home-profile-grid" style={styles.grid}>
             <div>
               <h1 className="reveal d1 home-profile-title" style={styles.title}>
-                사용자 작업 흐름과<br />
-                기술적 병목 사이에서<br />
-                <em style={{ fontStyle: "italic", color: "var(--accent-hi)", fontFamily: "var(--serif)" }}>문제를 찾고 해결하는</em><br />
-                <span style={{ color: "var(--fg-muted)", fontSize: "0.6em", fontFamily: "var(--sans)", fontWeight: 300, letterSpacing: "-0.01em" }}>
-                  프론트엔드 엔지니어,
-                </span><br />
-                <span style={{ fontFamily: "var(--serif)", fontStyle: "italic", color: "var(--accent)" }}>권경민</span>
+                데이터와 상태를<br />
+                <em style={{ fontStyle: "normal", color: "var(--accent-hi)", fontFamily: "var(--display)" }}>읽기 쉬운 제품 화면으로</em><br />
+                정리합니다.
+                <br />
+                <span style={{ fontFamily: "var(--display)", fontStyle: "normal", color: "var(--accent)" }}>권경민</span>
                 <span style={{ color: "var(--fg-muted)" }}>.</span>
               </h1>
 
+              <p
+                className="reveal d2"
+                style={{
+                  maxWidth: 600,
+                  margin: "0 0 26px",
+                  fontSize: 14,
+                  lineHeight: 1.7,
+                  color: "var(--fg-muted)",
+                }}
+              >
+                React/TypeScript로 성능 병목과 상태 경계를 다룹니다.
+                세부 지표는 프로젝트에서 확인할 수 있습니다.
+              </p>
+
               <div className="reveal d2 home-profile-tags" style={styles.tags}>
-                {["Frontend Engineer", "Large Data UX", "State Architecture", "Performance UI"].map((t) => (
+                {["Frontend Engineer", "Content Flow UI", "State Architecture", "Performance UX"].map((t) => (
                   <span key={t} style={styles.tag}>{t}</span>
                 ))}
               </div>
 
               <div className="reveal d3 home-profile-actions" style={styles.buttonRow}>
                 <Link to="/projects" style={styles.btnPrimary}>
-                  문제 해결 과정 보기 →
+                  문제를 어떻게 풀었는지 보기 →
                 </Link>
                 <a
                   href={`${import.meta.env.BASE_URL}resume.pdf`}
@@ -155,20 +167,20 @@ const HomePage: React.FC = () => {
                 <span style={styles.statValue}>80K</span>
                 <span style={styles.statUnit}>logs/sec</span>
               </div>
-              <div style={styles.statDesc}>차량 제어 로그 실시간 시각화 처리량</div>
+              <div style={styles.statDesc}>실시간 정보 탐색 흐름을 유지한 처리량</div>
             </div>
             <div className="reveal d3 home-profile-stat" style={styles.stat}>
               <div>
                 <span style={styles.statValue}>1M</span>
                 <span style={styles.statUnit}>rows</span>
               </div>
-              <div style={styles.statDesc}>CSV Export 3초 처리<br />메모리 사용량 60% 절감</div>
+              <div style={styles.statDesc}>필터링 결과 Export 3초 처리<br />메모리 사용량 60% 절감</div>
             </div>
             <div className="reveal d4 home-profile-stat" style={styles.stat}>
               <div>
                 <span style={styles.statValue}>80%</span>
               </div>
-              <div style={styles.statDesc}>Global State 재정리 후<br />리렌더링 감소</div>
+              <div style={styles.statDesc}>상태 경계 재정리 후<br />리렌더링 감소</div>
             </div>
           </div>
         </div>
@@ -191,8 +203,7 @@ const HomePage: React.FC = () => {
           className="reveal d1"
           style={{ fontSize: 14, color: "var(--fg-muted)", maxWidth: 620, lineHeight: 1.65, margin: "0 0 28px" }}
         >
-          회사 프로젝트는 검증 가능한 규모와 결과를 먼저 보여줍니다.
-          대용량 데이터 처리, 상태 구조 개선, 실시간 검증처럼 실무자가 바로 물어볼 만한 사례만 앞에 두었습니다.
+          실무에서 확인한 성능, Export, 상태 구조 개선 사례입니다.
         </p>
         <div
           style={{
@@ -226,8 +237,7 @@ const HomePage: React.FC = () => {
           className="reveal d1"
           style={{ fontSize: 14, color: "var(--fg-muted)", maxWidth: 660, lineHeight: 1.65, margin: "0 0 28px" }}
         >
-          개인·대외 프로젝트는 숫자보다 판단 기준을 더 강하게 보여줍니다.
-          왜 이 기술을 골랐는지, 어디서 사용자가 막혔는지, 다음 프로젝트에서 무엇을 다르게 보게 됐는지를 중심으로 정리했습니다.
+          개인·대외 프로젝트는 기술 선택과 사용자 흐름에서 배운 기준만 남겼습니다.
         </p>
         <div
           style={{
@@ -254,7 +264,7 @@ const HomePage: React.FC = () => {
       <section style={{ marginTop: 120 }}>
         <div className="wf-marker">
           <span className="num">04</span>
-          <span>Skills by Problem</span>
+          <span>Skills by Product Problem</span>
           <span className="bar" />
         </div>
         <div
@@ -313,7 +323,7 @@ const HomePage: React.FC = () => {
           좋은 인터페이스는 <em style={{ color: "var(--accent-hi)" }}>복잡함을 숨기지 않고</em>,
           <br />
           <span style={{ color: "var(--fg-muted)" }}>
-            사용자가 다음 판단으로 넘어갈 수 있는 <em style={{ color: "var(--fg)" }}>구조</em>로 정리합니다.
+            다음 행동이 분명한 <em style={{ color: "var(--fg)" }}>구조</em>로 정리합니다.
           </span>
         </p>
         <div style={{ marginTop: 36 }}>
@@ -392,7 +402,7 @@ const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project: p, index: 
       <div
         style={{
           position: "relative", display: "flex", justifyContent: "space-between",
-          marginBottom: 16, fontFamily: "var(--mono)", fontSize: 11,
+          marginBottom: 16, fontFamily: "var(--sans)", fontSize: 12, fontWeight: 600,
           color: hover && p.banner ? "var(--fg-muted)" : "var(--fg-dim)",
           textShadow: hover && p.banner ? "0 1px 6px rgba(0,0,0,0.55)" : "none",
         }}
@@ -403,8 +413,8 @@ const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project: p, index: 
       <h3
         style={{
           position: "relative",
-          fontFamily: "var(--serif)", fontSize: compact ? 16 : 18, fontWeight: 500,
-          margin: "0 0 6px", letterSpacing: "-0.01em", lineHeight: 1.2,
+          fontFamily: "var(--sans)", fontSize: compact ? 16 : 18, fontWeight: 700,
+          margin: "0 0 6px", letterSpacing: 0, lineHeight: 1.22,
           color: "var(--fg)",
           textShadow: hover && p.banner ? "0 1px 8px rgba(0,0,0,0.6)" : "none",
         }}
@@ -426,42 +436,25 @@ const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project: p, index: 
       >
         {p.summary}
       </div>
-      <div style={{ position: "relative", display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 12 }}>
-        {p.metrics.slice(0, 2).map((m) => (
+      <div style={{ position: "relative", display: "flex", flexWrap: "wrap", gap: 8, marginTop: "auto" }}>
+        {p.metrics.slice(0, compact ? 1 : 2).map((m) => (
           <span
             key={`${m.v}-${m.d}`}
             style={{
-              fontFamily: "var(--mono)", fontSize: 10, padding: "3px 8px",
-              borderRadius: 999,
-              color: p.color,
-              background: "color-mix(in oklab, var(--bg-elevated) 82%, transparent)",
-              border: `1px solid ${p.color}66`,
+              fontFamily: "var(--sans)",
+              fontSize: 12,
+              fontWeight: 650,
+              lineHeight: 1.2,
+              padding: "6px 10px",
+              borderRadius: 8,
+              color: "var(--fg)",
+              background: `linear-gradient(135deg, ${p.color}26, color-mix(in oklab, var(--bg-elevated) 84%, transparent))`,
+              border: `1px solid ${p.color}99`,
+              boxShadow: `0 0 0 1px ${p.color}22 inset`,
+              textShadow: hover && p.banner ? "0 1px 8px rgba(0,0,0,0.55)" : "none",
             }}
           >
             {m.v} · {m.d}
-          </span>
-        ))}
-      </div>
-      <div style={{ position: "relative", display: "flex", flexWrap: "wrap", gap: 6 }}>
-        {p.visualTags.map((t) => (
-          <span
-            key={t}
-            style={{
-              fontFamily: "var(--mono)", fontSize: 10, padding: "3px 8px",
-              borderRadius: 999,
-              border: hover && p.banner
-                ? "1px dashed color-mix(in oklab, var(--fg) 70%, transparent)"
-                : "1px dashed var(--border-hi)",
-              color: hover && p.banner ? "var(--fg)" : "var(--fg-muted)",
-              background: hover && p.banner
-                ? "color-mix(in oklab, var(--bg-elevated) 70%, transparent)"
-                : "transparent",
-              backdropFilter: hover && p.banner ? "blur(4px)" : undefined,
-              WebkitBackdropFilter: hover && p.banner ? "blur(4px)" : undefined,
-              transition: "all .3s ease",
-            }}
-          >
-            {t}
           </span>
         ))}
       </div>

@@ -65,9 +65,9 @@ const AboutPage: React.FC = () => {
               lineHeight: 1.2, margin: "0 0 24px",
             }}
           >
-            복잡한 데이터 흐름과 사용자 작업 흐름 사이의{" "}
-            <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>병목</em>
-            을 찾습니다.
+            화면의 병목은{" "}
+            <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>코드와 사용 흐름</em>
+            {" "}사이에 있습니다.
           </h1>
           <div
             className="reveal d2 about-copy"
@@ -77,20 +77,10 @@ const AboutPage: React.FC = () => {
             }}
           >
             <p style={{ margin: "0 0 18px" }}>
-              저는 복잡한 데이터 흐름을 사용자가 판단하기 쉬운 인터페이스로 정리하는
-              프론트엔드 엔지니어 권경민입니다. 차량 로그 분석 도구에서 초당 80,000건
-              로그를 UI 멈춤 없이 시각화했고, 100만 행 CSV Export를 3초 안에 처리하며
-              메모리 사용량을 60% 줄였습니다.
+              프론트엔드 엔지니어 권경민입니다. 대용량 UI, Export, 상태 구조를 다루며 화면의 대기와 회귀 리스크를 줄여왔습니다.
             </p>
             <p style={{ margin: "0 0 18px" }}>
-              단순히 빠르게 만드는 것보다, 사용자가 분석 맥락을 잃지 않고 다음 판단으로
-              넘어가게 만드는 구조를 중요하게 봅니다. Global State를 Local State와
-              도메인 단위 구조로 재정리해 리렌더링을 줄였고, 반복되는 로직은 npm 패키지와
-              테스트 가능한 모듈로 분리했습니다.
-            </p>
-            <p style={{ margin: 0 }}>
-              기술을 도입할 때는 먼저 "굳이 이 방식이 맞나?"를 묻습니다. 성능, 유지보수성,
-              테스트 가능성, 그리고 실제 사용자가 헤매지 않는 흐름을 함께 봅니다.
+              기술을 고르기 전 병목의 위치를 먼저 봅니다. 반복 로직은 테스트 가능한 모듈로 분리합니다.
             </p>
           </div>
           <div className="reveal d3 about-cta-row" style={{ display: "flex", gap: 12 }}>
@@ -184,9 +174,9 @@ const AboutPage: React.FC = () => {
         </div>
         <div className="about-values-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20 }}>
           {[
-            ["Workflow first", "성능 수치가 좋아져도 사용자가 다음 판단으로 넘어가지 못하면 개선이 부족하다고 봅니다. 분석 흐름, 패널 배치, Export 실패 리스크까지 작업 단위로 봅니다."],
-            ["State boundaries", "모든 상태를 전역으로 올리지 않습니다. 변경 영향 범위와 리렌더링 비용을 기준으로 Local State, Domain State, Store의 경계를 나눕니다."],
-            ["Reusable proof", "반복되는 로직은 사내 유틸에만 두지 않고 테스트 가능한 모듈로 분리합니다. npm 패키지와 CI/CD는 그런 기준을 검증한 결과입니다."],
+            ["Flow first", "화면 속도는 사용자가 실제로 기다리는 지점에서 측정합니다."],
+            ["State split", "상태는 변경 영향 범위와 렌더링 비용 기준으로 나눕니다."],
+            ["Reusable", "반복 로직은 테스트와 배포 기준까지 함께 분리합니다."],
           ].map(([t, d], i) => (
             <div
               key={t}

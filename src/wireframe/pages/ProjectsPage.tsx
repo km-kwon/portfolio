@@ -20,7 +20,7 @@ const ProjectsPage: React.FC = () => {
         <span className="num">02</span>
         <span>Selected Work · 2022 — 2026</span>
         <span className="bar" />
-        <span style={{ fontFamily: "var(--mono)", fontSize: 11 }}>
+        <span style={{ fontFamily: "var(--sans)", fontSize: 11, fontWeight: 650 }}>
           {visible.length} / {PROJECTS.length}
         </span>
       </div>
@@ -28,21 +28,20 @@ const ProjectsPage: React.FC = () => {
       <h1
         className="reveal"
         style={{
-          fontFamily: "var(--serif)", fontSize: "clamp(28px, 3.2vw, 44px)",
-          fontWeight: 400, letterSpacing: "-0.015em",
+          fontFamily: "var(--display)", fontSize: "clamp(28px, 3.2vw, 44px)",
+          fontWeight: 720, letterSpacing: 0,
           margin: "0 0 12px", lineHeight: 1.15,
         }}
       >
-        <em style={{ color: "var(--accent-hi)", fontStyle: "italic" }}>Problem-solving</em> cases,
+        <em style={{ color: "var(--accent-hi)", fontStyle: "normal" }}>Content-flow</em> cases,
         <br />
-        <span style={{ color: "var(--fg-muted)" }}>professional and independent.</span>
+        <span style={{ color: "var(--fg-muted)" }}>from problem to interface.</span>
       </h1>
       <p
         className="reveal d1"
         style={{ fontSize: 15, color: "var(--fg-muted)", maxWidth: 570, lineHeight: 1.65, marginBottom: 48 }}
       >
-        회사 프로젝트는 검증된 규모와 결과를, 개인·대외 프로젝트는 판단 기준과 배운 점을 보여줍니다.
-        같은 문제 해결이라도 어디에서 증명됐는지 분리해 볼 수 있게 정리했습니다.
+        카드에서는 결과를, 상세에서는 문제와 구현 판단을 확인할 수 있습니다.
       </p>
 
       <div className="reveal d2" style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 40 }}>
@@ -51,11 +50,11 @@ const ProjectsPage: React.FC = () => {
             key={t}
             onClick={() => setFilter(t)}
             style={{
-              fontFamily: "var(--mono)", fontSize: 11, letterSpacing: "0.06em",
-              padding: "7px 14px", borderRadius: 999,
+              fontFamily: "var(--sans)", fontSize: 12, fontWeight: 650, letterSpacing: 0,
+              padding: "8px 14px", borderRadius: 8,
               border: filter === t ? "1px solid var(--accent)" : "1px solid var(--border)",
-              background: filter === t ? "var(--accent-soft)" : "transparent",
-              color: filter === t ? "var(--accent-hi)" : "var(--fg-muted)",
+              background: filter === t ? "var(--accent-soft)" : "color-mix(in oklab, var(--bg-elevated) 55%, transparent)",
+              color: filter === t ? "var(--fg)" : "var(--fg-muted)",
               transition: "all .25s", cursor: "pointer",
             }}
           >
@@ -68,13 +67,13 @@ const ProjectsPage: React.FC = () => {
         <div style={{ display: "grid", gap: 72 }}>
           <ProjectSection
             title="Professional Case Studies"
-            intro="회사 프로젝트에서는 성능, 상태 구조, 대용량 데이터, 실시간 검증처럼 실무에서 바로 검증되는 문제를 중심으로 정리했습니다."
+            intro="성능, Export, 상태 구조처럼 실무에서 측정한 개선만 모았습니다."
             projects={PROFESSIONAL_PROJECTS}
             startIndex={0}
           />
           <ProjectSection
             title="Independent Projects"
-            intro="개인·대외 프로젝트에서는 기술 선택의 이유, 사용자 흐름에서 배운 점, 다음 프로젝트로 이어진 판단 기준을 더 강하게 드러냈습니다."
+            intro="기술 선택의 이유와 다음 프로젝트로 이어진 기준만 남겼습니다."
             projects={INDEPENDENT_PROJECTS}
             startIndex={PROFESSIONAL_PROJECTS.length}
           />
@@ -167,20 +166,21 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start" }}>
-          <span style={{ fontFamily: "var(--mono)", fontSize: 10, letterSpacing: "0.16em", color: "var(--fg-dim)" }}>
+          <span style={{ fontFamily: "var(--sans)", fontSize: 11, fontWeight: 650, letterSpacing: 0, color: "var(--fg-dim)" }}>
             {String(index + 1).padStart(2, "0")} / {project.year}
           </span>
           <span
             style={{
-              fontFamily: "var(--mono)", fontSize: 11, fontWeight: 700,
-              letterSpacing: "0.12em",
-              color: `color-mix(in oklab, ${project.color} 60%, var(--fg))`,
-              padding: "4px 10px",
-              background: "color-mix(in oklab, var(--bg-elevated) 92%, transparent)",
+              fontFamily: "var(--sans)", fontSize: 12, fontWeight: 700,
+              letterSpacing: 0,
+              color: "var(--fg)",
+              padding: "6px 11px",
+              background: `linear-gradient(135deg, ${project.color}33, color-mix(in oklab, var(--bg-elevated) 88%, transparent))`,
               backdropFilter: "blur(6px)",
               WebkitBackdropFilter: "blur(6px)",
-              border: `1px solid color-mix(in oklab, ${project.color} 55%, var(--fg))`,
-              borderRadius: 999, textTransform: "uppercase",
+              border: `1px solid ${project.color}99`,
+              borderRadius: 8,
+              boxShadow: `0 0 0 1px ${project.color}22 inset`,
             }}
           >
             {project.visualTags[0]}
@@ -189,8 +189,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
         <div>
           <h3
             style={{
-              fontFamily: "var(--serif)", fontSize: 18, fontWeight: 500,
-              margin: "0 0 6px", letterSpacing: "-0.01em", lineHeight: 1.2,
+              fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700,
+              margin: "0 0 6px", letterSpacing: 0, lineHeight: 1.22,
             }}
           >
             {project.subTitle}
@@ -214,13 +214,16 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
               <span
                 key={`${m.v}-${m.d}`}
                 style={{
-                  fontFamily: "var(--mono)",
-                  fontSize: 10,
-                  padding: "3px 8px",
-                  borderRadius: 999,
-                  color: project.color,
-                  background: "color-mix(in oklab, var(--bg-elevated) 88%, transparent)",
-                  border: `1px solid ${project.color}66`,
+                  fontFamily: "var(--sans)",
+                  fontSize: 12,
+                  fontWeight: 650,
+                  lineHeight: 1.2,
+                  padding: "6px 10px",
+                  borderRadius: 8,
+                  color: "var(--fg)",
+                  background: `linear-gradient(135deg, ${project.color}26, color-mix(in oklab, var(--bg-elevated) 86%, transparent))`,
+                  border: `1px solid ${project.color}99`,
+                  boxShadow: `0 0 0 1px ${project.color}22 inset`,
                 }}
               >
                 {m.v} · {m.d}
@@ -230,11 +233,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
           <div
             style={{
               display: "flex", alignItems: "center", gap: 6,
-              fontFamily: "var(--mono)", fontSize: 11,
-              color: hover ? project.color : "var(--fg-muted)", transition: "color .3s",
+              fontFamily: "var(--sans)", fontSize: 12, fontWeight: 650,
+              color: hover ? "var(--fg)" : "var(--fg-muted)", transition: "color .3s",
             }}
           >
-            문제 해결 과정 보기 →
+            문제에서 결과까지 보기 →
           </div>
         </div>
       </div>

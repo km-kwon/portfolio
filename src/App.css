@@ -39,10 +39,10 @@
   --radius-card: 16px;
 
   /* Type families */
-  --display: "Geist", "Pretendard Variable", "Pretendard", "SUIT Variable", "SUIT", system-ui, sans-serif;
-  --serif: "Geist", "Pretendard Variable", "Pretendard", "SUIT Variable", "SUIT", system-ui, sans-serif;
-  --sans:  "Geist", "Pretendard Variable", "Pretendard", "SUIT Variable", "SUIT", system-ui, sans-serif;
-  --mono:  "Geist Mono", "Cascadia Code", "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  --display: "Pretendard Variable", "Pretendard", "Inter", "SUIT Variable", "SUIT", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+  --serif: "Pretendard Variable", "Pretendard", "Inter", "SUIT Variable", "SUIT", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+  --sans:  "Pretendard Variable", "Pretendard", "Inter", "SUIT Variable", "SUIT", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+  --mono:  "JetBrains Mono", "Cascadia Code", "SFMono-Regular", Consolas, ui-monospace, monospace;
 
   /* Modal */
   --modal-backdrop: rgba(0, 0, 0, 0.5);
@@ -132,7 +132,8 @@ body {
   min-width: 320px;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  text-rendering: geometricPrecision;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
   transition: background-color 0.6s ease, color 0.4s ease;
 }
 
@@ -802,6 +803,35 @@ html[data-theme="light"] .project-detail-page::before {
 
 .project-detail-subtitle {
   overflow-wrap: anywhere;
+}
+
+.project-detail-page .wf-marker {
+  color: var(--fg-muted);
+  font-weight: 700;
+  margin-bottom: 22px;
+}
+
+.project-detail-page .wf-marker > span:not(.num):not(.bar) {
+  color: var(--fg);
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.35);
+}
+
+.project-detail-page .wf-marker .num {
+  color: var(--accent-hi);
+}
+
+.project-detail-page .wf-marker .bar {
+  background: linear-gradient(90deg, var(--accent), var(--border) 38%, transparent);
+}
+
+.project-detail-task-row > span:last-child,
+.project-detail-result-row > span:last-child,
+.project-detail-tech-row > div:last-child {
+  color: color-mix(in oklab, var(--fg) 88%, var(--fg-muted));
+}
+
+.project-detail-learning-grid {
+  align-items: start;
 }
 
 @media (max-width: 900px) {
@@ -1493,7 +1523,7 @@ html[data-theme="light"] .project-detail-page::before {
 /* Section marker — used across the wireframe pages */
 .wf-marker {
   display: flex; align-items: center; gap: 14px;
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  font-family: var(--sans); font-size: 11px; font-weight: 650; letter-spacing: 0.04em; text-transform: uppercase;
   color: var(--fg-dim);
   margin-bottom: 24px;
 }
@@ -2143,3 +2173,9 @@ html[data-theme="light"] .project-detail-page::before {
   white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .2s;
 }
 .trail .stop:hover .tip { opacity: 1; }
+
+.project-detail-stack-chip {
+  font-family: var(--sans) !important;
+  font-weight: 650;
+  letter-spacing: 0;
+}

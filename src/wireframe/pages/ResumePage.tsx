@@ -6,11 +6,11 @@ import { openSourceData } from "../../component/Body/Home/skills/opensource/open
 const ENGINEERING_QUALITY_ITEMS: { label: string; desc: string }[] = [
   {
     label: "GitHub Actions CI/CD",
-    desc: "Push·PR 기준 빌드/테스트/배포 흐름을 자동화하고, 릴리스 전 기본 회귀 검증을 파이프라인에서 확인하도록 구성했습니다.",
+    desc: "Push·PR 기준 테스트와 배포 검증을 자동화했습니다.",
   },
   {
     label: "Vitest 테스트 커버리지 100%",
-    desc: "핵심 로직 단위/통합 테스트와 커버리지 기준을 운영해, 리팩토링 이후에도 동작을 빠르게 검증할 수 있게 했습니다.",
+    desc: "핵심 로직 테스트와 커버리지 기준을 운영했습니다.",
   },
 ];
 
@@ -18,7 +18,7 @@ const ResumePage: React.FC = () => {
   const stats: { v: string; d: string }[] = [
     { v: "3y+",  d: "Frontend Engineering" },
     { v: `${PROJECTS.length}`, d: "Selected Projects" },
-    { v: "80K/s", d: "Peak Throughput" },
+    { v: "80K/s", d: "Realtime Content Flow" },
     { v: "60%", d: "Export Memory Reduced" },
   ];
 
@@ -77,7 +77,7 @@ const ResumePage: React.FC = () => {
       <div className="reveal d1" style={{ fontSize: 14, color: "var(--fg-muted)", marginBottom: 56 }}>
         <em style={{ fontFamily: "var(--serif)", fontStyle: "italic", color: "var(--accent-hi)" }}>Frontend</em>
         {" × "}
-        <em style={{ fontFamily: "var(--serif)", fontStyle: "italic", color: "var(--accent-hi)" }}>Large Data UX</em>
+        <em style={{ fontFamily: "var(--serif)", fontStyle: "italic", color: "var(--accent-hi)" }}>Content Flow UI</em>
         {" × "}
         <em style={{ fontFamily: "var(--serif)", fontStyle: "italic", color: "var(--accent-hi)" }}>State Architecture</em>
       </div>
@@ -283,9 +283,9 @@ const ResumePage: React.FC = () => {
               >
                 <div
                   style={{
-                    fontFamily: "var(--mono)",
+                    fontFamily: "var(--sans)",
                     fontSize: 13,
-                    fontWeight: 600,
+                    fontWeight: 700,
                     color: "var(--accent-hi)",
                     letterSpacing: "-0.005em",
                   }}
@@ -294,10 +294,11 @@ const ResumePage: React.FC = () => {
                 </div>
                 <div
                   style={{
-                    fontFamily: "var(--mono)",
+                    fontFamily: "var(--sans)",
                     fontSize: 10,
+                    fontWeight: 650,
                     color: "var(--fg-muted)",
-                    letterSpacing: "0.08em",
+                    letterSpacing: 0,
                   }}
                 >
                   v{pkg.version}
@@ -317,14 +318,15 @@ const ResumePage: React.FC = () => {
                   <span
                     key={t}
                     style={{
-                      fontFamily: "var(--mono)",
-                      fontSize: 10,
-                      padding: "3px 8px",
-                      borderRadius: 999,
+                      fontFamily: "var(--sans)",
+                      fontSize: 11,
+                      fontWeight: 650,
+                      padding: "5px 9px",
+                      borderRadius: 8,
                       border: "1px solid var(--accent-border)",
                       background: "var(--accent-soft)",
                       color: "var(--accent)",
-                      letterSpacing: "0.04em",
+                      letterSpacing: 0,
                     }}
                   >
                     {t}

@@ -34,5 +34,6 @@ export interface Project {
   implementation?: string[];
   outcome?: string;
   learning?: string;
+  contentBridge?: string;
   interviewQuestions?: string[];
 }
