@@ -106,10 +106,10 @@ const HomePage: React.FC = () => {
               <h1 className="reveal d1 home-profile-title" style={styles.title}>
                 데이터와 상태를<br />
                 <em style={{ fontStyle: "normal", color: "var(--accent-hi)", fontFamily: "var(--display)" }}>읽기 쉬운 제품 화면으로</em><br />
-                정리합니다.
+                만들어 내는 프론트엔드 개발자
                 <br />
                 <span style={{ fontFamily: "var(--display)", fontStyle: "normal", color: "var(--accent)" }}>권경민</span>
-                <span style={{ color: "var(--fg-muted)" }}>.</span>
+                <span className="reveal d1 home-profile-title" style={styles.title}>입니다.</span>
               </h1>
 
               <p
