@@ -49,6 +49,7 @@ const Shell: React.FC<{ theme: Theme; onToggleTheme: () => void }> = ({ theme, o
   const navigate = useNavigate();
   const stage = pathToStage(location.pathname);
   const isLabRoute = location.pathname.startsWith("/lab");
+  const isHomeRoute = stage === "home";
   const [scrollY, setScrollY] = useState(0);
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
 
@@ -87,7 +88,7 @@ const Shell: React.FC<{ theme: Theme; onToggleTheme: () => void }> = ({ theme, o
       <Trail />
 
       <main
-        className={`app-shell-main${isLabRoute ? " app-shell-main-lab" : ""}`}
+        className={`app-shell-main${isLabRoute ? " app-shell-main-lab" : ""}${isHomeRoute ? " app-shell-main-home" : ""}`}
         style={{
           position: "relative", zIndex: 2,
           maxWidth: isLabRoute ? "none" : "var(--content-max)",

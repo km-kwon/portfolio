@@ -79,8 +79,6 @@ const ORBITS: {
   { id: "contact", rx: 600, ry: 210, period: 64, phase: 5.7, size: 5, color: "var(--accent-hi)", label: "CONTACT" },
 ];
 
-const HOME_HOTSPOT_SCROLL_LIMIT = 360;
-
 const SceneHome: React.FC<SceneProps> = ({
   t,
   intensity,
@@ -92,6 +90,22 @@ const SceneHome: React.FC<SceneProps> = ({
 
   return (
     <g>
+      {Array.from({ length: 320 }).map((_, i) => {
+        const x = (seedRand(i, 41) - 0.5) * 1600;
+        const y = (seedRand(i, 73) - 0.5) * 820;
+        const tw = 0.4 + (Math.sin(t * (0.4 + seedRand(i, 17)) + i) * 0.5 + 0.5) * 0.6;
+        return (
+          <circle
+            key={`home-star-${i}`}
+            cx={x}
+            cy={y}
+            r={0.6 + seedRand(i, 29) * 1.3}
+            fill="var(--accent-hi)"
+            opacity={tw * 0.9 * intensity}
+          />
+        );
+      })}
+
       {ORBITS.map((o) => (
         <ellipse
           key={`orbit-${o.id}`}
@@ -190,23 +204,6 @@ const SceneHome: React.FC<SceneProps> = ({
       </g>
       <circle cx="0" cy="0" r={36 * corePulse} fill="url(#coreInner)" filter="url(#blurSoft)" />
       <circle cx="0" cy="0" r={5 + Math.sin(t * 3) * 1.2} fill="var(--accent-hi)" opacity={intensity} />
-
-      {[0, 1, 2].map((k) => {
-        const phase = (t * 0.6 + k / 3) % 1;
-        const r = 80 + phase * 480;
-        return (
-          <circle
-            key={`pulse-${k}`}
-            cx="0"
-            cy="0"
-            r={r}
-            stroke="var(--accent-hi)"
-            strokeWidth="0.8"
-            fill="none"
-            opacity={(1 - phase) * 0.35 * intensity}
-          />
-        );
-      })}
     </g>
   );
 };
@@ -797,7 +794,6 @@ export const World: React.FC<WorldProps> = ({
   const toOpacity = sceneState.progress;
   const FromScene = sceneState.from ? SCENES[sceneState.from] : null;
   const ToScene = SCENES[sceneState.to] || SceneHome;
-  const isProfileHotspotActive = page === "home" && scrollY < HOME_HOTSPOT_SCROLL_LIMIT;
 
   return (
     <>
@@ -885,7 +881,7 @@ export const World: React.FC<WorldProps> = ({
       </div>
       {page === "home" && (
         <svg
-          className={`world-hotspot-layer${isProfileHotspotActive ? " is-profile-hotspot-active" : ""}`}
+          className="world-hotspot-layer"
           viewBox="0 0 1600 900"
           preserveAspectRatio="xMidYMid slice"
           aria-hidden="true"

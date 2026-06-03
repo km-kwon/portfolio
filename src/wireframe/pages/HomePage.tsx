@@ -205,25 +205,7 @@ const HomePage: React.FC = () => {
         >
           실무에서 확인한 성능, Export, 상태 구조 개선 사례입니다.
         </p>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 320px), 1fr))",
-            gridAutoRows: "1fr",
-            gap: 24,
-            alignItems: "stretch",
-          }}
-        >
-          {professionalProjects.map((p, i) => (
-            <div
-              key={p.id}
-              className="reveal"
-              style={{ animationDelay: `${0.06 * i}s`, height: "100%" }}
-            >
-              <SelectedWorkCard project={p} index={i} />
-            </div>
-          ))}
-        </div>
+        <ProjectMarquee projects={professionalProjects} direction="left" />
       </section>
 
       {/* ── Independent Work ──────────────────────── */}
@@ -239,25 +221,7 @@ const HomePage: React.FC = () => {
         >
           개인·대외 프로젝트는 기술 선택과 사용자 흐름에서 배운 기준만 남겼습니다.
         </p>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 280px), 1fr))",
-            gridAutoRows: "1fr",
-            gap: 20,
-            alignItems: "stretch",
-          }}
-        >
-          {independentProjects.map((p, i) => (
-            <div
-              key={p.id}
-              className="reveal"
-              style={{ animationDelay: `${0.05 * i}s`, height: "100%" }}
-            >
-              <SelectedWorkCard project={p} index={i} compact />
-            </div>
-          ))}
-        </div>
+        <ProjectMarquee projects={independentProjects} direction="right" compact />
       </section>
 
       {/* ── Skills ──────────────────────────────────── */}
@@ -353,10 +317,14 @@ const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project: p, index: 
       style={{
         padding: compact ? 22 : 28, borderRadius: 14,
         border: hover ? "1px solid var(--accent)" : "1px solid var(--border)",
-        background: "color-mix(in oklab, var(--bg-elevated) 60%, transparent)",
+        background: p.banner
+          ? "color-mix(in oklab, var(--bg-elevated) 60%, transparent)"
+          : hover
+            ? "var(--bg-elevated)"
+            : "color-mix(in oklab, var(--bg-elevated) 90%, transparent)",
         backdropFilter: "blur(12px)",
         cursor: "pointer",
-        transition: "border-color .35s, transform .35s, box-shadow .35s",
+        transition: "border-color .35s, transform .35s, box-shadow .35s, background .35s",
         transform: hover ? "translateY(-3px)" : "translateY(0)",
         boxShadow: hover ? `0 18px 40px ${p.color}33` : "0 0 0 transparent",
         position: "relative", overflow: "hidden",
@@ -459,6 +427,46 @@ const SelectedWorkCard: React.FC<SelectedWorkCardProps> = ({ project: p, index: 
         ))}
       </div>
     </Link>
+  );
+};
+
+interface ProjectMarqueeProps {
+  projects: WireProject[];
+  compact?: boolean;
+  direction?: "left" | "right";
+}
+
+const ProjectMarquee: React.FC<ProjectMarqueeProps> = ({
+  projects,
+  compact = false,
+  direction = "left",
+}) => {
+  // Repeat the base list so one half comfortably overflows wide viewports,
+  // then render it twice — translating the track by -50% loops seamlessly.
+  const half: { project: WireProject; index: number }[] = [];
+  while (half.length < 6) {
+    projects.forEach((project, index) => half.push({ project, index }));
+  }
+  const loop = [...half, ...half];
+  const duration = Math.max(24, half.length * 4); // proportional → constant speed
+
+  return (
+    <div className="project-marquee">
+      <div
+        className={`project-marquee-track${direction === "right" ? " is-right" : ""}`}
+        style={{ ["--marquee-duration" as string]: `${duration}s` }}
+      >
+        {loop.map(({ project, index }, k) => (
+          <div
+            key={`${project.id}-${k}`}
+            className="project-marquee-item"
+            style={{ width: compact ? 300 : 340, height: compact ? 216 : 220 }}
+          >
+            <SelectedWorkCard project={project} index={index} compact={compact} />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 

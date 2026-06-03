@@ -386,16 +386,26 @@ html[data-theme="light"] .world-svg {
 .world-hotspot-layer {
   position: fixed;
   inset: 0;
-  z-index: 1;
+  z-index: 1; /* below main content (z-index 2) so cards/links win on overlap */
   width: 100%;
   height: 100%;
   pointer-events: none;
 }
-.world-hotspot-layer.is-profile-hotspot-active {
-  z-index: 3;
-}
-.world-hotspot-layer:not(.is-profile-hotspot-active) .world-hotspot {
+
+/* On the home page, let empty content areas fall through to the planet
+   hotspots below, while real interactive elements (cards, links, buttons)
+   still capture clicks. pointer-events is inherited, so descendants of a
+   re-enabled element become clickable too. */
+.app-shell-main-home {
   pointer-events: none;
+}
+.app-shell-main-home a,
+.app-shell-main-home button,
+.app-shell-main-home input,
+.app-shell-main-home textarea,
+.app-shell-main-home select,
+.app-shell-main-home [role="button"] {
+  pointer-events: auto;
 }
 .world-grain {
   position: fixed; inset: 0; pointer-events: none; z-index: 1;
@@ -2178,4 +2188,51 @@ html[data-theme="light"] .project-detail-page::before {
   font-family: var(--sans) !important;
   font-weight: 650;
   letter-spacing: 0;
+}
+
+/* ── Project marquee (conveyor belt) ─────────────── */
+.project-marquee {
+  --marquee-max: 1300px;
+  position: relative;
+  width: min(100vw, var(--marquee-max));
+  margin-left: calc(50% - min(50vw, var(--marquee-max) / 2));
+  margin-right: calc(50% - min(50vw, var(--marquee-max) / 2));
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 15%, #000 80%, transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0%, #000 15%, #000 80%, transparent 100%);
+}
+
+.project-marquee-track {
+  display: flex;
+  width: max-content;
+  padding: 14px 0;
+  will-change: transform;
+  animation: marquee-left var(--marquee-duration, 48s) linear infinite;
+}
+
+.project-marquee-track.is-right {
+  animation-name: marquee-right;
+}
+
+.project-marquee:hover .project-marquee-track {
+  animation-play-state: paused;
+}
+
+.project-marquee-item {
+  flex: 0 0 auto;
+  margin-right: 24px;
+}
+
+@keyframes marquee-left {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes marquee-right {
+  from { transform: translate3d(-50%, 0, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-marquee-track { animation: none; }
 }
