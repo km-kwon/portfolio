@@ -6,7 +6,7 @@ export const careerData: CareerItem[] = [
     id: "career-2",
     company: "SURESOFTTECH",
     companyLogo: sureLogo,
-    position: "AI Simulation Engineer",
+    position: "Frontend Developer / AI Engineer",
     department: "임베디드 기술 연구소 / 지능형 데이터팀",
     period: "2026.01 - 현재",
     transition:
