@@ -711,7 +711,7 @@ export interface WireTimelineRow {
 
 const educationRows: WireTimelineRow[] = [
   { y: "2019",  role: "Cyber Security Major · CS Student", org: "Ajou University", detail: "사이버보안 전공 입학" },
-  { y: "2024",  role: "Computer Engineering · B.S.",       org: "Ajou University", detail: "사이버보안/소프트웨어 전공 졸업" },
+  { y: "2025",  role: "Computer Engineering · B.S.",       org: "Ajou University", detail: "사이버보안 심화 전공 졸업" },
 ];
 
 export const TIMELINE: WireTimelineRow[] = [

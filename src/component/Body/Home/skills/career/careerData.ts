@@ -54,7 +54,7 @@ export const careerData: CareerItem[] = [
     companyLogo: sureLogo,
     position: "Frontend Developer",
     department: "임베디드 기술 연구소 / 차량솔루션 1팀",
-    period: "2023.03 - 2025.12",
+    period: "2024.07 - 2025.12",
     projects: [
       {
         name: "차량 통합 제어기(CCU2) Log Monitor & Analyzer",
