@@ -83,7 +83,7 @@ const TocSidebar: React.FC<{
 
   return (
     <aside
-      className="hidden min-[1180px]:block fixed top-[calc(var(--header-height)+40px)] left-[calc(50%_+_362px)] [@media_(orientation:landscape)_and_(min-width:1180px)]:left-[calc(50%_+_416px)] [@media_(orientation:landscape)_and_(min-width:1440px)]:left-[calc(50%_+_506px)] [@media_(orientation:landscape)_and_(min-width:1600px)]:left-[calc(50%_+_566px)] z-10 w-[220px] [@media_(orientation:landscape)_and_(min-width:1180px)]:w-[180px] max-h-[calc(100vh-var(--header-height)-80px)] overflow-y-auto overflow-x-hidden"
+      className="blog-detail-toc-sidebar"
     >
       <div className="pl-4 pr-2 border-l border-(--border-subtle)">
         <div className="text-[10px] font-mono tracking-[0.16em] uppercase text-fg-dimmed mb-4">
@@ -345,6 +345,16 @@ const MarkdownContent = React.memo(function MarkdownContent({
   );
 });
 
+const renderTitleWithBreakHints = (title: string) =>
+  title.trim().split(/\s+/u).map((part, index) => (
+    <span
+      key={`${part}-${index}`}
+      style={{ overflowWrap: "anywhere", wordBreak: "break-word" }}
+    >
+      {part}
+    </span>
+  ));
+
 const BlogDetailPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
@@ -501,24 +511,8 @@ const BlogDetailPage: React.FC = () => {
     >
       <div className="blog-detail-transition" aria-hidden="true" />
 
-      <div className="blog-detail-shell mx-auto w-full max-w-[1140px] [@media_(orientation:landscape)_and_(min-width:1180px)]:max-w-[1300px] [@media_(orientation:landscape)_and_(min-width:1440px)]:max-w-[1436px] [@media_(orientation:landscape)_and_(min-width:1600px)]:max-w-[1556px] px-5 md:px-8 pt-[calc(var(--header-height)+48px)] pb-16">
-        <div
-          className={[
-            "grid w-full items-start",
-            toc.length
-              ? "min-[1180px]:grid-cols-[minmax(0,900px)_220px] [@media_(orientation:landscape)_and_(min-width:1180px)]:grid-cols-[minmax(0,980px)_180px] [@media_(orientation:landscape)_and_(min-width:1440px)]:grid-cols-[minmax(0,1160px)_180px] [@media_(orientation:landscape)_and_(min-width:1600px)]:grid-cols-[minmax(0,1280px)_180px] min-[1180px]:gap-8 min-[1180px]:justify-center"
-              : "grid-cols-1",
-          ].join(" ")}
-        >
-          <article
-            className={[
-              "blog-detail-article",
-              "w-full min-w-0 max-w-[820px] mx-auto",
-              toc.length
-                ? "min-[1180px]:mx-0 min-[1180px]:max-w-none"
-                : "",
-            ].join(" ")}
-          >
+      <div className="blog-detail-shell mx-auto w-full px-5 md:px-8 pt-6 md:pt-8 pb-16">
+        <article className="blog-detail-article w-full min-w-0 max-w-[820px] mx-auto">
             <button
               onClick={() => navigate("/blog")}
               className="blog-detail-back relative z-10 mb-5 text-[13px] text-fg-muted hover:text-fg transition-colors flex items-center gap-2"
@@ -540,8 +534,10 @@ const BlogDetailPage: React.FC = () => {
             </button>
 
             <div className="blog-detail-header mb-10">
-              <h1 className="text-[36px] md:text-[42px] font-bold leading-tight mb-4">
-                {post.title}
+              <h1
+                className="text-[26px] sm:text-[34px] md:text-[42px] font-bold leading-tight mb-4 flex flex-wrap items-baseline gap-x-[0.24em] gap-y-[0.04em]"
+              >
+                {renderTitleWithBreakHints(post.title)}
               </h1>
 
               <div className="w-full flex flex-col md:flex-row md:justify-between md:items-center gap-4">
@@ -586,15 +582,7 @@ const BlogDetailPage: React.FC = () => {
               nextPost={nextPost}
               onNavigate={(slug) => navigate(`/blog/${slug}`)}
             />
-          </article>
-
-          {toc.length ? (
-            <div
-              aria-hidden="true"
-              className="hidden min-[1180px]:block w-[220px] [@media_(orientation:landscape)_and_(min-width:1180px)]:w-[180px]"
-            />
-          ) : null}
-        </div>
+        </article>
       </div>
 
       <TocSidebar
