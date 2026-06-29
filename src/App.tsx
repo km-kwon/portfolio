@@ -158,10 +158,8 @@ const App: React.FC = () => {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   }, []);
 
-  const basename = import.meta.env.BASE_URL.replace(/\/$/, "");
-
   return (
-    <BrowserRouter basename={basename === "" ? undefined : basename}>
+    <BrowserRouter>
       <Shell theme={theme} onToggleTheme={toggleTheme} />
     </BrowserRouter>
   );
