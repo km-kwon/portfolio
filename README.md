@@ -2,7 +2,7 @@
 
 React, TypeScript, Vite 기반의 인터랙티브 3D 포트폴리오입니다. 대용량 데이터 UI, 성능 병목 개선, 상태 구조 재설계, 오픈소스 라이브러리 배포 경험을 케이스 스터디 형식으로 보여줍니다. 프로젝트, 기술 블로그, 이력서, 연락처, 프론트엔드 실험실을 하나의 라우팅 경험으로 묶고, 페이지 이동에 따라 반응하는 월드 배경과 다크/라이트 테마를 제공합니다.
 
-배포 주소: https://km-kwon.github.io/portfolio
+배포는 Cloudflare Pages 기준으로 루트 경로(`/`)에서 동작하도록 설정되어 있습니다.
 
 ## 주요 기능
 
@@ -16,7 +16,7 @@ React, TypeScript, Vite 기반의 인터랙티브 3D 포트폴리오입니다. �
 - Web Worker, Virtual Scroll, Debounce/Throttle, Canvas 등 프론트엔드 실험실
 - 이력서 PDF, Contact, GitHub/Velog/Email 링크
 - 로컬 스토리지에 저장되는 다크/라이트 테마
-- GitHub Pages 배포를 고려한 Vite base 설정
+- Cloudflare Pages 배포와 SPA 직접 진입을 고려한 Vite base 및 redirect 설정
 
 ## 기술 스택
 
@@ -28,7 +28,7 @@ React, TypeScript, Vite 기반의 인터랙티브 3D 포트폴리오입니다. �
 | Styling | Tailwind CSS 4, CSS custom properties |
 | Motion | Framer Motion, requestAnimationFrame |
 | Blog | React Markdown, remark-gfm, unified |
-| Deploy | gh-pages, GitHub Pages |
+| Deploy | Cloudflare Pages, GitHub Pages |
 
 ## 라우트
 
@@ -85,13 +85,20 @@ npm run lint
 
 ## 배포
 
-GitHub Pages 배포는 `gh-pages` 패키지를 사용합니다.
+Cloudflare Pages에서는 아래 설정을 사용합니다.
+
+| 항목 | 값 |
+| --- | --- |
+| Build command | `npm run build` |
+| Build output directory | `dist` |
+
+기본 프로덕션 빌드는 루트 도메인 배포에 맞춰 `base`가 `/`로 설정됩니다. `public/_redirects`의 `/* /index.html 200` 규칙으로 `/projects`, `/blog/:slug` 같은 React Router 경로에 직접 진입해도 `index.html`로 fallback됩니다.
+
+GitHub Pages의 `/portfolio/` 프로젝트 경로로 빌드할 때만 다음처럼 base path를 지정합니다.
 
 ```bash
-npm run deploy
+VITE_BASE_PATH=/portfolio/ npm run build
 ```
-
-프로덕션 빌드에서는 `vite.config.ts`의 `base` 값이 `/portfolio/`로 설정됩니다.
 
 ## 3D 옵션
 
